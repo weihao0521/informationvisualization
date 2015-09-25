@@ -31,8 +31,8 @@
 <script>
 
 var margin = {top: 20, right: 20, bottom: 70, left: 40},
-    width = 600 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    width = 900 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
 var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
@@ -58,6 +58,7 @@ d3.csv("poverty_by_state_2013.csv", function(error, data) {
 
     data.forEach(function(d) {
         d.number = +d.number;
+        d.n_standard_error = +d.n_standard_error;
     });
   
   x.domain(data.map(function(d) { return d.state; }));
@@ -71,14 +72,14 @@ svg.append("g")
       .style("text-anchor", "end")
       .attr("dx", "-.8em")
       .attr("dy", "-.55em")
-      .attr("transform", "rotate(-90)" );
+      .attr("transform", "rotate(-45)" );
 
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
     .append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 6)
+      .attr("y", 2)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text("number");
@@ -86,13 +87,31 @@ svg.append("g")
   svg.selectAll(".bar")
       .data(data)
     .enter().append("rect")
-      .style("fill", "steelblue")
+      .style("fill", function(d, i){
+        if (d.number>3000) {
+        return "firebrick"; 
+      }
+        else if(d.number>1000){
+        return "crimson";
+        }
+        else if(d.number>500){
+        return "indianred";
+        }
+        else if(d.number>300){
+        return "darksalmon";
+        }
+        else if(d.number>100){
+        return "salmon";
+        }
+        else{
+        return "lightsalmon";
+        }
+      })
       .attr("class", "bar")
       .attr("x", function(d) { return x(d.state); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.number); })
       .attr("height", function(d) { return height - y(d.number); });
-
 
 d3.select("input").on("change", change);
 
@@ -126,7 +145,7 @@ d3.select("input").on("change", change);
        .style("text-anchor", "end")
        .attr("dx", "-.8em")
        .attr("dy", "-.55em")
-       .attr("transform", "rotate(-90)" )
+       .attr("transform", "rotate(-45)" )
         .delay(delay);
   }
 

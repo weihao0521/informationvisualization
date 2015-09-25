@@ -1,4 +1,4 @@
-state,total,number,standard error,percent,standard error
+state,total,number,n_standard_error,percent,p_standard_error
 Alabama,4751,796,67,16.7,1.4
 Alaska,696,76,12,10.9,1.7
 Arizona,6645,1345,93,20.2,1.4
