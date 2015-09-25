@@ -1,0 +1,102 @@
+<!-- code to start the server: ruby -run -e httpd . -p 1234 -->
+<!-- Make sure you're in the directory of the project! -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <style>
+        /* CSS Styling, if using */
+    </style>
+</head>
+
+<body>
+<!-- Add D3 and TopoJSON libraries. -->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+
+<!-- Add D3 Scripting here. -->
+<script>
+
+    // Use D3's JSON method to load in TopoJSON data.
+    // Check out console to see what's in there!
+    d3.json("convertedstates.json", function(error, states) {
+        if (error) {
+            return console.error(error);
+        } else {
+            console.log(states);
+        }
+
+        // Add canvas.
+        // Define width and height for SVG canvas.
+        var width = 960;
+        var height = 1160;
+
+        // Append SVG canvas to the DOM.
+        var svg = d3.select("body")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+        // Define states.
+        // Assign the states variable to the GeoJSON feature collection for the specified topology object.
+        // While TopoJSON data is stored more efficiently, we need to convert back to GeoJSON for display purposes.
+        // Check out console to see your list of 51 (including DC) states!
+        var states = topojson.feature(states, states.objects.states);
+        console.log(states);
+
+        // Create and append projection and paths.
+        // Create a projection suited to fit the US (pre-defined in the library).
+        // A projection simply describes how you want to view your specified area of the globe.
+        // Spherical coordinates are projected onto the Cartesian plane (our canvas).
+        // Projections can be rotated, scaled, transformed, etc.
+        // https://github.com/mbostock/d3/wiki/Geo-Projections
+        var projection = d3.geo.albersUsa();
+
+        // Create a path generator to draw lines around US, state borders.
+        // Path generators take in a geometry/features object and create a path to be used for outline rendering.
+        // Uses our previously-defined projection.
+        // https://github.com/mbostock/d3/wiki/Geo-Paths
+        var path = d3.geo.path()
+                .projection(projection);
+
+        // Append the newly-created path generator to the map.
+        svg.append("path")
+                .datum(states)
+                .attr("d", path);
+
+        // Create state boundaries and coloring.
+        // Create and select elements for each state.
+        // The states.features data creates a specific path (boundary) for each state which is then appended.
+        svg.selectAll('.states')
+                .data(states.features)
+                .enter()
+                .append('path')
+                .attr('class', function(d) {
+                    return 'states' + d.id;
+                })
+                .attr('d', path)
+            // Add in random colors to see state borders.
+                .style("fill", function() {
+                    return "hsl(" + Math.random() * 360 + ",100%,50%)";
+                })
+                .style("opacity",1);
+
+        // Show arbitrary data points.
+        // Store locations for NYC and San Francisco.
+        var locations = [[40.7127, -74.0059], [37.7833, -122.4167]];
+
+        /*svg.selectAll('circle')
+                .data(locations)
+                .enter()
+                .append('circle')
+                .attr('r', 10)
+                .attr('fill', 'black')
+                .attr('transform', function(locations) {
+                    return 'translate(' + projection([locations[1], locations[0]]) + ')';
+                });*/
+    });
+</script>
+</body>
+</html>
