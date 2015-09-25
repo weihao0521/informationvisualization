@@ -3,6 +3,11 @@
 
 <head>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
         .axis {
             font: 10px sans-serif;
@@ -30,9 +35,10 @@
 
 <script>
 
+
     var margin = {top: 20, right: 20, bottom: 70, left: 40},
-            width = 900 - margin.left - margin.right,
-            height = 600 - margin.top - margin.bottom;
+            width = window.innerWidth - margin.left - margin.right,
+            height = window.innerHeight - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
@@ -68,6 +74,7 @@
             return d.number;
         })]);
 
+        // append x axis
         svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
@@ -78,6 +85,7 @@
                 .attr("dy", "-.55em")
                 .attr("transform", "rotate(-45)");
 
+        // append y axis
         svg.append("g")
                 .attr("class", "y axis")
                 .call(yAxis)
@@ -88,8 +96,10 @@
                 .style("text-anchor", "end")
                 .text("number");
 
+        // append bars
         svg.selectAll(".barBox").data(data).enter().append("g").
                 attr("class", "barBox").each(function (d, i) {
+                    //for each "barBox", append bar and bar Error
                     d3.select(this).append("rect")
                             .style("fill", function (d, i) {
                                 if (d.number > 3000) {
@@ -139,14 +149,13 @@
                             });
                 });
 
+        // bind change event
         d3.select("input").on("change", change);
 
+        // set automatic change event
         var sortTimeout = setTimeout(function () {
             d3.select("input").property("checked", true).each(change);
         }, 2000);
-
-        console.log(svg.selectAll(".barBox"));
-        console.log(svg.selectAll(".bar"));
 
         function change() {
             clearTimeout(sortTimeout);
@@ -164,16 +173,19 @@
                     }))
                     .copy();
 
+            // sort barBox data
             svg.selectAll(".barBox")
                     .sort(function (a, b) {
                         return x0(a.state) - x0(b.state);
                     });
+
 
             var transition = svg.transition().duration(750),
                     delay = function (d, i) {
                         return i * 50;
                     };
 
+            // move bar
             transition.selectAll(".barBox")
                     .delay(delay)
                     .selectAll(".bar")
@@ -181,13 +193,15 @@
                         return x0(d.state);
                     });
 
+            // move bar error
             transition.selectAll(".barBox")
                     .delay(delay)
                     .selectAll(".barError")
-                    .attr("x",function(d){
-                        return x0(d.state)+x.rangeBand() / 2.5;
+                    .attr("x", function (d) {
+                        return x0(d.state) + x.rangeBand() / 2.5;
                     });
 
+            // move label of x axis
             transition.select(".x.axis")
                     .call(xAxis)
                     .selectAll("text")
