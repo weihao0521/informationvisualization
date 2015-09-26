@@ -70,18 +70,26 @@
     var scrollBar = {
         width: document.getElementsByClassName("li")[0].offsetWidth,
         originalX: -1,
-        left: -8,
+        originalLeft: -8,
         clicked: false,
         body: document.body || document.getElementsByTagName("body")[0],
         init: function () {
             $(this.body).css("height", window.innerHeight + "px");
             this.bindEvent();
         },
+        getLeft: function (id) {
+            if (typeof id == "string") {
+                var leftStr = $("#" + id).css("left");
+                return parseInt(leftStr.substring(0, leftStr.length - 2));
+            } else {
+                return "wrong parameter";
+            }
+        },
         bindEvent: function () {
             $("#scrollButton").on("mousedown", function (e) {
                 scrollBar.clicked = true;
                 scrollBar.originalX = e.clientX;
-                scrollBar.left = parseInt($("#scrollButton").css("left").substring(0, $("#scrollButton").css("left").length - 2));
+                scrollBar.originalLeft = scrollBar.getLeft("scrollButton");
                 console.log("down");
             });
             $(this.body).on("mouseup", function () {
@@ -90,17 +98,22 @@
             }).on("mousemove", function (e) {
                 if (scrollBar.clicked) {
                     var difference = e.clientX - scrollBar.originalX;
+                    var newLeft, oldLeft = scrollBar.getLeft("scrollButton");
                     if (Math.abs(difference) > (scrollBar.width / 2)) {
                         var num = parseInt((difference + difference / Math.abs(difference) * scrollBar.width / 2) / scrollBar.width);
-                        var newLeft = scrollBar.left + num * scrollBar.width;
+                        newLeft = scrollBar.originalLeft + num * scrollBar.width;
                         if (newLeft < -8) {
                             newLeft = -8;
                         } else if (newLeft > (-8 + 10 * scrollBar.width)) {
                             newLeft = -8 + 10 * scrollBar.width;
                         }
-                        $("#scrollButton").css("left", newLeft + "px");
                     } else {
-                        $("#scrollButton").css("left", scrollBar.left + "px");
+                        newLeft = scrollBar.originalLeft;
+                    }
+                    $("#scrollButton").css("left", newLeft + "px");
+
+                    if (newLeft != oldLeft) {
+                        console.log("change");
                     }
                 }
             });
