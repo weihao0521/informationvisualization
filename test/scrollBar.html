@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+    <meta charset="UTF-8">
+    <script src="jquery-1.9.1.js"></script>
+    <style>
+        #scrollBar {
+            position: relative;
+            width: 800px;
+            height: 1em;
+            margin: 50px auto 0;
+            background-color: #aaaaaa;
+        }
+
+        #scrollButton {
+            position: absolute;
+            top: -4px;
+            left: -8px;
+
+            background-color: black;
+            border: 1px solid #000000;
+            width: 20px;
+            height: 20px;
+            cursor: default;
+        }
+
+        #ul {
+            margin: 0;
+            padding: 0;
+            letter-spacing: -4px;
+            word-spacing: -4px;
+        }
+
+        #ul li {
+            letter-spacing: normal;
+            word-spacing: normal;
+
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            width: 9.8%;
+            height: 16px;
+        }
+
+        .li {
+            border-right: 1px solid #000000;
+        }
+    </style>
+</head>
+<body>
+<div id="scrollBar">
+    <ul id="ul">
+        <li class="li"></li>
+        <li class="li"></li>
+        <li class="li"></li>
+        <li class="li"></li>
+        <li class="li"></li>
+        <li class="li"></li>
+        <li class="li"></li>
+        <li class="li"></li>
+        <li class="li"></li>
+        <li></li>
+    </ul>
+    <a href="javascript:;" id="scrollButton"></a>
+</div>
+<p id="x"></p>
+
+<script>
+    var scrollBar = {
+        width: document.getElementsByClassName("li")[0].offsetWidth,
+        originalX: -1,
+        left: -8,
+        clicked: false,
+        body: document.body || document.getElementsByTagName("body")[0],
+        init: function () {
+            $(this.body).css("height", window.innerHeight + "px");
+            this.bindEvent();
+        },
+        bindEvent: function () {
+            $("#scrollButton").on("mousedown", function (e) {
+                scrollBar.clicked = true;
+                scrollBar.originalX = e.clientX;
+                scrollBar.left = parseInt($("#scrollButton").css("left").substring(0, $("#scrollButton").css("left").length - 2));
+                console.log("down");
+            });
+            $(this.body).on("mouseup", function () {
+                scrollBar.clicked = false;
+                console.log("up");
+            }).on("mousemove", function (e) {
+                if (scrollBar.clicked) {
+                    var difference = e.clientX - scrollBar.originalX;
+                    if (Math.abs(difference) > (scrollBar.width / 2)) {
+                        var num = parseInt((difference + difference / Math.abs(difference) * scrollBar.width / 2) / scrollBar.width);
+                        var newLeft = scrollBar.left + num * scrollBar.width;
+                        if (newLeft < -8) {
+                            newLeft = -8;
+                        } else if (newLeft > (-8 + 10 * scrollBar.width)) {
+                            newLeft = -8 + 10 * scrollBar.width;
+                        }
+                        $("#scrollButton").css("left", newLeft + "px");
+                    } else {
+                        $("#scrollButton").css("left", scrollBar.left + "px");
+                    }
+                }
+            });
+        }
+    }
+    scrollBar.init();
+</script>
+</body>
+</html>
