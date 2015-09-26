@@ -72,9 +72,7 @@
         originalX: -1,
         originalLeft: -8,
         clicked: false,
-        body: document.body || document.getElementsByTagName("body")[0],
         init: function () {
-            $(this.body).css("height", window.innerHeight + "px");
             this.bindEvent();
         },
         getLeft: function (id) {
@@ -92,7 +90,7 @@
                 scrollBar.originalLeft = scrollBar.getLeft("scrollButton");
                 console.log("down");
             });
-            $(this.body).on("mouseup", function () {
+            $(window).on("mouseup", function () {
                 scrollBar.clicked = false;
                 console.log("up");
             }).on("mousemove", function (e) {
