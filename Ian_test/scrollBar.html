@@ -3,6 +3,7 @@
 <head>
     <title>test</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="initialization.css"/>
     <script src="jquery-1.9.1.js"></script>
     <style>
         #scrollBar {
@@ -16,7 +17,7 @@
         #scrollButton {
             position: absolute;
             top: -4px;
-            left: -8px;
+            left: -10px;
 
             background-color: black;
             border: 1px solid #000000;
@@ -28,8 +29,8 @@
         #ul {
             margin: 0;
             padding: 0;
-            letter-spacing: -4px;
-            word-spacing: -4px;
+            /*letter-spacing: -4px;*/
+            word-spacing: -0.25em;
         }
 
         #ul li {
@@ -39,8 +40,8 @@
             margin: 0;
             padding: 0;
             display: inline-block;
-            width: 9.8%;
-            height: 16px;
+            width: calc(10% - 0.9px);
+            height: 12px;
         }
 
         .li {
@@ -62,7 +63,7 @@
         <li class="li"></li>
         <li></li>
     </ul>
-    <a  id="scrollButton" href="javascript:;" draggable="false"></a>
+    <a id="scrollButton" href="javascript:;" draggable="false"></a>
 </div>
 <p id="x"></p>
 
@@ -70,7 +71,7 @@
     var scrollBar = {
         width: document.getElementsByClassName("li")[0].offsetWidth,
         originalX: -1,
-        originalLeft: -8,
+        originalLeft: -10,
         clicked: false,
         init: function () {
             this.bindEvent();
@@ -100,10 +101,10 @@
                     if (Math.abs(difference) > (scrollBar.width / 2)) {
                         var num = parseInt((difference + difference / Math.abs(difference) * scrollBar.width / 2) / scrollBar.width);
                         newLeft = scrollBar.originalLeft + num * scrollBar.width;
-                        if (newLeft < -8) {
-                            newLeft = -8;
-                        } else if (newLeft > (-8 + 10 * scrollBar.width)) {
-                            newLeft = -8 + 10 * scrollBar.width;
+                        if (newLeft < -10) {
+                            newLeft = -10;
+                        } else if (newLeft > (-10 + 10 * scrollBar.width)) {
+                            newLeft = -10 + 10 * scrollBar.width;
                         }
                     } else {
                         newLeft = scrollBar.originalLeft;
