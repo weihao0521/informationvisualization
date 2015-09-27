@@ -1,10 +1,11 @@
 (function () {
     d3.analog= function() {
-                        console.log("sadgg");
+                        // console.log("sadgg");
             var height = 100, gap=10,
                 xValue = function(d) { return d[0]; },
                 xScale = null,
                 color = d3.scale.category10();
+
             function chart(selection) {
                 selection.each(function(d) {
                     var g = d3.select(this);
@@ -40,16 +41,20 @@
                             //.x(function (a) { return xScale(moment(a.DateTime).toDate()); })
                             .x(X)
                             .y(function (a) { return y(a[c]); });
-
+                             //add path 
+                            // console.log(path[0][0]);
+                        var path = g.append("path");
                         if (chartConfig) {
                             g.select(".path." + c).transition().duration(1000) //update path
                                 .attr("d", valueline(d.data));
                         } else {                            
-                            g.append("path") //add path 
+                                path
                                 .attr('class', 'path ' + c)
                                 .attr("d", valueline(d.data))
                                 .attr("clip-path", "url(#clip)")
                                 .style('stroke', color(d.id + i));
+                            // g.append("circle")
+                                // console.log(valueline(d.data));
                             //add legend
                             g.append('text').text(d.name)
                                 .attr('class', 'legend')

@@ -75,7 +75,6 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
             .attr('y', -5) // push to the margin area below x-axis
             .attr('text-anchor', 'end')
             .text('time:');
-        
 
         _svgContainer// mouse event not working on _chartCanvas
             .on('mouseover', function () {
@@ -84,7 +83,7 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
                 // console.log(mX); 
                 //
                 if (mX > 0 && mY > 0 && mX < width){
-                    hoverLine.style('opacity', 1);  
+                    hoverLine.style('opacity', 1);   
                 }             
                 else
                     hoverLine.style("opacity", 1e-6);
@@ -95,6 +94,7 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
             .on('mousemove', function () {
                 var mouse = d3.mouse(this);
                 var mX = mouse[0] - margin.left, mY = mouse[1] - margin.top;
+                // var pathEl = path.node();
                 hoverLine.attr('x1', mX).attr('x2', mX);
                 if (mX > 0 && mY > 0 && mX < width) { 
                     var dt = _xScale.invert(mX);
@@ -130,7 +130,7 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
                         var moveX = _xScale(xMoment);
                         // console.log(xMoment.format('DD MMM'));
                         hoverLine.attr('x1', moveX).attr('x2', moveX);
-                    }                    
+                    }                  
                 } 
             });
         
