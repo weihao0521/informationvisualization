@@ -221,7 +221,7 @@
             this.loadData();
         },
         loadData: function () {
-            d3.csv("poverty_by_state_" + this.year + ".csv", function (error, data) {
+            d3.csv("../data/poverty_by_state_" + this.year + ".csv", function (error, data) {
                 data.forEach(function (d) {
                     for (var key in d) {
                         if (key != "state") {
