@@ -9,6 +9,31 @@
             overflow-x: hidden;
         }
 
+        #choose {
+            width: 300px;
+            margin: 20px auto 0;
+            letter-spacing: -4px;
+            word-spacing: -4px;
+        }
+
+        .choose {
+            letter-spacing: normal;
+            word-spacing: normal;
+            display: inline-block;
+            width: 48%;
+            text-decoration: none;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+            border: 3px outset #cccccc;
+            border-radius: 4px;
+            background: #cccccc;
+        }
+
+        .chosen {
+            border: 3px inset #cccccc;
+        }
+
         .axis {
             font: 10px sans-serif;
         }
@@ -27,27 +52,106 @@
         }
 
     </style>
+    <style>
+        #scrollBar {
+            position: relative;
+            width: 300px;
+            height: 1em;
+            margin: 50px auto 0;
+
+        }
+
+        #scrollButton {
+            position: absolute;
+            top: -4px;
+            left: -10px;
+
+            background-color: black;
+            border: 1px solid #000000;
+            width: 20px;
+            height: 20px;
+            cursor: default;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            /*letter-spacing: -4px;*/
+            word-spacing: -0.25em;
+        }
+
+        #ul {
+            height: 1em;
+            background-color: #aaaaaa;
+        }
+
+        #ul li {
+            letter-spacing: normal;
+            word-spacing: normal;
+
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            width: calc(50% - 0.5px);
+            height: 16px;
+        }
+
+        .li {
+            border-right: 1px solid #000000;
+        }
+
+        #scrollBarText {
+            width: 450px;
+            margin: 0 auto;
+            position: relative;
+            left: -2px;
+            letter-spacing: -4px;
+            word-spacing: -4px;
+        }
+
+        #scrollBarText span {
+            letter-spacing: normal;
+            word-spacing: normal;
+            display: inline-block;
+            width: 33%;
+            text-align: center;
+        }
+    </style>
+    <script src="../js/d3.min.js"></script>
+    <script src="../js/jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
 <label><input type="checkbox"> Sort values</label>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+<div id="scrollBar">
+    <ul id="ul">
+        <li class="li"></li>
+        <li></li>
+    </ul>
+    <a id="scrollButton" href="javascript:;" draggable="false"></a>
+</div>
+<div id="scrollBarText">
+    <span>2007</span>
+    <span>2010</span>
+    <span>2013</span>
+</div>
+<div id="choose">
+    <a class="choose chosen" href="javascript:;">number</a>
+    <a class="choose" href="javascript:;">percent</a>
+</div>
+
 
 <script>
-
-
     var margin = {top: 20, right: 20, bottom: 70, left: 40},
             width = window.innerWidth - margin.left - margin.right,
-            height = window.innerHeight - margin.top - margin.bottom;
+            height = window.innerHeight - 200 - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
-
     var y = d3.scale.linear().range([height, 0]);
-
     var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom");
-
     var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
@@ -60,117 +164,203 @@
             .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.csv("poverty_by_state_2013.csv", function (error, data) {
+    var choose = {
+        bindEvent: function () {
+            $("#choose").on("click", ".choose", function () {
+                var chooseBtns = $(".choose");
+                if ($(this).attr("class").indexOf("chosen") > 0) {
+                    // don't change
+                } else {//changed
+                    $(chooseBtns[0]).toggleClass("chosen");
+                    $(chooseBtns[1]).toggleClass("chosen");
 
-        data.forEach(function (d) {
-            d.number = +d.number;
-            d.n_standard_error = +d.n_standard_error;
-        });
-
-        x.domain(data.map(function (d) {
-            return d.state;
-        }));
-        y.domain([0, d3.max(data, function (d) {
-            return d.number;
-        })]);
-
-        // append x axis
-        svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis)
-                .selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", "-.55em")
-                .attr("transform", "rotate(-45)");
-
-        // append y axis
-        svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-                .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 2)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("number");
-
-        // append bars
-        svg.selectAll(".barBox").data(data).enter().append("g").
-                attr("class", "barBox").each(function (d, i) {
-                    //for each "barBox", append bar and bar Error
-                    d3.select(this).append("rect")
-                            .style("fill", function (d, i) {
-                                if (d.number > 3000) {
-                                    return "firebrick";
-                                }
-                                else if (d.number > 1000) {
-                                    return "crimson";
-                                }
-                                else if (d.number > 500) {
-                                    return "indianred";
-                                }
-                                else if (d.number > 300) {
-                                    return "darksalmon";
-                                }
-                                else if (d.number > 100) {
-                                    return "salmon";
-                                }
-                                else {
-                                    return "lightsalmon";
-                                }
-                            })
-                            .attr("class", "bar")
-                            .attr("x", function (d) {
-                                return x(d.state);
-                            })
-                            .attr("width", x.rangeBand())
-                            .attr("y", function (d) {
-                                return y(d.number);
-                            })
-                            .attr("height", function (d) {
-                                return height - y(d.number);
-                            });
-                    d3.select(this).append("rect")
-                            .style("fill", "#666666")
-                            .style("opacity", 0.5)
-                            .style("border", "1px dashed #000000")
-                            .attr("class", "barError")
-                            .attr("x", function (d) {
-                                return x(d.state) + x.rangeBand() / 2.5;
-                            })
-                            .attr("width", x.rangeBand() / 5)
-                            .attr("y", function (d) {
-                                return y(d.number) - (height - y(d.n_standard_error));
-                            })
-                            .attr("height", function (d) {
-                                return 2 * (height - y(d.n_standard_error));
-                            });
+                    draw.dataType = $(this).text();
+                    draw.doDraw();
+                }
+            });
+        }
+    };
+    var draw = {
+        year: 0,
+        dataType: "",
+        data: null,
+        init: function () {
+            this.year = 2007;
+            this.dataType = "number";
+            this.loadData();
+            choose.bindEvent();
+        },
+        changeYear: function (year) {
+            this.year = year;
+            this.loadData();
+        },
+        loadData: function () {
+            d3.csv("poverty_by_state_" + this.year + ".csv", function (error, data) {
+                data.forEach(function (d) {
+                    for (var key in d) {
+                        if (key != "state") {
+                            if (key == "percent" || key == "p_standard_error") {
+                                d[key] = parseFloat(d[key]);
+                            } else {
+                                d[key] = d[key].replace(",", "");
+                                d[key] = parseInt(d[key]);
+                            }
+                        }
+                    }
                 });
+                draw.data = data;
+                draw.doDraw();
+            });
+        },
+        doDraw: function () {
+            x.domain(draw.data.map(function (d) {
+                return d.state;
+            }));
+            y.domain([0, d3.max(draw.data, function (d) {
+                return draw.dataType == "number" ? d.number : d.percent;
+            })]);
 
-        // bind change event
-        d3.select("input").on("change", change);
+            $(".axis").remove();
+            // append x axis
+            svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis)
+                    .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", "-.55em")
+                    .attr("transform", "rotate(-45)");
 
-        // set automatic change event
-        var sortTimeout = setTimeout(function () {
-            d3.select("input").property("checked", true).each(change);
-        }, 2000);
+            // append y axis
+            svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis)
+                    .append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 2)
+                    .attr("dy", ".71em")
+                    .style("text-anchor", "end")
+                    .text("number");
 
-        function change() {
-            clearTimeout(sortTimeout);
-
+            // append bars
+            $(".barBox").remove();
+            svg.selectAll(".barBox").data(draw.data).enter().append("g")
+                    .attr("class", "barBox").each(function (d, i) {
+                        if (draw.dataType == "number") {
+                            //for each "barBox", append bar and bar Error
+                            d3.select(this).append("rect")
+                                    .style("fill", function (d, i) {
+                                        if (d.number > 3000) {
+                                            return "firebrick";
+                                        }
+                                        else if (d.number > 1000) {
+                                            return "crimson";
+                                        }
+                                        else if (d.number > 500) {
+                                            return "indianred";
+                                        }
+                                        else if (d.number > 300) {
+                                            return "darksalmon";
+                                        }
+                                        else if (d.number > 100) {
+                                            return "salmon";
+                                        }
+                                        else {
+                                            return "lightsalmon";
+                                        }
+                                    })
+                                    .attr("class", "bar")
+                                    .attr("x", function (d) {
+                                        return x(d.state);
+                                    })
+                                    .attr("width", x.rangeBand())
+                                    .attr("y", function (d) {
+                                        return y(d.number);
+                                    })
+                                    .attr("height", function (d) {
+                                        return height - y(d.number);
+                                    });
+                            d3.select(this).append("rect")
+                                    .style("fill", "#666666")
+                                    .style("opacity", 0.5)
+                                    .style("border", "1px dashed #000000")
+                                    .attr("class", "barError")
+                                    .attr("x", function (d) {
+                                        return x(d.state) + x.rangeBand() / 2.5;
+                                    })
+                                    .attr("width", x.rangeBand() / 5)
+                                    .attr("y", function (d) {
+                                        return y(d.number) - (height - y(d.n_standard_error));
+                                    })
+                                    .attr("height", function (d) {
+                                        return 2 * (height - y(d.n_standard_error));
+                                    });
+                        } else if (draw.dataType == "percent") {
+                            //for each "barBox", append bar and bar Error
+                            d3.select(this).append("rect")
+                                    .style("fill", function (d, i) {
+                                        if (d.percent > 25) {
+                                            return "firebrick";
+                                        }
+                                        else if (d.percent > 20) {
+                                            return "crimson";
+                                        }
+                                        else if (d.percent > 15) {
+                                            return "indianred";
+                                        }
+                                        else if (d.percent > 10) {
+                                            return "darksalmon";
+                                        }
+                                        else if (d.percent > 5) {
+                                            return "salmon";
+                                        }
+                                        else {
+                                            return "lightsalmon";
+                                        }
+                                    })
+                                    .attr("class", "bar")
+                                    .attr("x", function (d) {
+                                        return x(d.state);
+                                    })
+                                    .attr("width", x.rangeBand())
+                                    .attr("y", function (d) {
+                                        return y(d.percent);
+                                    })
+                                    .attr("height", function (d) {
+                                        return height - y(d.percent);
+                                    });
+                            d3.select(this).append("rect")
+                                    .style("fill", "#666666")
+                                    .style("opacity", 0.5)
+                                    .style("border", "1px dashed #000000")
+                                    .attr("class", "barError")
+                                    .attr("x", function (d) {
+                                        return x(d.state) + x.rangeBand() / 2.5;
+                                    })
+                                    .attr("width", x.rangeBand() / 5)
+                                    .attr("y", function (d) {
+                                        return y(d.percent) - (height - y(d.p_standard_error));
+                                    })
+                                    .attr("height", function (d) {
+                                        return 2 * (height - y(d.p_standard_error));
+                                    });
+                        }
+                    });
+            draw.change(false);
+        },
+        change: function (hasDelay) {
+            var data = draw.data;
             // Copy-on-write since tweens are evaluated after a delay.
-            var x0 = x.domain(data.sort(this.checked
+            var x0 = x.domain(data.sort(document.getElementsByTagName("input")[0].checked
                     ? function (a, b) {
-                return b.number - a.number;
+                return b[draw.dataType] - a[draw.dataType];
             }
                     : function (a, b) {
                 return d3.ascending(a.state, b.state);
-            })
-                    .map(function (d) {
-                        return d.state;
-                    }))
+            }).map(function (d) {
+                return d.state;
+            }))
                     .copy();
 
             // sort barBox data
@@ -178,11 +368,13 @@
                     .sort(function (a, b) {
                         return x0(a.state) - x0(b.state);
                     });
-
-
             var transition = svg.transition().duration(750),
                     delay = function (d, i) {
-                        return i * 50;
+                        if (hasDelay) {
+                            return i * 50;
+                        } else {
+                            return 0;
+                        }
                     };
 
             // move bar
@@ -211,9 +403,66 @@
                     .attr("transform", "rotate(-45)")
                     .delay(delay);
         }
-
+    };
+    draw.init();
+    // bind change event
+    d3.select("input").on("change", function () {
+        draw.change(true);
     });
+</script>
+<script>
+    var scrollBar = {
+        width: document.getElementsByClassName("li")[0].offsetWidth,
+        originalX: -1,
+        originalLeft: -10,
+        clicked: false,
+        maxMove: 2,
+        init: function () {
+            this.bindEvent();
+        },
+        getLeft: function (id) {
+            if (typeof id == "string") {
+                var leftStr = $("#" + id).css("left");
+                return parseInt(leftStr.substring(0, leftStr.length - 2));
+            } else {
+                return "wrong parameter";
+            }
+        },
+        bindEvent: function () {
+            $("#scrollButton").on("mousedown", function (e) {
+                scrollBar.clicked = true;
+                scrollBar.originalX = e.clientX;
+                scrollBar.originalLeft = scrollBar.getLeft("scrollButton");
+            });
+            $(window).on("mouseup", function () {
+                scrollBar.clicked = false;
+            }).on("mousemove", function (e) {
+                if (scrollBar.clicked) {
+                    var difference = e.clientX - scrollBar.originalX;
+                    var newLeft, oldLeft = scrollBar.getLeft("scrollButton");
+                    if (Math.abs(difference) > (scrollBar.width / 2)) {
+                        var num = parseInt((difference + difference / Math.abs(difference) * scrollBar.width / 2) / scrollBar.width);
+                        newLeft = scrollBar.originalLeft + num * scrollBar.width;
+                        if (newLeft < -10) {
+                            newLeft = -10;
+                        } else if (newLeft > (-10 + scrollBar.maxMove * scrollBar.width)) {
+                            newLeft = -10 + scrollBar.maxMove * scrollBar.width;
+                        }
+                    } else {
+                        newLeft = scrollBar.originalLeft;
+                    }
+                    $("#scrollButton").css("left", newLeft + "px");
 
+                    if (newLeft != oldLeft) {
+                        var num = (newLeft + 10) / scrollBar.width;
+                        var data = [2007, 2010, 2013];
+                        draw.changeYear(data[num]);
+                    }
+                }
+            });
+        }
+    }
+    scrollBar.init();
 </script>
 </body>
 </html>
