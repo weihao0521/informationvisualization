@@ -378,8 +378,8 @@
                     $("#value").text("Number: "+$(this).attr("number"));
                     $("#valueError").text("Number Standard Error: "+$(this).attr("n_standard_error"));
                 }else if(draw.dataType=="percent"){
-                    $("#value").text("Percent: "+$(this).attr("percent"));
-                    $("#valueError").text("Percent Standard Error: "+$(this).attr("p_standard_error"));
+                    $("#value").text("Percent: "+$(this).attr("percent")+"%");
+                    $("#valueError").text("Percent Standard Error: "+$(this).attr("p_standard_error")+"%");
                 }
             }).on("mouseleave",".barBox",function(){
                 $("#popup").css("display","none");
