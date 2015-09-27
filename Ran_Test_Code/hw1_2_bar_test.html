@@ -117,6 +117,18 @@
             width: 33%;
             text-align: center;
         }
+
+        #popup{
+            display:none;
+            position:fixed;
+            left:0;
+            top:0;
+            z-index: 1000;
+            background: white;
+            border:1px solid #000000;
+            border-radius: 4px;
+            font-size:16px;
+        }
     </style>
     <script src="../utils/js/d3.min.js"></script>
     <script src="../utils/js/jquery-1.11.3.min.js"></script>
@@ -163,7 +175,8 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+            "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id","svgContainer");
 
     var choose = {
         bindEvent: function () {
@@ -247,7 +260,11 @@
             // append bars
             $(".barBox").remove();
             svg.selectAll(".barBox").data(draw.data).enter().append("g")
-                    .attr("class", "barBox").each(function (d, i) {
+                    .attr("class", "barBox")
+                    .each(function (d, i) {
+                        for(var key in d){
+                            $(this).attr(key,d[key]);
+                        }
                         if (draw.dataType == "number") {
                             //for each "barBox", append bar and bar Error
                             d3.select(this).append("rect")
@@ -349,6 +366,24 @@
                         }
                     });
             draw.change(false);
+            draw.bindPopupEvent();
+        },
+        bindPopupEvent:function(){
+            $("#svgContainer").on("mouseenter",".barBox",function(e){
+                $("#popup").css("display","block");
+                $("#popup").css("left", e.clientX);
+                $("#popup").css("top", e.clientY);
+                $("#stateText").text($(this).attr("state"));
+                if(draw.dataType=="number"){
+                    $("#value").text("Number: "+$(this).attr("number"));
+                    $("#valueError").text("Number Standard Error: "+$(this).attr("n_standard_error"));
+                }else if(draw.dataType=="percent"){
+                    $("#value").text("Percent: "+$(this).attr("percent"));
+                    $("#valueError").text("Percent Standard Error: "+$(this).attr("p_standard_error"));
+                }
+            }).on("mouseleave",".barBox",function(){
+                $("#popup").css("display","none");
+            });
         },
         change: function (hasDelay) {
             var data = draw.data;
@@ -465,5 +500,10 @@
     }
     scrollBar.init();
 </script>
+<div id="popup">
+    <p>States: <span id="stateText"></span></p>
+    <p id="value"></p>
+    <p id="valueError"></p>
+</div>
 </body>
 </html>
