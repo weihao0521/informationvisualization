@@ -381,8 +381,7 @@
             draw.bindPopupEvent();
         },
         bindPopupEvent: function () {
-            $("#svgContainer").on("mouseenter", ".barBox", function (e) {
-                $("#popup").css("display", "block");
+            $("#svgContainer").on("mouseover", ".barBox", function (e) {
                 $("#popup").css("left", e.clientX);
                 $("#popup").css("top", e.clientY);
                 $("#stateText").text($(this).attr("state"));
@@ -393,8 +392,15 @@
                     $("#value").text("Percent: " + $(this).attr("percent") + "%");
                     $("#valueError").text("Percent Standard Error: " + $(this).attr("p_standard_error") + "%");
                 }
-            }).on("mouseleave", ".barBox", function () {
+
+                $("#popup").css("display", "block");
+            }).on("mouseout", ".barBox", function () {
                 $("#popup").css("display", "none");
+            });
+            $("#popup").on("mouseover",function(){
+                $("#popup").css("display","block");
+            }).on("mouseout",function(){
+                $("#popup").css("display","none");
             });
         },
         change: function (hasDelay) {
