@@ -13,9 +13,10 @@
 
         #choose {
             width: 300px;
-            margin: 20px auto 0;
             letter-spacing: -4px;
             word-spacing: -4px;
+
+            float:left;
         }
 
         .choose {
@@ -55,12 +56,19 @@
 
     </style>
     <style>
+        #tools{
+            overflow: hidden;
+            width:800px;
+            margin: 30px auto 0;
+        }
+        #scroll{
+            float:left;
+        }
         #scrollBar {
             position: relative;
             width: 300px;
             height: 1em;
-            margin: 50px auto 0;
-
+            margin: 0 auto;
         }
 
         #scrollButton {
@@ -137,29 +145,30 @@
 
 <body>
 <label><input type="checkbox"> Sort values</label>
-
-<div id="scrollBar">
-    <ul id="ul">
-        <li class="li"></li>
-        <li></li>
-    </ul>
-    <a id="scrollButton" href="javascript:;" draggable="false"></a>
+<div id="tools">
+    <div id="scroll">
+        <div id="scrollBar">
+            <ul id="ul">
+                <li class="li"></li>
+                <li></li>
+            </ul>
+            <a id="scrollButton" href="javascript:;" draggable="false"></a>
+        </div>
+        <div id="scrollBarText">
+            <span>2007</span>
+            <span>2010</span>
+            <span>2013</span>
+        </div>
+    </div>
+    <div id="choose">
+        <a class="choose chosen" href="javascript:;">number</a>
+        <a class="choose" href="javascript:;">percent</a>
+    </div>
 </div>
-<div id="scrollBarText">
-    <span>2007</span>
-    <span>2010</span>
-    <span>2013</span>
-</div>
-<div id="choose">
-    <a class="choose chosen" href="javascript:;">number</a>
-    <a class="choose" href="javascript:;">percent</a>
-</div>
-
-
 <script>
     var margin = {top: 20, right: 20, bottom: 70, left: 40},
             width = window.innerWidth - margin.left - margin.right,
-            height = window.innerHeight - margin.top - margin.bottom;
+            height = window.innerHeight - 100 - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
     var y = d3.scale.linear().range([height, 0]);
