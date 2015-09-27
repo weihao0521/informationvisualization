@@ -241,7 +241,7 @@
                     .attr("y", 2)
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
-                    .text("number");
+                    .text(draw.dataType);
 
             // append bars
             $(".barBox").remove();
@@ -282,7 +282,7 @@
                                         return height - y(d.number);
                                     });
                             d3.select(this).append("rect")
-                                    .style("fill", "#666666")
+                                    .style("fill", "#0411CC")
                                     .style("opacity", 0.5)
                                     .style("border", "1px dashed #000000")
                                     .attr("class", "barError")
@@ -301,22 +301,22 @@
                             d3.select(this).append("rect")
                                     .style("fill", function (d, i) {
                                         if (d.percent > 25) {
-                                            return "firebrick";
+                                            return "#08519c";
                                         }
                                         else if (d.percent > 20) {
-                                            return "crimson";
+                                            return "#3182bd";
                                         }
                                         else if (d.percent > 15) {
-                                            return "indianred";
+                                            return "#6baed6";
                                         }
                                         else if (d.percent > 10) {
-                                            return "darksalmon";
+                                            return "#9ecae1";
                                         }
                                         else if (d.percent > 5) {
-                                            return "salmon";
+                                            return "#c6dbef";
                                         }
                                         else {
-                                            return "lightsalmon";
+                                            return "#eff3ff";
                                         }
                                     })
                                     .attr("class", "bar")
