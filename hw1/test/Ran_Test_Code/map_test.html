@@ -1,0 +1,34 @@
+<html>
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<script src="../utils/js/d3.js"></script>
+<script src="../utils/js/topojson.v1.min.js"></script>
+<script src="../utils/js/datamaps.usa.min.js"></script>
+<div id="container" style="position: relative; width: 500px; height: 300px;"></div>
+<script>
+    var map = new Datamap({
+        element: document.getElementById('container'),
+        scope: 'usa',
+
+        fills: {
+            'Republican': '#CC4731',
+            'Democrat': '#306596',
+            'Heavy Democrat': '#667FAF',
+            'Light Democrat': '#A9C0DE',
+            'Heavy Republican': '#CA5E5B',
+            'Light Republican': '#EAA9A8',
+             defaultFill: '#EDDC4E'
+        },
+        data: {
+            "CO": {
+                "fillKey": "Light Democrat",
+                "electoralVotes": 5
+            },
+        }
+    });
+
+</script>
+</body>
+</html>

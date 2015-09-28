@@ -8,13 +8,15 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            font-size: 16px;
         }
 
         #choose {
             width: 300px;
-            margin: 20px auto 0;
             letter-spacing: -4px;
             word-spacing: -4px;
+            margin:10px 0 0 0;
+            float:left;
         }
 
         .choose {
@@ -54,12 +56,20 @@
 
     </style>
     <style>
+        #tools{
+            overflow: hidden;
+            width:800px;
+            margin: 30px auto 0;
+        }
+        #scroll{
+            float:left;
+            margin:10px 0;
+        }
         #scrollBar {
             position: relative;
             width: 300px;
             height: 1em;
-            margin: 50px auto 0;
-
+            margin: 0 auto;
         }
 
         #scrollButton {
@@ -117,6 +127,18 @@
             width: 33%;
             text-align: center;
         }
+
+        #popup {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            background: white;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            font-size: 16px;
+        }
     </style>
     <script src="../utils/js/d3.min.js"></script>
     <script src="../utils/js/jquery-1.11.3.min.js"></script>
@@ -124,29 +146,30 @@
 
 <body>
 <label><input type="checkbox"> Sort values</label>
-
-<div id="scrollBar">
-    <ul id="ul">
-        <li class="li"></li>
-        <li></li>
-    </ul>
-    <a id="scrollButton" href="javascript:;" draggable="false"></a>
+<div id="tools">
+    <div id="scroll">
+        <div id="scrollBar">
+            <ul id="ul">
+                <li class="li"></li>
+                <li></li>
+            </ul>
+            <a id="scrollButton" href="javascript:;" draggable="false"></a>
+        </div>
+        <div id="scrollBarText">
+            <span>2007</span>
+            <span>2010</span>
+            <span>2013</span>
+        </div>
+    </div>
+    <div id="choose">
+        <a class="choose chosen" href="javascript:;">number</a>
+        <a class="choose" href="javascript:;">percent</a>
+    </div>
 </div>
-<div id="scrollBarText">
-    <span>2007</span>
-    <span>2010</span>
-    <span>2013</span>
-</div>
-<div id="choose">
-    <a class="choose chosen" href="javascript:;">number</a>
-    <a class="choose" href="javascript:;">percent</a>
-</div>
-
-
 <script>
-    var margin = {top: 20, right: 20, bottom: 70, left: 40},
+    var margin = {top: 50, right: 50, bottom: 70, left: 40},
             width = window.innerWidth - margin.left - margin.right,
-            height = window.innerHeight - 200 - margin.top - margin.bottom;
+            height = window.innerHeight - 100 - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
     var y = d3.scale.linear().range([height, 0]);
@@ -161,9 +184,11 @@
     var svg = d3.select("body").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
+            .attr("style", "margin-top:10px;")
             .append("g")
             .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+            "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "svgContainer");
 
     var choose = {
         bindEvent: function () {
@@ -196,7 +221,7 @@
             this.loadData();
         },
         loadData: function () {
-            d3.csv("poverty_by_state_" + this.year + ".csv", function (error, data) {
+            d3.csv("../data/poverty_by_state_" + this.year + ".csv", function (error, data) {
                 data.forEach(function (d) {
                     for (var key in d) {
                         if (key != "state") {
@@ -247,7 +272,11 @@
             // append bars
             $(".barBox").remove();
             svg.selectAll(".barBox").data(draw.data).enter().append("g")
-                    .attr("class", "barBox").each(function (d, i) {
+                    .attr("class", "barBox")
+                    .each(function (d, i) {
+                        for (var key in d) {
+                            $(this).attr(key, d[key]);
+                        }
                         if (draw.dataType == "number") {
                             //for each "barBox", append bar and bar Error
                             d3.select(this).append("rect")
@@ -349,6 +378,30 @@
                         }
                     });
             draw.change(false);
+            draw.bindPopupEvent();
+        },
+        bindPopupEvent: function () {
+            $("#svgContainer").on("mouseover", ".barBox", function (e) {
+                $("#popup").css("left", e.clientX);
+                $("#popup").css("top", e.clientY);
+                $("#stateText").text($(this).attr("state"));
+                if (draw.dataType == "number") {
+                    $("#value").text("Number: " + $(this).attr("number"));
+                    $("#valueError").text("Number Standard Error: " + $(this).attr("n_standard_error"));
+                } else if (draw.dataType == "percent") {
+                    $("#value").text("Percent: " + $(this).attr("percent") + "%");
+                    $("#valueError").text("Percent Standard Error: " + $(this).attr("p_standard_error") + "%");
+                }
+
+                $("#popup").css("display", "block");
+            }).on("mouseout", ".barBox", function () {
+                $("#popup").css("display", "none");
+            });
+            $("#popup").on("mouseover",function(){
+                $("#popup").css("display","block");
+            }).on("mouseout",function(){
+                $("#popup").css("display","none");
+            });
         },
         change: function (hasDelay) {
             var data = draw.data;
@@ -465,5 +518,12 @@
     }
     scrollBar.init();
 </script>
+<div id="popup">
+    <p>States: <span id="stateText"></span></p>
+
+    <p id="value"></p>
+
+    <p id="valueError"></p>
+</div>
 </body>
 </html>
