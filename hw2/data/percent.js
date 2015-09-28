@@ -1,4 +1,4 @@
-var WhiteAlone = [
+var WhiteAlone1 = [
 {"DateTime":"2013","Value":0.661},
 {"DateTime":"2012","Value":0.663},
 {"DateTime":"2011","Value":0.667},
@@ -12,7 +12,7 @@ var WhiteAlone = [
 {"DateTime":"2003","Value":0.677},
 {"DateTime":"2002","Value":0.679}
 ];
-var WhiteAloneNotHispanic = [
+var WhiteAloneNotHispanic1 = [
 {"DateTime":"2013","Value":0.415},
 {"DateTime":"2012","Value":0.407},
 {"DateTime":"2011","Value":0.415},
@@ -26,7 +26,7 @@ var WhiteAloneNotHispanic = [
 {"DateTime":"2003","Value":0.443},
 {"DateTime":"2002","Value":0.45}
 ];
-var BlackAloneOrInCombination = [
+var BlackAloneOrInCombination1 = [
 {"DateTime":"2013","Value":0.264},
 {"DateTime":"2012","Value":0.254},
 {"DateTime":"2011","Value":0.254},
@@ -40,7 +40,7 @@ var BlackAloneOrInCombination = [
 {"DateTime":"2003","Value":0.254},
 {"DateTime":"2002","Value":0.257}
 ];
-var BlackAlone = [
+var BlackAlone1 = [
 {"DateTime":"2013","Value":0.244},
 {"DateTime":"2012","Value":0.235},
 {"DateTime":"2011","Value":0.236},
@@ -54,7 +54,7 @@ var BlackAlone = [
 {"DateTime":"2003","Value":0.245},
 {"DateTime":"2002","Value":0.249}
 ];
-var Hispanic = [
+var Hispanic1 = [
 {"DateTime":"2013","Value":0.281},
 {"DateTime":"2012","Value":0.293},
 {"DateTime":"2011","Value":0.286},
@@ -68,7 +68,7 @@ var Hispanic = [
 {"DateTime":"2003","Value":0.252},
 {"DateTime":"2002","Value":0.247}
 ];
-var AsianAloneOrInCombination = [
+var AsianAloneOrInCombination1 = [
 {"DateTime":"2013","Value":0.044},
 {"DateTime":"2012","Value":0.045},
 {"DateTime":"2011","Value":0.047},
@@ -82,7 +82,7 @@ var AsianAloneOrInCombination = [
 {"DateTime":"2003","Value":0.043},
 {"DateTime":"2002","Value":0.036}
 ];
-var AsianAlone = [
+var AsianAlone1 = [
 {"DateTime":"2013","Value":0.039},
 {"DateTime":"2012","Value":0.041},
 {"DateTime":"2011","Value":0.043},

@@ -52,9 +52,8 @@
                                 .attr('class', 'path ' + c)
                                 .attr("d", valueline(d.data))
                                 .attr("clip-path", "url(#clip)")
+				.attr("transform", 'translate(10, 0)')
                                 .style('stroke', color(d.id + i));
-                            // g.append("circle")
-                                // console.log(valueline(d.data));
                             //add legend
                             g.append('text').text(d.name)
                                 .attr('class', 'legend')

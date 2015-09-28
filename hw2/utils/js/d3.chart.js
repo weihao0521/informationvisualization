@@ -63,7 +63,7 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
 
         _chartCanvas.append("g")
             .attr('id', 'xAxis')
-            .attr('transform', 'translate(0, -20)') // putting x-Axis into the margin area
+            .attr('transform', 'translate(10, -20)') // putting x-Axis into the margin area
             .attr("class", "brush");
         _chartCanvas.select('#xAxis').append('g')// where x-axis will be rendered
             .attr("class", "x axis");
@@ -80,9 +80,9 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
             .on('mouseover', function () {
                 var mouse = d3.mouse(this);
                 var mX = mouse[0] - margin.left, mY = mouse[1] - margin.top;
-                // console.log(mX); 
+                //console.log(mX); 
                 //
-                if (mX > 0 && mY > 0 && mX < width){
+                if (mX > 10 && mY > 0 && mX < width-100){
                     hoverLine.style('opacity', 1);   
                 }             
                 else
@@ -96,29 +96,23 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
                 var mX = mouse[0] - margin.left, mY = mouse[1] - margin.top;
                 // var pathEl = path.node();
                 hoverLine.attr('x1', mX).attr('x2', mX);
-                if (mX > 0 && mY > 0 && mX < width) { 
+                if (mX > 10 && mY > 0 && mX < width-100) { 
                     var dt = _xScale.invert(mX);
-       
-                    // var nearestDateVal = minDistanceDate(_.map(_graphs, function (d) { return d.map[mX] ? d.map[mX].date : null; }), dt);
-                    var nearestDateVal = moment(dt).format('YYYY');
+			//console.log(mX);
+			//console.log(width);
+                    var nearestDateVal = moment(dt).add(7,'month').format('YYYY');
                     // var graphIdswithDataAtNearestDate = _.chain(_graphs).filter(function(d) {return d.map[mX] && d.map[mX].date == nearestDateVal; }).pluck('id').value();
                     // console.log(graphIdswithDataAtNearestDate) ;
                     var graphIdswithDataAtNearestDate = ["WhiteAlone", "WhiteAloneNotHispanic", "BlackAloneOrInCombination",
                     "BlackAlone","Hispanic","AsianAloneOrInCombination","AsianAlone"];
                     if (nearestDateVal!=null) {
                         var xMoment = moment(nearestDateVal);
-                          // console.log(xMoment)   ;  
+                           //console.log(nearestDateVal)   ;  
                         // update legend values 
                         d3.selectAll('.graph').data(_graphs, function (d) { return d.id; }).each(function (d) {
                             var g = d3.select(this);
-                            var str = '';
-                            // var v = _.findWhere(d.data, { DateTime: nearestDateVal });                          
+                            var str = '';                        
                             if (graphIdswithDataAtNearestDate.indexOf(d.id) >= 0) {
-                                // var v = d.data[d.map[mX].idx];
-
-                                // _.each(d.yVal, function (yDim, i) {
-                                //     str += d.yVal.length == 1 ? v[yDim] : ((i > 0 ? ', ' : ' ') + yDim + ':' + v[yDim]);
-                                // });
                                 str= d.data[2013-nearestDateVal]["Value"];
                             }              
                             g.select('.legend').text(d.id + ' : ' + str);
@@ -126,10 +120,9 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
                         });
                         var a = Number(xMoment.format('YYYY'))+ 1;
                         //move plot line to stick to nearest time where any value found , then update time and value legends                    
-                        timeLegend.text(a );
-                        var moveX = _xScale(xMoment);
-                        // console.log(xMoment.format('DD MMM'));
-                        hoverLine.attr('x1', moveX).attr('x2', moveX);
+                        timeLegend.text("time is " + a );
+                        var moveX = _xScale(xMoment);                        
+                        hoverLine.attr('x1', moveX+10).attr('x2', moveX+10);
                     }                  
                 } 
             });
@@ -247,7 +240,8 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
 
 
     //public methods for clients of this module
-    this.addGraph = function (graph) {        
+    this.addGraph = function (graph) {  
+		 
         //adjust x-axis domain
         var dates = _.map(graph.data, function (d) { return moment(d.DateTime); });
         var max = moment(dates[0]).add(1,'year').valueOf(), min = dates[dates.length - 1].valueOf(), streched = false; // assuming data is sorted  
@@ -261,6 +255,7 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
             streched = true;
         }
         if (streched) {
+
             _xScale.domain(_xDomain); 
 
             //hashmap for fast lookup with plotline
@@ -269,7 +264,7 @@ define(['moment', 'underscore', 'app/d3.chart.analog'], function (moment) {
                 g.map = getLookupMap(g, _xScale);
             });
         }
-
+	//console.log(_graphs);     
         //setup graph data
         graph.order = _graphs.length;        
 

@@ -2,12 +2,12 @@
 <html>
 	<head>
 	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="../utils/css/initialization.css"/>
         <meta http-equiv="X-UA-Compatible" content="IE=10" />
 		<title>Log Chart</title>        
-        
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	  <script src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.9/require.min.js"></script> 	
-	  <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.min.js"></script>
+        <script src="../utils/js/d3.min.js"></script>
+        <script src="../utils/js/jquery-1.11.3.min.js"></script> 
+		<script src="../utils/js/require.min.js"></script> 	
         
 	    <style>
 		    body { font: 12px Arial;}
@@ -55,7 +55,7 @@
 		        requirejs.config({
 		            "baseUrl": "./",
 		            "paths": {
-		                "app": "./",
+		                "app": "../utils/js/",
 		                'moment': 'http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min',
 		                'underscore': 'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min'		                
 		            }
@@ -64,18 +64,14 @@
 
 		        require(['app/d3.chart'], function (d3Chart) {
 		            d3Chart.init({ container: '#container', xDim: 'DateTime' });
-		          // d3Chart.addGraph({ id: 'Speed', type: 'horizon', name: 'Speed', dataId: 512, yVal: ['Value'], data: speedData });
-		            d3Chart.addGraph({ id: 'WhiteAlone', type: 'analog', name: 'WhiteAlone', dataId: 513, yVal: ['Value'], data: WhiteAlone });
-		            d3Chart.addGraph({ id: 'WhiteAloneNotHispanic', type: 'analog', name: 'WhiteAloneNotHispanic', dataId: 513, yVal: ['Value'], data: WhiteAloneNotHispanic });
-		            d3Chart.addGraph({ id: 'Hispanic', type: 'analog', name: 'Hispanic', dataId: 513, yVal: ['Value'], data: Hispanic });
-				d3Chart.addGraph({ id: 'BlackAloneOrInCombination', type: 'analog', name: 'BlackAloneOrInCombination', dataId: 513, yVal: ['Value'], data: BlackAloneOrInCombination });
-				d3Chart.addGraph({ id: 'BlackAlone', type: 'analog', name: 'BlackAlone', dataId: 513, yVal: ['Value'], data: BlackAlone });
+		            d3Chart.addGraph({ id: 'WhiteAlone', type: 'analog', name: 'WhiteAlone', dataId: 513, yVal: ['Value'], data: WhiteAlone1 });
+		            d3Chart.addGraph({ id: 'WhiteAloneNotHispanic', type: 'analog', name: 'WhiteAloneNotHispanic', dataId: 513, yVal: ['Value'], data: WhiteAloneNotHispanic1 });
+		            d3Chart.addGraph({ id: 'Hispanic', type: 'analog', name: 'Hispanic', dataId: 513, yVal: ['Value'], data: Hispanic1 });
+				d3Chart.addGraph({ id: 'BlackAloneOrInCombination', type: 'analog', name: 'BlackAloneOrInCombination', dataId: 513, yVal: ['Value'], data: BlackAloneOrInCombination1 });
+				d3Chart.addGraph({ id: 'BlackAlone', type: 'analog', name: 'BlackAlone', dataId: 513, yVal: ['Value'], data: BlackAlone1 });
 
-				d3Chart.addGraph({ id: 'AsianAloneOrInCombination', type: 'analog', name: 'AsianAloneOrInCombination', dataId: 513, yVal: ['Value'], data: AsianAloneOrInCombination });
-		         d3Chart.addGraph({ id: 'AsianAlone', type: 'analog', name: 'AsianAlone', dataId: 513, yVal: ['Value'], data: AsianAlone });
-		         //   d3Chart.addGraph({ id: 'DI', type: 'digital', name: 'Digital Input', dataId: 522, data: diData });
-		            
-		     //       d3Chart.addGraph({ id: 'Accel', type: 'analog', name: 'Accel', dataId: 522, yVal: ['X', 'Y', 'Z'], data: accelData });
+				d3Chart.addGraph({ id: 'AsianAloneOrInCombination', type: 'analog', name: 'AsianAloneOrInCombination', dataId: 513, yVal: ['Value'], data: AsianAloneOrInCombination1 });
+		         d3Chart.addGraph({ id: 'AsianAlone', type: 'analog', name: 'AsianAlone', dataId: 513, yVal: ['Value'], data: AsianAlone1 });
 					d3Chart.render();		            		           
 
 		            setTimeout(function () {	
@@ -95,7 +91,7 @@
 		</script>
 	</head>
 	<body>
-	    <script src="./percent.js"></script>
+	    <script src="../data/percent.js"></script>
 
 	    <div id="container" style="min-width: 300px;width:100%">
 			<div class="loader"><p>Working...</p></div>
