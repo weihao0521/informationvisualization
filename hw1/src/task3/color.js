@@ -26,5 +26,5 @@ var color = (function () {
         getRange: function(index){
             return range[index];
         }
-    }
+    };
 })();
