@@ -1,109 +1,109 @@
 {"nodes":[
-  {"r":66.1, "x":100, "label":"WA"}, 
-  {"r":41.5, "x":230, "label":"WANH"}, 
-  {"r":26.4, "x":310, "label":"BAOIC"},
-  {"r":24.4, "x":370, "label":"BA"}, 
-  {"r":4.4, "x":420, "label":"AAOIC"}, 
-  {"r":3.9, "x":480, "label":"AA"}, 
-  {"r":28.1, "x":540, "label":"HOAR"}
+  {"r":66.1, "x":100, "y":100, "label":"White Alone"},
+  {"r":41.5, "x":250,"y":100, "label":"White Alone, Not Hispanic"},
+  {"r":26.4, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":24.4, "x":550,"y":100, "label":"Black Alone"},
+  {"r":4.4, "x":100, "y":270,"label":"Asian Alone, or in Combination"},
+  {"r":3.9, "x":250,"y":270, "label":"Asian Alone"},
+  {"r":28.1, "x":400,"y":270, "label":"Hispanic (of any race)"}
 ],
 "nodes2":[
-  {"r":66.3, "x":100, "label":"WA"}, 
-  {"r":40.7, "x":230, "label":"WANH"}, 
-  {"r":25.4, "x":310, "label":"BAOIC"},
-  {"r":23.5, "x":370, "label":"BA"}, 
-  {"r":4.5, "x":420, "label":"AAOIC"}, 
-  {"r":4.1, "x":480, "label":"AA"}, 
-  {"r":29.3, "x":540, "label":"HOAR"}
+  {"r":66.3, "x":100,"y":100, "label":"White Alone"},
+  {"r":40.7, "x":250, "y":100,"label":"White Alone, Not Hispanic"},
+  {"r":25.4, "x":400,"y":100, "label":"Black Alone, or in Combination"},
+  {"r":23.5, "x":550,"y":100, "label":"Black Alone"},
+  {"r":4.5, "x":100,"y":270, "label":"Asian Alone, or in Combination"},
+  {"r":4.1, "x":250,"y":270, "label":"Asian Alone"},
+  {"r":29.3, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes3":[
-  {"r":66.7, "x":100, "label":"WA"}, 
-  {"r":41.5, "x":230, "label":"WANH"}, 
-  {"r":25.4, "x":310, "label":"BAOIC"},
-  {"r":23.6, "x":370, "label":"BA"}, 
-  {"r":4.7, "x":420, "label":"AAOIC"}, 
-  {"r":4.3, "x":480, "label":"AA"}, 
-  {"r":28.6, "x":540, "label":"HOAR"}
+  {"r":66.7, "x":100, "y":100,"label":"White Alone"},
+  {"r":41.5, "x":250,"y":100, "label":"White Alone, Not Hispanic"},
+  {"r":25.4, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":23.6, "x":550, "y":100,"label":"Black Alone"},
+  {"r":4.7, "x":100, "y":270,"label":"Asian Alone, or in Combination"},
+  {"r":4.3, "x":250,"y":270, "label":"Asian Alone"},
+  {"r":28.6, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes4":[
-  {"r":67.1, "x":100, "label":"WA"}, 
-  {"r":41.5, "x":230, "label":"WANH"}, 
-  {"r":25, "x":310, "label":"BAOIC"},
-  {"r":23.2, "x":370, "label":"BA"}, 
-  {"r":4.5, "x":420, "label":"AAOIC"}, 
-  {"r":4.1, "x":480, "label":"AA"}, 
-  {"r":29.2, "x":540, "label":"HOAR"}
+  {"r":67.1, "x":100, "y":100,"label":"White Alone"},
+  {"r":41.5, "x":250,"y":100, "label":"White Alone, Not Hispanic"},
+  {"r":25, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":23.2, "x":550, "y":100,"label":"Black Alone"},
+  {"r":4.5, "x":100, "y":270,"label":"Asian Alone, or in Combination"},
+  {"r":4.1, "x":250, "y":270,"label":"Asian Alone"},
+  {"r":29.2, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes5":[
-  {"r":68.5, "x":100, "label":"WA"}, 
-  {"r":42.5, "x":230, "label":"WANH"}, 
-  {"r":24.3, "x":310, "label":"BAOIC"},
-  {"r":22.8, "x":370, "label":"BA"}, 
-  {"r":4.4, "x":420, "label":"AAOIC"}, 
-  {"r":4, "x":480, "label":"AA"}, 
-  {"r":28.3, "x":540, "label":"HOAR"}
+  {"r":68.5, "x":100, "y":100,"label":"White Alone"},
+  {"r":42.5, "x":250, "y":100,"label":"White Alone, Not Hispanic"},
+  {"r":24.3, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":22.8, "x":550, "y":100,"label":"Black Alone"},
+  {"r":4.4, "x":100, "y":270,"label":"Asian Alone, or in Combination"},
+  {"r":4, "x":250,"y":270, "label":"Asian Alone"},
+  {"r":28.3, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes6":[
-  {"r":67.8, "x":100, "label":"WA"}, 
-  {"r":42.7, "x":230, "label":"WANH"}, 
-  {"r":24.8, "x":310, "label":"BAOIC"},
-  {"r":23.5, "x":370, "label":"BA"}, 
-  {"r":4.2, "x":420, "label":"AAOIC"}, 
-  {"r":4, "x":480, "label":"AA"}, 
-  {"r":27.6, "x":540, "label":"HOAR"}
+  {"r":67.8, "x":100, "y":100,"label":"White Alone"},
+  {"r":42.7, "x":250, "y":100,"label":"White Alone, Not Hispanic"},
+  {"r":24.8, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":23.5, "x":550, "y":100,"label":"Black Alone"},
+  {"r":4.2, "x":100,"y":270, "label":"Asian Alone, or in Combination"},
+  {"r":4, "x":250,"y":270, "label":"Asian Alone"},
+  {"r":27.6, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes7":[
-  {"r":67.4, "x":100, "label":"WA"}, 
-  {"r":43, "x":230, "label":"WANH"}, 
-  {"r":25.9, "x":310, "label":"BAOIC"},
-  {"r":24.8, "x":370, "label":"BA"}, 
-  {"r":3.9, "x":420, "label":"AAOIC"}, 
-  {"r":3.6, "x":480, "label":"AA"}, 
-  {"r":26.5, "x":540, "label":"HOAR"}
+  {"r":67.4, "x":100,"y":100, "label":"White Alone"},
+  {"r":43, "x":250, "y":100,"label":"White Alone, Not Hispanic"},
+  {"r":25.9, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":24.8, "x":550, "y":100,"label":"Black Alone"},
+  {"r":3.9, "x":100, "y":270,"label":"Asian Alone, or in Combination"},
+  {"r":3.6, "x":250, "y":270,"label":"Asian Alone"},
+  {"r":26.5, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes8":[
-  {"r":67.0, "x":100, "label":"WA"}, 
-  {"r":43.9, "x":230, "label":"WANH"}, 
-  {"r":25.9, "x":310, "label":"BAOIC"},
-  {"r":24.8, "x":370, "label":"BA"}, 
-  {"r":4, "x":420, "label":"AAOIC"}, 
-  {"r":3.7, "x":480, "label":"AA"}, 
-  {"r":25.4, "x":540, "label":"HOAR"}
+  {"r":67.0, "x":100, "y":100,"label":"White Alone"},
+  {"r":43.9, "x":250, "y":100,"label":"White Alone, Not Hispanic"},
+  {"r":25.9, "x":400,"y":100, "label":"Black Alone, or in Combination"},
+  {"r":24.8, "x":550, "y":100,"label":"Black Alone"},
+  {"r":4, "x":100, "y":270,"label":"Asian Alone, or in Combination"},
+  {"r":3.7, "x":250, "y":270,"label":"Asian Alone"},
+  {"r":25.4, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes9":[
-  {"r":67.3, "x":100, "label":"WA"}, 
-  {"r":43.9, "x":230, "label":"WANH"}, 
-  {"r":25.8, "x":310, "label":"BAOIC"},
-  {"r":24.8, "x":370, "label":"BA"}, 
-  {"r":4.1, "x":420, "label":"AAOIC"}, 
-  {"r":3.8, "x":480, "label":"AA"}, 
-  {"r":25.4, "x":540, "label":"HOAR"}
+  {"r":67.3, "x":100,"y":100, "label":"White Alone"},
+  {"r":43.9, "x":250, "y":100,"label":"White Alone, Not Hispanic"},
+  {"r":25.8, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":24.8, "x":550, "y":100,"label":"Black Alone"},
+  {"r":4.1, "x":100, "y":270,"label":"Asian Alone, or in Combination"},
+  {"r":3.8, "x":250, "y":270,"label":"Asian Alone"},
+  {"r":25.4, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes10":[
-  {"r":68.4, "x":100, "label":"WA"}, 
-  {"r":45.6, "x":230, "label":"WANH"}, 
-  {"r":25.4, "x":310, "label":"BAOIC"},
-  {"r":24.3, "x":370, "label":"BA"}, 
-  {"r":3.5, "x":420, "label":"AAOIC"}, 
-  {"r":3.2, "x":480, "label":"AA"}, 
-  {"r":24.6, "x":540, "label":"HOAR"}
+  {"r":68.4, "x":100, "y":100,"label":"White Alone"},
+  {"r":45.6, "x":250, "y":100,"label":"White Alone, Not Hispanic"},
+  {"r":25.4, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":24.3, "x":550, "y":100,"label":"Black Alone"},
+  {"r":3.5, "x":100,"y":270, "label":"Asian Alone, or in Combination"},
+  {"r":3.2, "x":250, "y":270,"label":"Asian Alone"},
+  {"r":24.6, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes11":[
-  {"r":67.7, "x":100, "label":"WA"}, 
-  {"r":44.3, "x":230, "label":"WANH"}, 
-  {"r":25.4, "x":310, "label":"BAOIC"},
-  {"r":24.5, "x":370, "label":"BA"}, 
-  {"r":4.3, "x":420, "label":"AAOIC"}, 
-  {"r":3.9, "x":480, "label":"AA"}, 
-  {"r":25.2, "x":540, "label":"HOAR"}
+  {"r":67.7, "x":100, "y":100,"label":"White Alone"},
+  {"r":44.3, "x":250, "y":100,"label":"White Alone, Not Hispanic"},
+  {"r":25.4, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":24.5, "x":550,"y":100, "label":"Black Alone"},
+  {"r":4.3, "x":100,"y":270, "label":"Asian Alone, or in Combination"},
+  {"r":3.9, "x":250, "y":270,"label":"Asian Alone"},
+  {"r":25.2, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ],
 "nodes12":[
-  {"r":67.9, "x":100, "label":"WA"}, 
-  {"r":45, "x":230, "label":"WANH"}, 
-  {"r":25.7, "x":310, "label":"BAOIC"},
-  {"r":24.9, "x":370, "label":"BA"}, 
-  {"r":3.6, "x":420, "label":"AAOIC"}, 
-  {"r":3.4, "x":480, "label":"AA"}, 
-  {"r":24.7, "x":540, "label":"HOAR"}
+  {"r":67.9, "x":100, "y":100,"label":"White Alone"},
+  {"r":45, "x":250,"y":100, "label":"White Alone, Not Hispanic"},
+  {"r":25.7, "x":400, "y":100,"label":"Black Alone, or in Combination"},
+  {"r":24.9, "x":550, "y":100,"label":"Black Alone"},
+  {"r":3.6, "x":100, "y":270,"label":"Asian Alone, or in Combination"},
+  {"r":3.4, "x":250, "y":270,"label":"Asian Alone"},
+  {"r":24.7, "x":400, "y":270,"label":"Hispanic (of any race)"}
 ]
 }

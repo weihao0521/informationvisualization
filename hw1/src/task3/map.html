@@ -83,8 +83,19 @@
             float: left;
         }
     </style>
+    <style>
+        #title{
+            text-align: center;
+        }
+        #title h1{
+            display:inline-block;
+        }
+    </style>
 </head>
 <body>
+<div id="title">
+    <h1>Compare poverty percentage overtime, by state and by race.</h1>
+</div>
 <div id="scroll">
     <div id="scrollBar">
         <ul id="ul">
@@ -121,6 +132,9 @@
     <div id="container" class="container" style="position: relative; width: 640px; height: 400px;"></div>
     <div id="container2" class="container" style="position: relative; width: 640px; height: 360px;"></div>
 </div>
+<div id="root">
+
+</div>
 <script>
     var year = 2002;
     var map = {
@@ -138,8 +152,6 @@
                     }
                 }
                 map.data = newData;
-                console.log(newData);
-
                 map.draw();
             });
         },
@@ -155,16 +167,16 @@
                 var span = $(document.createElement("span"));
                 var span2 = $(document.createElement("span"));
                 span.css("background-color", color.getColor(index));
-                span.css("width","16px");
-                span.css("height","16px");
-                span.css("display","inline-block");
+                span.css("width", "16px");
+                span.css("height", "16px");
+                span.css("display", "inline-block");
                 span2.text(color.getRange(index));
                 ul.append(li);
                 li.append(span);
                 li.append(span2);
             }
-            ul.css("position","absolute");
-            ul.css("top","50%");
+            ul.css("position", "absolute");
+            ul.css("top", "50%");
             $("#" + id).append(ul);
         },
         draw: function () {
@@ -199,76 +211,75 @@
     map.init();
 </script>
 <script>
-    var createCircle = function (year) {
-        $("#container2").empty();
+    var race = {
+        elem: {},
+        loadData: function () {
+            d3.json("../data/data.json", function (json) {
+                race.data = json;
 
-        var color = d3.scale.category10();
+                race.createCircle();
+            });
+        },
+        createCircle: function () {
+            $("#container2").empty();
 
-        var width = 960,
-                height = 500;
+            var color = d3.scale.category10();
 
-        var svg = d3.select("#container2").append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .attr("id", "svgCircle");
+            var width = 960,
+                    height = 500;
 
-        d3.json("../data/data.json", function (json) {
+            var svg = d3.select("#container2").append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .attr("id", "svgCircle");
+
             /* Define the data for the circles */
+            /*Create and place the "blocks" containing the circle and the text */
+            var data;
             if (year == 2013) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes)
+                data =  race.data.nodes;
             }
             else if (year == 2012) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes2)
+                data =  race.data.nodes2;
             }
             else if (year == 2011) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes3)
+                data =  race.data.nodes3;
             }
             else if (year == 2010) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes4)
+                data =  race.data.nodes4;
             }
             else if (year == 2009) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes5)
+                data =  race.data.nodes5;
             }
             else if (year == 2008) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes6)
+                data =  race.data.nodes6;
             }
             else if (year == 2007) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes7)
+                data =  race.data.nodes7;
             }
             else if (year == 2006) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes8)
+                data =  race.data.nodes8;
             }
             else if (year == 2005) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes9)
+                data =  race.data.nodes9;
             }
             else if (year == 2004) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes10)
+                data =  race.data.nodes10;
             }
             else if (year == 2003) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes11)
+                data =  race.data.nodes11;
             }
             else if (year == 2002) {
-                var elem = svg.selectAll("g myCircleText")
-                        .data(json.nodes12)
+                data =  race.data.nodes12;
             }
 
+            var elem = svg.selectAll("g myCircleText")
+                    .data(data);
 
-            /*Create and place the "blocks" containing the circle and the text */
             var elemEnter = elem.enter()
                     .append("g")
                     .attr("transform", function (d) {
-                        return "translate(" + d.x + ",80)"
+                        return "translate(" + d.x + ","+ d.y+")"
                     })
 
             /*Create the circle for each block */
@@ -279,28 +290,103 @@
                     .attr("stroke", "black")
                     .attr("fill", "white")
                     .transition()
-                    .duration(2000)
+                    .duration(0)
                     .style("fill", function (d) {
-                        return color(d.x);
+                        return color(d.x + d.y);
                     })
                     .style("stroke-width", 0)
-                    .style("stroke", "black")
-                    .style("cursor", "pointer")
+                    .style("stroke", "black");
 
             /* Create the text for each block */
             elemEnter.append("text")
                     .attr("dx", function (d) {
-                        return -20
+                        return -40;
                     })
                     .attr("dy", function (d) {
-                        return 90
+                        return 90;
                     })
                     .text(function (d) {
-                        return d.label
+                        return d.label.split(",")[0];
+                    });
+
+            elemEnter.append("text")
+                    .attr("dx", function (d) {
+                        return -40;
                     })
-        })
-    };
-    createCircle(year);
+                    .attr("dy", function (d) {
+                        return 110;
+                    })
+                    .text(function (d) {
+                        return d.label.split(",")[1];
+                    });
+            elemEnter.append("text")
+                    .attr("dx", function (d) {
+                        return -40;
+                    })
+                    .attr("dy", function (d) {
+                        return 130;
+                    })
+                    .text(function (d) {
+                        return d.r+"%";
+                    });
+        }
+    }
+    race.loadData();
+    //createCircle(year);
+
+    function drawPie() {
+        var width = 640,
+                height = 400,
+                radius = Math.min(width, height) / 2;
+
+        var color = d3.scale.ordinal()
+                .range(["#e7298a", "#7570b3", "#d95f02", "#1b9e77"]);
+
+        var arc = d3.svg.arc()
+                .outerRadius(radius - 10)
+                .innerRadius(0);
+
+        var pie = d3.layout.pie()
+                .sort(null)
+                .value(function (d) {
+                    return d.year;
+                });
+
+        var svg = d3.select("#container2").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        d3.csv("../data/poverty_by_race.csv", function (error, data) {
+            data.forEach(function (d) {
+                d.year = +d.year;
+            });
+
+            var g = svg.selectAll(".arc")
+                    .data(pie(data))
+                    .enter().append("g")
+                    .attr("class", "arc");
+
+            g.append("path")
+                    .attr("d", arc)
+                    .style("fill", function (d) {
+                        return color(d.data.year);
+                    });
+
+            g.append("text")
+                    .attr("transform", function (d) {
+                        return "translate(" + arc.centroid(d) + ")";
+                    })
+                    .attr("dy", ".70em")
+                    .style("text-anchor", "middle")
+                    .text(function (d) {
+                        return d.data.race;
+                    });
+
+        });
+    }
+    //drawPie();
 </script>
 <script>
     var scrollBar = {
@@ -355,7 +441,7 @@
             year = (newLeft + 10) / scrollBar.width + 2002;
 
             map.draw();
-            createCircle(year);
+            race.createCircle(year);
         }
     }
     scrollBar.init();
