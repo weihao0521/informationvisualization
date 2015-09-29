@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="../utils/css/initialization.css"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=10" />
+		<title>Log Chart</title>        
+        <script src="../utils/js/d3.min.js"></script>
+        <script src="../utils/js/jquery-1.11.3.min.js"></script>
+	<script src="../utils/js/require.min.js"></script>
+
+	    <style>
+		    body { font: 12px Arial;}
+
+		    path { 
+		        stroke: steelblue;
+		        stroke-width: 2;
+		        fill: none;
+		    }            
+            
+		    .axis path,
+		    .axis line {
+		        fill: none;
+		        stroke: grey;
+		        stroke-width: 1;
+		        shape-rendering: crispEdges;
+		    }
+
+		    .brush .extent {
+		        stroke: #fff;
+		        fill-opacity: .125;
+		        shape-rendering: crispEdges;
+		    }		    
+			.loader {
+	            position: absolute;
+	            top: 0;
+	            bottom: 0;
+	            left: 0;
+	            right: 0;
+	            background: rgba(255,255,255,0.8);
+	            text-align: center;
+	            z-index: 99;
+	            display: none;
+	        }
+            .loader p {
+                margin-top: 180px;
+            }
+	        label {
+            position: absolute;
+            top: 100px;
+            right: 10px;
+        }
+		</style>
+
+		<script type="text/javascript">
+			'use strict';
+		
+		    $(function () {
+
+		        requirejs.config({
+		            "baseUrl": "./",
+		            "paths": {
+		                "app": "../utils/js/",
+		                'moment': 'http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min',
+		                'underscore': 'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min'		                
+		            }
+		        });
+		    });
+require(['app/d3.chart'], function (d3Chart) {
+		            d3Chart.init({ container: '#container', xDim: 'DateTime' });
+		            d3Chart.addGraph({ id: 'WhiteAlone', type: 'analog', name: 'WhiteAlone', dataId: 513, yVal: ['Value'], data: WhiteAlone });
+		            d3Chart.addGraph({ id: 'WhiteAloneNotHispanic', type: 'analog', name: 'WhiteAloneNotHispanic', dataId: 513, yVal: ['Value'], data: WhiteAloneNotHispanic });
+		            d3Chart.addGraph({ id: 'Hispanic', type: 'analog', name: 'Hispanic', dataId: 513, yVal: ['Value'], data: Hispanic });
+				d3Chart.addGraph({ id: 'BlackAloneOrInCombination', type: 'analog', name: 'BlackAloneOrInCombination', dataId: 513, yVal: ['Value'], data: BlackAloneOrInCombination });
+				d3Chart.addGraph({ id: 'BlackAlone', type: 'analog', name: 'BlackAlone', dataId: 513, yVal: ['Value'], data: BlackAlone });
+
+				d3Chart.addGraph({ id: 'AsianAloneOrInCombination', type: 'analog', name: 'AsianAloneOrInCombination', dataId: 513, yVal: ['Value'], data: AsianAloneOrInCombination });
+		         d3Chart.addGraph({ id: 'AsianAlone', type: 'analog', name: 'AsianAlone', dataId: 513, yVal: ['Value'], data: AsianAlone });
+					d3Chart.render();		            		           
+
+		            setTimeout(function () {	
+		                d3Chart.reorderGraph('Accel', 'up');
+		                
+		            }, 3000);
+
+
+		        });
+
+		</script>
+	</head>
+	<body>    
+	<script src="../data/number.js"></script>
+<script>
+
+</script>
+	    <div id="container" style="min-width: 300px;width:100%">
+			<div class="loader"><p>Working...</p></div>
+		</div>
+        
+	</body>
+</html>

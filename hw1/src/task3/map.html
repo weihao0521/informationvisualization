@@ -1,0 +1,344 @@
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>map</title>
+    <script src="../utils/js/d3.min.js"></script>
+    <script src="../utils/js/topojson.min.js"></script>
+    <script src="../utils/js/datamaps.usa.min.js"></script>
+    <script src="../utils/js/jquery-1.11.3.min.js"></script>
+    <script src="../utils/js/color.js"></script>
+    <link href="../utils/css/initialization.css" rel="stylesheet" type="text/css"/>
+    <style>
+        body {
+            font-size: 16px;
+        }
+
+        #scroll {
+            margin: 10px 0;
+        }
+
+        #scrollBar {
+            position: relative;
+            width: 880px;
+            height: 1em;
+            margin: 0 auto;
+        }
+
+        #scrollButton {
+            position: absolute;
+            top: -4px;
+            left: -10px;
+
+            background-color: black;
+            border: 1px solid #000000;
+            width: 20px;
+            height: 20px;
+            cursor: default;
+        }
+
+        #ul {
+            height: 1em;
+            background-color: #aaaaaa;
+            /*letter-spacing: -4px;*/
+            word-spacing: -4px;
+        }
+
+        #ul li {
+            letter-spacing: normal;
+            word-spacing: normal;
+
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            width: 79px;
+            height: 16px;
+        }
+
+        .li {
+            border-right: 1px solid #000000;
+        }
+
+        #scrollBarText {
+            width: 960px;
+            margin: 0 auto;
+            position: relative;
+            left: -2px;
+            /*letter-spacing: -4px;*/
+            word-spacing: -4px;
+        }
+
+        #scrollBarText span {
+            letter-spacing: normal;
+            word-spacing: normal;
+            display: inline-block;
+            width: 80px;
+            text-align: center;
+        }
+
+        #parent {
+            overflow: hidden;
+        }
+
+        .container {
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<div id="scroll">
+    <div id="scrollBar">
+        <ul id="ul">
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li></li>
+        </ul>
+        <a id="scrollButton" href="javascript:;" draggable="false"></a>
+    </div>
+    <div id="scrollBarText">
+        <span>2002</span>
+        <span>2003</span>
+        <span>2004</span>
+        <span>2005</span>
+        <span>2006</span>
+        <span>2007</span>
+        <span>2008</span>
+        <span>2009</span>
+        <span>2010</span>
+        <span>2011</span>
+        <span>2012</span>
+        <span>2013</span>
+    </div>
+</div>
+<div id="parent">
+    <div id="container" class="container" style="position: relative; width: 640px; height: 360px;"></div>
+    <div id="container2" class="container" style="position: relative; width: 640px; height: 360px;"></div>
+</div>
+<script>
+    var year = 2002;
+    var map = {
+        data: {},
+        init: function () {
+            this.loadData();
+        },
+        loadData: function () {
+            d3.csv("../../src/data/poverty_by_state_10years.csv", function (error, data) {
+                var newData = {};
+                for (var index = 0, length = data.length; index < length; index++) {
+                    var state = newData[data[index].state] = {};
+                    for (var year = 2002; year <= 2013; year++) {
+                        state[year + ""] = parseFloat(data[index][year + ""]);
+                    }
+                }
+                map.data = newData;
+                console.log(newData);
+
+                map.draw();
+            });
+        },
+        processDataColor: function () {
+            for (var key in map.data) {
+                map.data[key].fillKey = color(map.data[key][year + ""]);
+            }
+        },
+        draw: function () {
+            $("#container").empty();
+            this.processDataColor();
+
+            var dataMap = new Datamap({
+                element: document.getElementById('container'),
+                scope: 'usa',
+                fills: {
+                    5: "#fee5d9",
+                    8: "#fcbba1",
+                    11: "#fc9272",
+                    14: "#fb6a4a",
+                    17: "#de2d26",
+                    20: "#a50f15",
+                    defaultFill: '#000000'
+                },
+                data: map.data,
+                geographyConfig: {
+                    popupTemplate: function (geo, data) {
+                        return '<div class="hoverinfo"><strong>'
+                                + 'Percent of  ' + geo.properties.name
+                                + ': ' + data[year + ""] + '%'
+                                + '</strong></div>';
+                    }
+                }
+            });
+        }
+    };
+    map.init();
+</script>
+<script>
+    var createCircle = function (year) {
+        $("#container2").empty();
+
+        var color = d3.scale.category10();
+
+        var width = 960,
+                height = 500;
+
+        var svg = d3.select("#container2").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("id", "svgCircle");
+
+        d3.json("../data/data.json", function (json) {
+            /* Define the data for the circles */
+            if (year == 2013) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes)
+            }
+            else if (year == 2012) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes2)
+            }
+            else if (year == 2011) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes3)
+            }
+            else if (year == 2010) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes4)
+            }
+            else if (year == 2009) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes5)
+            }
+            else if (year == 2008) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes6)
+            }
+            else if (year == 2007) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes7)
+            }
+            else if (year == 2006) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes8)
+            }
+            else if (year == 2005) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes9)
+            }
+            else if (year == 2004) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes10)
+            }
+            else if (year == 2003) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes11)
+            }
+            else if (year == 2002) {
+                var elem = svg.selectAll("g myCircleText")
+                        .data(json.nodes12)
+            }
+
+
+            /*Create and place the "blocks" containing the circle and the text */
+            var elemEnter = elem.enter()
+                    .append("g")
+                    .attr("transform", function (d) {
+                        return "translate(" + d.x + ",80)"
+                    })
+
+            /*Create the circle for each block */
+            var circle = elemEnter.append("circle")
+                    .attr("r", function (d) {
+                        return d.r
+                    })
+                    .attr("stroke", "black")
+                    .attr("fill", "white")
+                    .transition()
+                    .duration(2000)
+                    .style("fill", function (d) {
+                        return color(d.x);
+                    })
+                    .style("stroke-width", 0)
+                    .style("stroke", "black")
+                    .style("cursor", "pointer")
+
+            /* Create the text for each block */
+            elemEnter.append("text")
+                    .attr("dx", function (d) {
+                        return -20
+                    })
+                    .attr("dy", function (d) {
+                        return 90
+                    })
+                    .text(function (d) {
+                        return d.label
+                    })
+        })
+    };
+    createCircle(year);
+</script>
+<script>
+    var scrollBar = {
+        width: document.getElementsByClassName("li")[0].offsetWidth,
+        originalX: -1,
+        originalLeft: -10,
+        clicked: false,
+        maxMove: 11,
+        init: function () {
+            this.bindEvent();
+        },
+        getLeft: function (id) {
+            if (typeof id == "string") {
+                var leftStr = $("#" + id).css("left");
+                return parseInt(leftStr.substring(0, leftStr.length - 2));
+            } else {
+                return "wrong parameter";
+            }
+        },
+        bindEvent: function () {
+            $("#scrollButton").on("mousedown", function (e) {
+                scrollBar.clicked = true;
+                scrollBar.originalX = e.clientX;
+                scrollBar.originalLeft = scrollBar.getLeft("scrollButton");
+            });
+            $(window).on("mouseup", function () {
+                scrollBar.clicked = false;
+            }).on("mousemove", function (e) {
+                if (scrollBar.clicked) {
+                    var difference = e.clientX - scrollBar.originalX;
+                    var newLeft, oldLeft = scrollBar.getLeft("scrollButton");
+                    if (Math.abs(difference) > (scrollBar.width / 2)) {
+                        var num = parseInt((difference + difference / Math.abs(difference) * scrollBar.width / 2) / scrollBar.width);
+                        newLeft = scrollBar.originalLeft + num * scrollBar.width;
+                        if (newLeft < -10) {
+                            newLeft = -10;
+                        } else if (newLeft > (-10 + scrollBar.maxMove * scrollBar.width)) {
+                            newLeft = -10 + scrollBar.maxMove * scrollBar.width;
+                        }
+                    } else {
+                        newLeft = scrollBar.originalLeft;
+                    }
+                    $("#scrollButton").css("left", newLeft + "px");
+
+                    if (newLeft != oldLeft) {
+                        scrollBar.changeFunc(newLeft);
+                    }
+                }
+            });
+        },
+        changeFunc:function(newLeft){
+            year = (newLeft + 10) / scrollBar.width + 2002;
+
+            map.draw();
+            createCircle(year);
+        }
+    }
+    scrollBar.init();
+</script>
+</body>
+</html>
