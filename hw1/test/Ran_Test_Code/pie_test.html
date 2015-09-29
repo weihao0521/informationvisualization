@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+
+        body {
+            font: 10px sans-serif;
+        }
+
+        .arc path {
+            stroke: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<script src="../utils/js/d3.js"></script>
+<script>
+
+    var width = 960,
+            height = 500,
+            radius = Math.min(width, height) / 2;
+
+    var color = d3.scale.ordinal()
+            .range(["#e7298a", "#7570b3", "#d95f02", "#1b9e77"]);
+
+    var arc = d3.svg.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(0);
+
+    var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.year; });
+
+    var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    d3.csv("poverty_by_race.csv", function(error, data) {
+        data.forEach(function(d) {
+            d.year = +d.year;
+        });
+
+        var g = svg.selectAll(".arc")
+                .data(pie(data))
+                .enter().append("g")
+                .attr("class", "arc");
+
+        g.append("path")
+                .attr("d", arc)
+                .style("fill", function(d) { return color(d.data.year); });
+
+        g.append("text")
+                .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+                .attr("dy", ".70em")
+                .style("text-anchor", "middle")
+                .text(function(d) { return d.data.race; });
+
+    });
+
+</script>
+</body>
+</html>
