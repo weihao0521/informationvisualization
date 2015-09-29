@@ -6,7 +6,7 @@
     <script src="../utils/js/topojson.min.js"></script>
     <script src="../utils/js/datamaps.usa.min.js"></script>
     <script src="../utils/js/jquery-1.11.3.min.js"></script>
-    <script src="../utils/js/color.js"></script>
+    <script src="color.js"></script>
     <link href="../utils/css/initialization.css" rel="stylesheet" type="text/css"/>
     <style>
         body {
@@ -118,7 +118,7 @@
     </div>
 </div>
 <div id="parent">
-    <div id="container" class="container" style="position: relative; width: 640px; height: 360px;"></div>
+    <div id="container" class="container" style="position: relative; width: 600px; height: 400px;"></div>
     <div id="container2" class="container" style="position: relative; width: 640px; height: 360px;"></div>
 </div>
 <script>
@@ -145,11 +145,31 @@
         },
         processDataColor: function () {
             for (var key in map.data) {
-                map.data[key].fillKey = color(map.data[key][year + ""]);
+                map.data[key].fillKey = color.getFillKey(map.data[key][year + ""]);
             }
+        },
+        drawColorTip: function (id) {
+            var ul = $(document.createElement("ul"));
+            for (var index = 0; index < 6; index++) {
+                var li = $(document.createElement("li"));
+                var span = $(document.createElement("span"));
+                var span2 = $(document.createElement("span"));
+                span.css("background-color", color.getColor(index));
+                span.css("width","16px");
+                span.css("height","16px");
+                span.css("display","inline-block");
+                span2.text(color.getRange(index));
+                ul.append(li);
+                li.append(span);
+                li.append(span2);
+            }
+            ul.css("position","absolute");
+            ul.css("top","50%");
+            $("#" + id).append(ul);
         },
         draw: function () {
             $("#container").empty();
+            this.drawColorTip("container");
             this.processDataColor();
 
             var dataMap = new Datamap({
@@ -331,7 +351,7 @@
                 }
             });
         },
-        changeFunc:function(newLeft){
+        changeFunc: function (newLeft) {
             year = (newLeft + 10) / scrollBar.width + 2002;
 
             map.draw();
