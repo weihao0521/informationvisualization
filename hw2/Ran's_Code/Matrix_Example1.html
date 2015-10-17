@@ -4,7 +4,7 @@
 <title>Les Misérables Co-occurrence</title>
 <style>
 
-@import url(../style.css?aea6f0a);
+@import url(style.css?aea6f0a);
 
 .background {
   fill: #eee;
@@ -28,7 +28,7 @@ text.active {
 
 <h1><i>Les Misérables</i> Co-occurrence</h1>
 
-<aside style="margin-top:80px;">
+<aside style="margin-top:80px;margin-right:-100px">
 <p>Order: <select id="order">
   <option value="name">by Name</option>
   <option value="count">by Frequency</option>
@@ -46,9 +46,9 @@ text.active {
 
 <script>
 
-var margin = {top: 80, right: 0, bottom: 10, left: 80},
-    width = 720,
-    height = 720;
+var margin = {top: 200, right: 30, bottom: 30, left: 200},
+    width = 850,
+    height = 850;
 
 var x = d3.scale.ordinal().rangeBands([0, width]),
     z = d3.scale.linear().domain([0, 4]).clamp(true),
@@ -61,12 +61,12 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("miserables.json", function(miserables) {
-  console.log(miserables.nodes);
+d3.json("hw2_nodes.json", function(miserables) {
+        //console.log(miserables.nodes.length);
   var matrix = [],
       nodes = miserables.nodes,
-      n = nodes.length;
-
+      n = miserables.nodes.length;
+      //console.log(n)
   // Compute index per node.
   nodes.forEach(function(node, i) {
     node.index = i;
@@ -86,7 +86,7 @@ d3.json("miserables.json", function(miserables) {
 
   // Precompute the orders.
   var orders = {
-    name: d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name); }),
+    name: d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].label, nodes[b].label); }),
     count: d3.range(n).sort(function(a, b) { return nodes[b].count - nodes[a].count; }),
     group: d3.range(n).sort(function(a, b) { return nodes[b].group - nodes[a].group; })
   };
@@ -112,9 +112,9 @@ d3.json("miserables.json", function(miserables) {
   row.append("text")
       .attr("x", -6)
       .attr("y", x.rangeBand() / 2)
-      .attr("dy", ".32em")
+      .attr("dy", ".5em")
       .attr("text-anchor", "end")
-      .text(function(d, i) { return nodes[i].name; });
+      .text(function(d, i) { return nodes[i].label; });
 
   var column = svg.selectAll(".column")
       .data(matrix)
@@ -128,9 +128,9 @@ d3.json("miserables.json", function(miserables) {
   column.append("text")
       .attr("x", 6)
       .attr("y", x.rangeBand() / 2)
-      .attr("dy", ".32em")
+      .attr("dy", ".5em")
       .attr("text-anchor", "start")
-      .text(function(d, i) { return nodes[i].name; });
+      .text(function(d, i) { return nodes[i].label; });
 
   function row(row) {
     var cell = d3.select(this).selectAll(".cell")
@@ -198,7 +198,7 @@ d3.json("miserables.json", function(miserables) {
 <p>Want more? See this analysis of <a href="../shuffle/compare.html">shuffling algorithms</a> using matrix diagrams.
 
 <footer>
-  <aside>January 12, 2012</aside>
+  <asidestyle="margin-top:100px;margin-right:10px">January 12, 2012</aside>
   <a href="../../" rel="author">Mike Bostock</a>
 </footer>
 
