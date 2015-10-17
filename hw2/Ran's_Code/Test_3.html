@@ -78,9 +78,10 @@
                     return color(d.group)
                 });
 
+        // node click feature
         var target;
         var notTarget;
-        node.on("mousedown", function (d) {
+        node.on("mouseover", function (d) {
             var id = d.id;
             target = d3.select(this);
             notTarget = d3.select();
@@ -108,9 +109,15 @@
             });
             target.style("stroke", "blue");
             target.style("stroke-width", 1.5);
-            notTarget.style("opacity", 0.2);
         })
+                .on("mousedown",function(d){
+                    notTarget.style("opacity", 0.2);
+                })
                 .on("mouseup", function (d) {
+                    node.style("opacity", 1);
+                    link.style("opacity", 1);
+                })
+                .on("mouseleave",function(d){
                     node.style("stroke", "#999");
                     node.style("stroke-width", 1);
                     node.style("opacity", 1);
@@ -118,6 +125,7 @@
                     link.style("stroke-width", 1);
                     link.style("opacity", 1);
                 });
+        // end node click feature
 
         force.on("tick", function () {
             link.attr("x1", function (d) {
