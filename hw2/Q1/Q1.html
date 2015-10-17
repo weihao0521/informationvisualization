@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../utils/css/initialization.css"/>
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .link {
+            stroke: #999;
+            stroke-opacity: 0.6;
+            stroke-width: 1;
+        }
+
+        .node text {
+            pointer-events: none;
+            font: 10px sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+<script src="../utils/js/d3.js"></script>
+<script>
+
+    var width = window.innerWidth,
+            height = window.innerHeight;
+
+    var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+    var color = d3.scale.category20();
+
+    var force = d3.layout.force()
+            .distance(30)
+            .size([width, height]);
+
+    d3.json("../data/hw2_nodes.json", function (error, json) {
+        if (error) throw error;
+
+        force.nodes(json.nodes)
+                .charge(function (d) {
+                    return d.degree * (-70)
+                })
+                .links(json.links)
+                .start();
+
+        var link = svg.selectAll(".link")
+                .data(json.links)
+                .enter().append("line")
+                .attr("class", "link");
+
+        var node = svg.selectAll(".node")
+                .data(json.nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .call(force.drag);
+
+        node.append("text")
+                .attr("dx", function (d) {
+                    return (d.degree + 4) + "px";
+                })
+                .attr("dy", ".35em")
+                .text(function (d) {
+                    return d.label
+                })
+                .style("display", "none");
+
+        node.append("circle")
+                .attr("class", function (d) {
+                    return "class id" + d.id
+                })
+                .attr("r", function (d) {
+                    return d.degree;
+                })
+                .style("fill", function (d) {
+                    return color(d.group)
+                });
+
+        // node click feature
+        var target;
+        var targetNode;
+        var notTarget;
+        var clicking = false;
+        var over = false;
+        node.on("mousemove", function (d) {
+            if (!(over && clicking)) {
+                over = true;
+                var id = d.id;
+                target = d3.select(this);
+                targetNode = d3.select(this);
+                targetNode[0][0] = targetNode[0][0].childNodes[0];
+                notTarget = d3.select();
+                notTarget[0].length = 0;
+                link.each(function (innerD) {
+                    if (innerD.source.id == id) {
+                        var tempNode = node.filter(function (innerInnerD) {
+                            return innerInnerD.id == innerD.target.id;
+                        })[0][0];
+                        target[0].push(tempNode);//add node to target
+                        targetNode[0].push(tempNode.childNodes[0]);
+                        target[0].push(d3.select(this)[0][0]);//add link to target
+                    } else if (innerD.target.id == id) {
+                        var tempNode = node.filter(function (innerInnerD) {
+                            return innerInnerD.id == innerD.source.id;
+                        })[0][0];
+                        target[0].push(tempNode);//add node to target
+                        targetNode[0].push(tempNode.childNodes[0]);
+                        target[0].push(d3.select(this)[0][0]);//add link to target
+                    }
+                    else {
+                        notTarget[0].push(d3.select(this)[0][0]);//add link to notTarget
+                    }
+                });
+                node.each(function (innerD) {
+                    if (target[0].indexOf(d3.select(this)[0][0]) == -1) {
+                        notTarget[0].push(d3.select(this)[0][0]);
+                    }
+                });
+                target.style("stroke", "blue");
+                target.style("stroke-width", 1.5);
+                targetNode.style("display", "block");
+                targetNode.style("stroke-width", 0.8);
+                targetNode.style("stroke", "black");
+                targetNode.style("z-index", 1000);
+            }
+        })
+                .on("mousedown", function (d) {
+                    clicking = true;
+                    notTarget.style("opacity", 0.2);
+                })
+                .on("mouseleave", function (d) {
+                    over = false;
+                    if (!clicking) {
+                        node.style("stroke", "#999");
+                        node.style("stroke-width", 1);
+                        link.style("stroke", "#999");
+                        link.style("stroke-width", 1);
+                        targetNode.style("display", "none");
+                    }
+                });
+        svg.on("mouseup", function () {
+            clicking = false;
+            node.style("opacity", 1);
+            link.style("opacity", 1);
+            if (!over) {
+                node.style("stroke", "#999");
+                node.style("stroke-width", 1);
+                link.style("stroke", "#999");
+                link.style("stroke-width", 1);
+                targetNode.style("display", "none");
+            }
+        })
+        // end node click feature
+
+        force.on("tick", function () {
+            link.attr("x1", function (d) {
+                return d.source.x;
+            })
+                    .attr("y1", function (d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function (d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function (d) {
+                        return d.target.y;
+                    });
+
+            node.attr("transform", function (d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+        });
+    });
+
+</script>
+</body>
+</html>
