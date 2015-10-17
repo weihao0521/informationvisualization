@@ -87,7 +87,7 @@
         var clicking = false;
         var over = false;
         node.on("mousemove", function (d) {
-            if (!(over && clicking)) {
+            if (!over && !clicking) {
                 over = true;
                 var id = d.id;
                 target = d3.select(this);
