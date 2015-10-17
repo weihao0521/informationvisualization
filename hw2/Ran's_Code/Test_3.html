@@ -57,7 +57,7 @@
                 .data(json.nodes)
                 .enter().append("g")
                 .attr("class", "node")
-        /*.call(force.drag);*/
+                .call(force.drag);
 
         node.append("text")
                 .attr("dx", 12)
@@ -83,30 +83,40 @@
         node.on("mousedown", function (d) {
             var id = d.id;
             target = d3.select(this);
-            link.each(function (d) {
-                if (d.source.id == id) {
-                    target[0].push(node.filter(function (d2) {
-                        return d2.id == d.target.id;
-                    })[0][0]);//add node
-                    target[0].push(d3.select(this)[0][0]);//add link
-                } else if (d.target.id == id) {
-                    target[0].push(node.filter(function (d2) {
-                        return d2.id == d.source.id;
-                    })[0][0]);//add node
-                    target[0].push(d3.select(this)[0][0]);//add link
+            notTarget = d3.select();
+            notTarget[0].length = 0;
+            link.each(function (innerD) {
+                if (innerD.source.id == id) {
+                    target[0].push(node.filter(function (innerInnerD) {
+                        return innerInnerD.id == innerD.target.id;
+                    })[0][0]);//add node to target
+                    target[0].push(d3.select(this)[0][0]);//add link to target
+                } else if (innerD.target.id == id) {
+                    target[0].push(node.filter(function (innerInnerD) {
+                        return innerInnerD.id == innerD.source.id;
+                    })[0][0]);//add node to target
+                    target[0].push(d3.select(this)[0][0]);//add link to target
                 }
                 else {
-
+                    notTarget[0].push(d3.select(this)[0][0]);//add link to notTarget
+                }
+            });
+            node.each(function (innerD) {
+                if (target[0].indexOf(d3.select(this)[0][0]) == -1) {
+                    notTarget[0].push(d3.select(this)[0][0]);
                 }
             });
             target.style("stroke", "blue");
             target.style("stroke-width", 1.5);
+            notTarget.style("opacity", 0.2);
         })
                 .on("mouseup", function (d) {
                     node.style("stroke", "#999");
                     node.style("stroke-width", 1);
+                    node.style("opacity", 1);
                     link.style("stroke", "#999");
                     link.style("stroke-width", 1);
+                    link.style("opacity", 1);
                 });
 
         force.on("tick", function () {
