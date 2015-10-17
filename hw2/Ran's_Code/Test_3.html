@@ -81,7 +81,10 @@
         // node click feature
         var target;
         var notTarget;
-        node.on("mouseover", function (d) {
+        var clicking = false;
+        var over = false;
+        node.on("mousemove", function (d) {
+            over = true;
             var id = d.id;
             target = d3.select(this);
             notTarget = d3.select();
@@ -110,21 +113,32 @@
             target.style("stroke", "blue");
             target.style("stroke-width", 1.5);
         })
-                .on("mousedown",function(d){
+                .on("mousedown", function (d) {
+                    clicking = true;
                     notTarget.style("opacity", 0.2);
                 })
-                .on("mouseup", function (d) {
-                    node.style("opacity", 1);
-                    link.style("opacity", 1);
-                })
-                .on("mouseleave",function(d){
-                    node.style("stroke", "#999");
-                    node.style("stroke-width", 1);
-                    node.style("opacity", 1);
-                    link.style("stroke", "#999");
-                    link.style("stroke-width", 1);
-                    link.style("opacity", 1);
+                .on("mouseleave", function (d) {
+                    over = false;
+                    if (!clicking) {
+                        node.style("stroke", "#999");
+                        node.style("stroke-width", 1);
+                        node.style("opacity", 1);
+                        link.style("stroke", "#999");
+                        link.style("stroke-width", 1);
+                        link.style("opacity", 1);
+                    }
                 });
+        svg.on("mouseup", function () {
+            clicking = false;
+            node.style("opacity", 1);
+            link.style("opacity", 1);
+            if (!over) {
+                node.style("stroke", "#999");
+                node.style("stroke-width", 1);
+                link.style("stroke", "#999");
+                link.style("stroke-width", 1);
+            }
+        })
         // end node click feature
 
         force.on("tick", function () {
