@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="ocks-org do-not-copy">
 <meta charset="utf-8">
-<title>Les Misérables Co-occurrence</title>
+<title>Political Books Co-Purchasing</title>
 <style>
 
 @import url(style.css?aea6f0a);
@@ -22,22 +22,22 @@ text.active {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js" charset="utf-8"></script>
 
 <header>
-  <aside>April 10, 2012</aside>
-  <a href="../../" rel="author">Mike Bostock</a>
+  <aside>October 16, 2015</aside>
+  <a href="../../" rel="author">Visulization Homework Group</a>
 </header>
 
-<h1><i>Les Misérables</i> Co-occurrence</h1>
+<h1><i>Political Books</i> Co-Purchasing </h1>
 
 <aside style="margin-top:80px;margin-right:-100px">
 <p>Order: <select id="order">
   <option value="name">by Name</option>
-  <option value="count">by Frequency</option>
+  <option value="count">by Degree</option>
   <option value="group">by Cluster</option>
 </select>
 
-<p>This matrix diagram visualizes character co-occurrences in Victor Hugo’s <i><a href="http://en.wikipedia.org/wiki/Les_Misérables">Les Misérables</a></i>.
+<p>This matrix diagram visualizes books about American Poltics <i><a href="http://www-personal.umich.edu/~mejn/netdata/">Books about US politics</a></i>.
 
-<p>Each colored cell represents two characters that appeared in the same chapter; darker cells indicate characters that co-occurred more frequently.
+<p>Each colored cell represents two books that copurchasing by same buyer
 
 <p>Use the drop-down menu to reorder the matrix and explore the data.
 
@@ -140,8 +140,41 @@ d3.json("hw2_nodes.json", function(miserables) {
         .attr("x", function(d) { return x(d.x); })
         .attr("width", x.rangeBand())
         .attr("height", x.rangeBand())
-        .style("fill-opacity", function(d) { return z(d.z); })
-        .style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? c(nodes[d.x].group) : null; })
+        .style("fill-opacity", 1)
+        .style("fill", function(d) {
+                if(nodes[d.x].group == nodes[d.y].group && nodes[d.x].group == 1){
+                    return "red";
+                }
+                else if(nodes[d.x].group == nodes[d.y].group && nodes[d.x].group == 2){
+                    return "yellow";
+                }
+                else if(nodes[d.x].group == nodes[d.y].group && nodes[d.x].group == 3){
+                    return "blue";
+                }
+                else if(nodes[d.x].group != nodes[d.y].group){
+                    if(nodes[d.x].group == 1 && nodes[d.y].group == 2) {
+                        return "orange";
+                    }
+                    else if (nodes[d.x].group == 2 && nodes[d.y].group == 1){
+                        return "orange";
+                    }
+                    else if (nodes[d.x].group == 1 && nodes[d.y].group == 3){
+                        return "purple";
+                    }
+                    else if (nodes[d.x].group == 3 && nodes[d.y].group == 1){
+                        return "purple";
+                    }
+                    else if (nodes[d.x].group == 2 && nodes[d.y].group == 3){
+                        return "green";
+                    }
+                    else if (nodes[d.x].group == 3 && nodes[d.y].group == 2){
+                        return "green";
+                    }
+                }
+                else{
+                    return null;
+                }
+            })
         .on("mouseover", mouseover)
         .on("mouseout", mouseout);
   }
@@ -201,12 +234,3 @@ d3.json("hw2_nodes.json", function(miserables) {
   <asidestyle="margin-top:100px;margin-right:10px">January 12, 2012</aside>
   <a href="../../" rel="author">Mike Bostock</a>
 </footer>
-
-<script>
-
-GoogleAnalyticsObject = "ga", ga = function() { ga.q.push(arguments); }, ga.q = [], ga.l = +new Date;
-ga("create", "UA-48272912-3", "ocks.org");
-ga("send", "pageview");
-
-</script>
-<script async src="//www.google-analytics.com/analytics.js"></script>
