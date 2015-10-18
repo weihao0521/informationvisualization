@@ -39,9 +39,32 @@ text.active {
 
 <p>Each colored cell represents two books that copurchasing by same buyer
 
-<p>Use the drop-down menu to reorder the matrix and explore the data.
+<p>Use the drop-down menu to reorder the matrix and explore the data. (Show by alphabet order, by cluster and by degree)
 
 <p>Built with <a href="http://d3js.org/">d3.js</a>.
+
+<p><b> Legend of Matrix </b></p>
+
+<ul>
+        <li><span
+                style="width: 8px; height: 8px; display: inline-block; background-color: #0000FF;"></span><span> Liberal Books Purchase </span>
+        </li>
+        <li><span
+                style="width: 8px; height: 8px; display: inline-block; background-color: #FFFF00;"></span><span> Neutral Books Purchase </span>
+        </li>
+        <li><span
+                style="width: 8px; height: 8px; display: inline-block; background-color: #FF0000;"></span><span> Conservatism Books Purchase </span>
+        </li>
+        <li><span style="width: 8px; height: 8px; display: inline-block; background-color: #800080;"></span><span> Co-Purchase Between Lib and Con Books </span>
+        </li>
+        <li><span
+                style="width: 8px; height: 8px; display: inline-block; background-color: #008000;"></span><span> Co-Purchase Between Lib and Neu Books </span>
+        </li>
+        <li><span
+                style="width: 8px; height: 8px; display: inline-block; background-color: #FFA500;"></span><span> Co-Purchase Between Con and Neu Books </span>
+        </li>
+</ul>
+
 </aside>
 
 <script>
@@ -61,11 +84,11 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("hw2_nodes.json", function(miserables) {
-        //console.log(miserables.nodes.length);
+d3.json("hw2_nodes.json", function(bookmatrix) {
+        //console.log(bookmatrix.nodes.length);
   var matrix = [],
-      nodes = miserables.nodes,
-      n = miserables.nodes.length;
+      nodes = bookmatrix.nodes,
+      n = bookmatrix.nodes.length;
       //console.log(n)
   // Compute index per node.
   nodes.forEach(function(node, i) {
@@ -75,7 +98,7 @@ d3.json("hw2_nodes.json", function(miserables) {
   });
 
   // Convert links to matrix; count character occurrences.
-  miserables.links.forEach(function(link) {
+  bookmatrix.links.forEach(function(link) {
     matrix[link.source][link.target].z += link.value;
     matrix[link.target][link.source].z += link.value;
     matrix[link.source][link.source].z += link.value;
@@ -130,7 +153,7 @@ d3.json("hw2_nodes.json", function(miserables) {
       .attr("y", x.rangeBand() / 2)
       .attr("dy", ".5em")
       .attr("text-anchor", "start")
-      .text(function(d, i) { return nodes[i].label; });
+      .text(function(d, i) { return nodes[i].label; })
 
   function row(row) {
     var cell = d3.select(this).selectAll(".cell")
@@ -142,7 +165,7 @@ d3.json("hw2_nodes.json", function(miserables) {
         .attr("height", x.rangeBand())
         .style("fill-opacity", function(d) {
                 if(nodes[d.x].label == nodes[d.y].label){
-                    return 0.5;
+                    return 0;
                 }
                 else {
                     return 1;
@@ -191,6 +214,18 @@ d3.json("hw2_nodes.json", function(miserables) {
     d3.selectAll(".column text").classed("active", function(d, i) { return i == p.x; });
   }
 
+    svg.selectAll("text")
+            .on("mouseover", function (d,i) {
+                var label = svg.select(this);
+                var d = label.__data__;
+                var m = d.degree;
+                console.log(m);
+                document.getElementById("degree").innerHTML=d.degree;
+            })
+            .on("mouseout", function (d,i) {
+                document.getElementById("degree").innerHTML=null;
+            });
+
   function mouseout() {
     d3.selectAll("text").classed("active", false);
   }
@@ -225,17 +260,17 @@ d3.json("hw2_nodes.json", function(miserables) {
 
 </script>
 
-<p class="attribution">Source: <a href="http://www-cs-staff.stanford.edu/~uno/sgb.html">The Stanford GraphBase</a>.
+<p class="attribution">Source: <a href="http://www-personal.umich.edu/~mejn/netdata/">Network Data</a>.
 
-<p>A network can be represented by an <i><a href="http://en.wikipedia.org/wiki/Adjacency_matrix">adjacency matrix</a></i>, where each cell <i>ij</i> represents an edge from vertex <i>i</i> to vertex <i>j</i>. Here, vertices represent characters in a book, while edges represent co-occurrence in a chapter.
+<p>A network can be represented by an <i><a href="http://en.wikipedia.org/wiki/Adjacency_matrix">adjacency matrix</a></i>, where each cell <i>ij</i> represents an edge from vertex <i>i</i> to vertex <i>j</i>. Here, vertices represent books about American Politics, while edges represent co-purchase of two books by a same buyer.
 
-<p>Given this two-dimensional representation of a graph, a natural visualization is to show the matrix! However, the effectiveness of a matrix diagram is heavily dependent on the order of rows and columns: if related nodes are placed closed to each other, it is easier to identify clusters and bridges.
+<p>Given this two-dimensional representation of a graph, a natural visualization is to show the matrix! However, the effectiveness of a matrix diagram is heavily dependent on the order of rows and columns: if related nodes are placed closed to each other, it is easier to identify clusters and bridges. Therefore, we could explore the perference of cutsomers and even their political tendness.
 
-<p>This example lets you try different orderings via the drop-down menu. This type of diagram can be extended with manual reordering of rows and columns, and expanding or collapsing of clusters, to allow deeper exploration. <a href="http://en.wikipedia.org/wiki/Jacques_Bertin">Jacques Bertin</a> (or more specifically, his fleet of assistants) did this by hand with paper strips.
+<p>This illustration lets you try different orderings via the drop-down menu. This type of diagram can be extended with manual reordering of rows and columns, and expanding or collapsing of clusters, to allow deeper exploration. <a href="http://en.wikipedia.org/wiki/Jacques_Bertin">Jacques Bertin</a> (or more specifically, his fleet of assistants) did this by hand with paper strips.
 
 <p>While path-following is harder in a matrix view than in a <a href="http://mbostock.github.com/d3/ex/force.html">node-link diagram</a>, matrices have other advantages. As networks get large and highly connected, node-link diagrams often devolve into giant hairballs of line crossings. Line crossings are impossible with matrix views. Matrix cells can also be encoded to show additional data; here color depicts clusters computed by a community-detection algorithm.
 
-<p>Want more? See this analysis of <a href="../shuffle/compare.html">shuffling algorithms</a> using matrix diagrams.
+<p>Many thanks to <b>Mike Bostock</b>. His design <a href="http://bost.ocks.org/mike/miserables/">Matrix Diagram</a> inspired our solution on Task 2.</p>
 
 <footer>
   <asidestyle="margin-top:100px;margin-right:10px">January 12, 2012</aside>
