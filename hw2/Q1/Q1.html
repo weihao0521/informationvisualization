@@ -156,24 +156,34 @@
         })
         // end node click feature
 
-        force.on("tick", function () {
+        var doTick = function () {
+            var scale = zoom.scale();
+            var marginX = 0, marginY = 0;
+            if (scale < 1) {
+                marginX = (1 - scale) * width / 2;
+                marginY = (1 - scale) * height / 2;
+            }
             link.attr("x1", function (d) {
-                return d.source.x;
+                return d.source.x * scale + marginX;
             })
                     .attr("y1", function (d) {
-                        return d.source.y;
+                        return d.source.y * scale + marginY;
                     })
                     .attr("x2", function (d) {
-                        return d.target.x;
+                        return d.target.x * scale + marginX;
                     })
                     .attr("y2", function (d) {
-                        return d.target.y;
+                        return d.target.y * scale + marginY;
                     });
 
             node.attr("transform", function (d) {
-                return "translate(" + d.x + "," + d.y + ")";
+                return "translate(" + (d.x * scale + marginX) + "," + (d.y * scale + marginY) + ") scale(" + scale + ")";
             });
-        });
+        };
+        force.on("tick", doTick);
+        var zoom = d3.behavior.zoom().scaleExtent([0.2, 7]);
+        zoom.on("zoom", doTick);
+        svg.call(zoom);
     });
 
 </script>
