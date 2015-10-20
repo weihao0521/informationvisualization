@@ -207,7 +207,12 @@
         $(window).on("mouseup", function () {
             //change nodes
             clicking = false;
-            notTarget.attr("class", "");
+            notTarget.attr("class", function(d){
+                var className = d3.select(this).attr("class");
+                if (!className || (className && className.indexOf("filter") < 0)) {
+                    return "";
+                }
+            });
             if (!over) {
                 target.attr("class", "");
                 targetText.attr("class", "");
