@@ -181,6 +181,17 @@
 
                         console.log(margin);
                     }
+                })
+                .on("dblclick", function () {
+                    var e = d3.event;
+                    var centerX = width / 2;
+                    var centerY = height / 2;
+
+                    margin.x += centerX - e.clientX;
+                    margin.y += centerY - e.clientY;
+
+                    dblclicked = true;
+                    originalScale = zoom.scale();
                 });
         // end node click feature
 
@@ -193,8 +204,17 @@
             x: 0,
             y: 0
         };
+        var dblclicked = false;
+        var originalScale = 0;
 
         var doTick = function () {
+            if (dblclicked) {
+                return;
+                dblclicked = false;
+                zoom.scale(originalScale);
+            }
+            var e = d3.event;
+            console.log(e);
             var scale = zoom.scale();
             var marginScaleX = (1 - scale) * width / 2;
             var marginScaleY = (1 - scale) * height / 2;
@@ -218,6 +238,12 @@
         force.on("tick", doTick);
         var zoom = d3.behavior.zoom().scaleExtent([0.2, 7]);
         zoom.on("zoom", doTick);
+        zoom.on("zoomend", function () {
+            if (dblclicked) {
+                dblclicked = false;
+                zoom.scale(originalScale);
+            }
+        });
         svg.call(zoom);
     });
 </script>
