@@ -16,9 +16,9 @@
         #footer {
             position: absolute;
             top: 95%;
-            left:30%;
+            left: 30%;
             text-align: center;
-            font-size:18px;
+            font-size: 18px;
         }
 
         circle, line {
@@ -204,7 +204,7 @@
                     }
                 });
 
-        svg.on("mouseup", function () {
+        $(window).on("mouseup", function () {
             //change nodes
             clicking = false;
             notTarget.attr("class", "");
@@ -215,15 +215,15 @@
 
             //set margin for "drag"
             mouseCordinate.clicked = false;
+        });
+        svg.on("mousedown", function () {
+            var e = d3.event;
+            if (e.target.nodeName == "svg" && !mouseCordinate.clicked) {
+                mouseCordinate.clicked = true;
+                mouseCordinate.x = e.clientX;
+                mouseCordinate.y = e.clientY;
+            }
         })
-                .on("mousedown", function () {
-                    var e = d3.event;
-                    if (e.target.nodeName == "svg" && !mouseCordinate.clicked) {
-                        mouseCordinate.clicked = true;
-                        mouseCordinate.x = e.clientX;
-                        mouseCordinate.y = e.clientY;
-                    }
-                })
                 .on("mousemove", function () {
                     var e = d3.event;
                     if (e.target.nodeName == "svg" && mouseCordinate.clicked) {
