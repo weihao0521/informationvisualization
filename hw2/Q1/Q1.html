@@ -184,14 +184,18 @@
                 })
                 .on("dblclick", function () {
                     var e = d3.event;
-                    var centerX = width / 2;
-                    var centerY = height / 2;
+                    if (e.target.nodeName !== "svg") {
+                        var centerX = width / 2;
+                        var centerY = height / 2;
 
-                    margin.x += centerX - e.clientX;
-                    margin.y += centerY - e.clientY;
+                        margin.x += centerX - e.clientX;
+                        margin.y += centerY - e.clientY;
 
-                    dblclicked = true;
-                    originalScale = zoom.scale();
+                        dblclicked = true;
+                        originalScale = zoom.scale();
+
+                        doTick();
+                    }
                 });
         // end node click feature
 
@@ -213,8 +217,6 @@
                 dblclicked = false;
                 zoom.scale(originalScale);
             }
-            var e = d3.event;
-            console.log(e);
             var scale = zoom.scale();
             var marginScaleX = (1 - scale) * width / 2;
             var marginScaleY = (1 - scale) * height / 2;
@@ -242,6 +244,7 @@
             if (dblclicked) {
                 dblclicked = false;
                 zoom.scale(originalScale);
+                doTick();
             }
         });
         svg.call(zoom);
