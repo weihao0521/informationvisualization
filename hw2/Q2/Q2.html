@@ -4,7 +4,7 @@
 <title>Political Books Co-Purchasing</title>
 <style>
 
-@import url(style.css?aea6f0a);
+@import url(../data/style.css?aea6f0a);
 
 .background {
   fill: #eee;
@@ -23,12 +23,11 @@ text.active {
 
 <header>
   <aside>October 16, 2015</aside>
-  <a href="../../" rel="author">Visulization Homework Group</a>
+  <a href="https://github.com/weihao0521/informationvisualization" rel="author">Visulization Homework Group</a>
 </header>
 
 <h1><i>Political Books</i> Co-Purchasing </h1>
-
-<aside style="margin-top:80px;margin-right:-100px">
+<aside id="demo" style="margin-top:80px;margin-right:-100px">
 <p>Order: <select id="order">
   <option value="name">by Name</option>
   <option value="count">by Degree</option>
@@ -68,8 +67,7 @@ text.active {
 </aside>
 
 <script>
-
-var margin = {top: 200, right: 30, bottom: 30, left: 200},
+var margin = {top: 250, right: 30, bottom: 30, left: 250},
     width = 850,
     height = 850;
 
@@ -84,7 +82,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("hw2_nodes.json", function(bookmatrix) {
+d3.json("../data/hw2_nodes.json", function(bookmatrix) {
         //console.log(bookmatrix.nodes.length);
   var matrix = [],
       nodes = bookmatrix.nodes,
@@ -151,7 +149,7 @@ d3.json("hw2_nodes.json", function(bookmatrix) {
   column.append("text")
       .attr("x", 6)
       .attr("y", x.rangeBand() / 2)
-      .attr("dy", ".5em")
+      .attr("dy", ".6em")
       .attr("text-anchor", "start")
       .text(function(d, i) { return nodes[i].label; })
 
@@ -213,19 +211,7 @@ d3.json("hw2_nodes.json", function(bookmatrix) {
     d3.selectAll(".row text").classed("active", function(d, i) { return i == p.y; });
     d3.selectAll(".column text").classed("active", function(d, i) { return i == p.x; });
   }
-
-    svg.selectAll("text")
-            .on("mouseover", function (d,i) {
-                var label = svg.select(this);
-                var d = label.__data__;
-                var m = d.degree;
-                console.log(m);
-                document.getElementById("degree").innerHTML=d.degree;
-            })
-            .on("mouseout", function (d,i) {
-                document.getElementById("degree").innerHTML=null;
-            });
-
+  
   function mouseout() {
     d3.selectAll("text").classed("active", false);
   }
@@ -262,17 +248,4 @@ d3.json("hw2_nodes.json", function(bookmatrix) {
 
 <p class="attribution">Source: <a href="http://www-personal.umich.edu/~mejn/netdata/">Network Data</a>.
 
-<p>A network can be represented by an <i><a href="http://en.wikipedia.org/wiki/Adjacency_matrix">adjacency matrix</a></i>, where each cell <i>ij</i> represents an edge from vertex <i>i</i> to vertex <i>j</i>. Here, vertices represent books about American Politics, while edges represent co-purchase of two books by a same buyer.
-
-<p>Given this two-dimensional representation of a graph, a natural visualization is to show the matrix! However, the effectiveness of a matrix diagram is heavily dependent on the order of rows and columns: if related nodes are placed closed to each other, it is easier to identify clusters and bridges. Therefore, we could explore the perference of cutsomers and even their political tendness.
-
-<p>This illustration lets you try different orderings via the drop-down menu. This type of diagram can be extended with manual reordering of rows and columns, and expanding or collapsing of clusters, to allow deeper exploration. <a href="http://en.wikipedia.org/wiki/Jacques_Bertin">Jacques Bertin</a> (or more specifically, his fleet of assistants) did this by hand with paper strips.
-
-<p>While path-following is harder in a matrix view than in a <a href="http://mbostock.github.com/d3/ex/force.html">node-link diagram</a>, matrices have other advantages. As networks get large and highly connected, node-link diagrams often devolve into giant hairballs of line crossings. Line crossings are impossible with matrix views.
-
 <p>Many thanks to <b>Mike Bostock</b>. His design <a href="http://bost.ocks.org/mike/miserables/">Matrix Diagram</a> inspired our solution on Task 2.</p>
-
-<footer>
-  <asidestyle="margin-top:100px;margin-right:10px">January 12, 2012</aside>
-  <a href="../../" rel="author">Mike Bostock</a>
-</footer>
