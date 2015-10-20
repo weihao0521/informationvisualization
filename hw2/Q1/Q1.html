@@ -143,6 +143,7 @@
                     }
                 });
         svg.on("mouseup", function () {
+            //change nodes
             clicking = false;
             node.style("opacity", 1);
             link.style("opacity", 1);
@@ -151,33 +152,66 @@
                 node.style("stroke-width", 1);
                 link.style("stroke", "#999");
                 link.style("stroke-width", 1);
-                targetNode.style("display", "none");
+                if (targetNode) {
+                    targetNode.style("display", "none");
+                }
             }
+
+            //set margin for "drag"
+            mouseCordinate.clicked = false;
         })
+                .on("mousedown", function () {
+                    var e = d3.event;
+                    if (e.target.nodeName == "svg" && !mouseCordinate.clicked) {
+                        mouseCordinate.clicked = true;
+                        mouseCordinate.x = e.clientX;
+                        mouseCordinate.y = e.clientY;
+                    }
+                })
+                .on("mousemove", function () {
+                    var e = d3.event;
+                    if (e.target.nodeName == "svg" && mouseCordinate.clicked) {
+                        //set margin.x, margin.y
+                        margin.x += e.clientX - mouseCordinate.x;
+                        margin.y += e.clientY - mouseCordinate.y;
+
+                        mouseCordinate.x = e.clientX;
+                        mouseCordinate.y = e.clientY;
+
+                        console.log(margin);
+                    }
+                });
         // end node click feature
+
+        var mouseCordinate = {
+            clicked: false,
+            x: 0,
+            y: 0
+        }
+        var margin = {
+            x: 0,
+            y: 0
+        };
 
         var doTick = function () {
             var scale = zoom.scale();
-            var marginX = 0, marginY = 0;
-            if (scale < 1) {
-                marginX = (1 - scale) * width / 2;
-                marginY = (1 - scale) * height / 2;
-            }
+            var marginScaleX = (1 - scale) * width / 2;
+            var marginScaleY = (1 - scale) * height / 2;
             link.attr("x1", function (d) {
-                return d.source.x * scale + marginX;
+                return d.source.x * scale + margin.x + marginScaleX;
             })
                     .attr("y1", function (d) {
-                        return d.source.y * scale + marginY;
+                        return d.source.y * scale + margin.y + marginScaleY;
                     })
                     .attr("x2", function (d) {
-                        return d.target.x * scale + marginX;
+                        return d.target.x * scale + margin.x + marginScaleX;
                     })
                     .attr("y2", function (d) {
-                        return d.target.y * scale + marginY;
+                        return d.target.y * scale + margin.y + marginScaleY;
                     });
 
             node.attr("transform", function (d) {
-                return "translate(" + (d.x * scale + marginX) + "," + (d.y * scale + marginY) + ") scale(" + scale + ")";
+                return "translate(" + (d.x * scale + margin.x + marginScaleX) + "," + (d.y * scale + margin.y + marginScaleY) + ") scale(" + scale + ")";
             });
         };
         force.on("tick", doTick);
@@ -185,7 +219,6 @@
         zoom.on("zoom", doTick);
         svg.call(zoom);
     });
-
 </script>
 </body>
 </html>
