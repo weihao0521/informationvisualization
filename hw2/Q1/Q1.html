@@ -5,13 +5,7 @@
     <link rel="stylesheet" type="text/css" href="../utils/css/initialization.css"/>
     <style>
         body {
-            overflow: hidden;
-        }
-
-        .link {
-            stroke: #999;
-            stroke-opacity: 0.6;
-            stroke-width: 1;
+            /*overflow: hidden;*/
         }
 
         .node text {
@@ -19,16 +13,62 @@
             font: 10px sans-serif;
         }
 
+        #footer {
+            position: absolute;
+            top: 95%;
+            text-align: center;
+            font-size:18px;
+        }
+
+        circle, line {
+            stroke: #999;
+            stroke-width: 1px;
+        }
+
+        .target {
+            stroke: blue;
+            stroke-width: 1.5px;
+        }
+
+        .notTarget {
+            opacity: 0.2;
+        }
+
+        .filter {
+            opacity: 0.2;
+        }
+
+        text {
+            display: none;
+        }
+
+        .text {
+            display: block;
+            stroke-width: 0.8;
+            stroke: black;
+            z-index: 100;
+        }
     </style>
+    <script src="../utils/js/d3.js"></script>
+    <script src="../utils/js/jquery-1.11.3.js"></script>
 </head>
 <body>
-<script src="../utils/js/d3.js"></script>
+<h1 style="text-align: center">Question 1</h1>
+
+<div id="container">
+    <ul id="colorTip" style="position:absolute;top:50%;font-size:20px"></ul>
+</div>
+<div id="footer">
+    <a id="reset" href="javascript:;" style="color:red;">Reset to center</a>&nbsp;
+    <input type="checkbox" value="1" checked="true"/><span>Show group1</span>&nbsp;
+    <input type="checkbox" value="2" checked="true"/><span>Show group2</span>&nbsp;
+    <input type="checkbox" value="3" checked="true"/><span>Show group3</span>
+</div>
 <script>
-
     var width = window.innerWidth,
-            height = window.innerHeight;
-
-    var svg = d3.select("body").append("svg")
+            height = window.innerHeight - 100;
+    $("body").css("height", window.innerHeight);
+    var svg = d3.select("#container").append("svg")
             .attr("width", width)
             .attr("height", height);
 
@@ -50,8 +90,7 @@
 
         var link = svg.selectAll(".link")
                 .data(json.links)
-                .enter().append("line")
-                .attr("class", "link");
+                .enter().append("line");
 
         var node = svg.selectAll(".node")
                 .data(json.nodes)
@@ -66,8 +105,7 @@
                 .attr("dy", ".35em")
                 .text(function (d) {
                     return d.label
-                })
-                .style("display", "none");
+                });
 
         node.append("circle")
                 .attr("class", function (d) {
@@ -77,93 +115,101 @@
                     return d.degree;
                 })
                 .style("fill", function (d) {
-                    if(d.group == 1){
-                        return "#91cf60";}
+                    if (d.group == 1) {
+                        return "#91cf60";
+                    }
 
-                    else if(d.group == 2) {
+                    else if (d.group == 2) {
                         return "#fc8d59";
                     }
-                    else{
+                    else {
                         return "#ffffbf";
                     }
                 });
 
         // node click feature
-        var target;
-        var targetNode;
-        var notTarget;
+        var target = d3.select();
+        var targetText = d3.select();
+        var notTarget = d3.select();
         var clicking = false;
         var over = false;
         node.on("mousemove", function (d) {
             if (!over && !clicking) {
-                over = true;
-                var id = d.id;
-                target = d3.select(this);
-                targetNode = d3.select(this);
-                targetNode[0][0] = targetNode[0][0].childNodes[0];
-                notTarget = d3.select();
-                notTarget[0].length = 0;
-                link.each(function (innerD) {
-                    if (innerD.source.id == id) {
-                        var tempNode = node.filter(function (innerInnerD) {
-                            return innerInnerD.id == innerD.target.id;
-                        })[0][0];
-                        target[0].push(tempNode);//add node to target
-                        targetNode[0].push(tempNode.childNodes[0]);
-                        target[0].push(d3.select(this)[0][0]);//add link to target
-                    } else if (innerD.target.id == id) {
-                        var tempNode = node.filter(function (innerInnerD) {
-                            return innerInnerD.id == innerD.source.id;
-                        })[0][0];
-                        target[0].push(tempNode);//add node to target
-                        targetNode[0].push(tempNode.childNodes[0]);
-                        target[0].push(d3.select(this)[0][0]);//add link to target
-                    }
-                    else {
-                        notTarget[0].push(d3.select(this)[0][0]);//add link to notTarget
-                    }
-                });
-                node.each(function (innerD) {
-                    if (target[0].indexOf(d3.select(this)[0][0]) == -1) {
-                        notTarget[0].push(d3.select(this)[0][0]);
-                    }
-                });
-                target.style("stroke", "blue");
-                target.style("stroke-width", 1.5);
-                targetNode.style("display", "block");
-                targetNode.style("stroke-width", 0.8);
-                targetNode.style("stroke", "black");
-                targetNode.style("z-index", 1000);
+                var className = d3.select(this).attr("class");
+                if (!className || (className && className.indexOf("filter") < 0)) {
+                    over = true;
+                    var id = d.id;
+                    target = d3.select(this);
+                    target[0][0] = target[0][0].childNodes[1];
+                    targetText = d3.select(this);
+                    targetText[0][0] = targetText[0][0].childNodes[0];
+                    notTarget = d3.select();
+                    notTarget[0].length = 0;
+                    link.each(function (innerD) {
+                        var thisLink = d3.select(this);
+                        var className = thisLink.attr("class");
+                        if (!className || (className && className.indexOf("filter") < 0)) {
+                            if (innerD.source.id == id) {
+                                var tempNode = node.filter(function (innerInnerD) {
+                                    return innerInnerD.id == innerD.target.id;
+                                })[0][0];
+                                target[0].push(tempNode.childNodes[1]);//add node to target
+                                targetText[0].push(tempNode.childNodes[0]);
+                                target[0].push(thisLink[0][0]);//add link to target
+                            } else if (innerD.target.id == id) {
+                                var tempNode = node.filter(function (innerInnerD) {
+                                    return innerInnerD.id == innerD.source.id;
+                                })[0][0];
+                                target[0].push(tempNode.childNodes[1]);//add node to target
+                                targetText[0].push(tempNode.childNodes[0]);
+                                target[0].push(thisLink[0][0]);//add link to target
+                            }
+                            else {
+                                notTarget[0].push(thisLink[0][0]);//add link to notTarget
+                            }
+                        }
+                    });
+                    node.each(function (innerD) {
+                        var thisG = d3.select(this);
+                        var className = thisG.attr("class");
+                        if (!className || (className && className.indexOf("filter") < 0)) {
+                            if (target[0].indexOf(thisG[0][0].childNodes[1]) == -1) {
+                                notTarget[0].push(thisG[0][0].childNodes[1]);
+                            }
+                        }
+                    });
+                    target.attr("class", "target")
+                    targetText.attr("class", "text");
+                    notTarget.attr("class", "");
+                    console.log(target, notTarget);
+                }
             }
         })
                 .on("mousedown", function (d) {
-                    clicking = true;
-                    notTarget.style("opacity", 0.2);
+                    var className = d3.select(this).attr("class");
+                    if (!className || (className && className.indexOf("filter") < 0)) {
+                        clicking = true;
+                        notTarget.attr("class", "notTarget");
+                    }
                 })
                 .on("mouseleave", function (d) {
-                    over = false;
-                    if (!clicking) {
-                        node.style("stroke", "#999");
-                        node.style("stroke-width", 1);
-                        link.style("stroke", "#999");
-                        link.style("stroke-width", 1);
-                        targetNode.style("display", "none");
+                    var className = d3.select(this).attr("class");
+                    if (!className || (className && className.indexOf("filter") < 0)) {
+                        over = false;
+                        if (!clicking) {
+                            target.attr("class", "");
+                            targetText.attr("class", "");
+                        }
                     }
                 });
 
         svg.on("mouseup", function () {
             //change nodes
             clicking = false;
-            node.style("opacity", 1);
-            link.style("opacity", 1);
+            notTarget.attr("class", "");
             if (!over) {
-                node.style("stroke", "#999");
-                node.style("stroke-width", 1);
-                link.style("stroke", "#999");
-                link.style("stroke-width", 1);
-                if (targetNode) {
-                    targetNode.style("display", "none");
-                }
+                target.attr("class", "");
+                targetText.attr("class", "");
             }
 
             //set margin for "drag"
@@ -256,6 +302,99 @@
             }
         });
         svg.call(zoom);
+
+        //generate colorTip
+        var ul = $("#colorTip");
+        for (var group = 1; group <= 3; group++) {
+            var color;
+            switch (group) {
+                case 1:
+                {
+                    color = "#91cf60";
+                    break;
+                }
+                case 2:
+                {
+                    color = "#fc8d59";
+                    break;
+                }
+                case 3:
+                {
+                    color = "#ffffbf";
+                    break;
+                }
+            }
+            var li = $(document.createElement("li"));
+            var span = $(document.createElement("span"));
+            var span2 = $(document.createElement("span"));
+            span.css("background-color", color);
+            span.css("width", "16px");
+            span.css("height", "16px");
+            span.css("display", "inline-block");
+            span2.text(" Group" + group);
+            ul.append(li);
+            li.append(span);
+            li.append(span2);
+        }
+        var groupFilter = {
+            groups: [1, 2, 3],
+            target: d3.select(),
+            notTarget: d3.select(),
+            nodeIds: [],
+            filter: function (group, boolean) {
+                if (boolean) {
+                    this.groups.push(group);
+                } else {
+                    this.groups.splice(this.groups.indexOf(group), 1);
+                }
+
+                this.selectTargetAndNotTarget();
+                this.target.attr("class", "");
+                this.notTarget.attr("class", "filter");
+                console.log(this.target, this.notTarget);
+            },
+            selectTargetAndNotTarget: function () {
+                this.target = d3.select();
+                this.notTarget = d3.select();
+                this.nodeIds = [];
+                var _this = this;
+
+                //select node
+                node.each(function (d) {
+                    var thisNode = d3.select(this)[0][0];
+                    if (_this.groups.indexOf(d.group) >= 0) {
+                        _this.target[0].push(thisNode)
+                        _this.nodeIds.push(d.id);
+                    } else {
+                        _this.notTarget[0].push(thisNode);
+                    }
+                });
+
+                //select link
+                link.each(function (d) {
+                    var thisLink = d3.select(this)[0][0];
+                    if (_this.nodeIds.indexOf(d.source.id) >= 0 && _this.nodeIds.indexOf(d.target.id) >= 0) {
+                        _this.target[0].push(thisLink);
+                    } else {
+                        _this.notTarget[0].push(thisLink);
+                    }
+                });
+            }
+        };
+        $("#reset").on("click", function () {
+            margin.x = 0;
+            margin.y = 0;
+            doTick();
+        });
+        $("input[type=checkbox]").on("click", function (e) {
+            var input = $(this);
+            var group = parseInt(input.val());
+            var checked = input.attr("checked");
+            checked = (checked == "checked" || checked == "true") ? false : true;
+            input.attr("checked", checked);
+
+            groupFilter.filter(group, checked);
+        });
     });
 </script>
 </body>
