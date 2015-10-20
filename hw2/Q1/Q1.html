@@ -77,7 +77,15 @@
                     return d.degree;
                 })
                 .style("fill", function (d) {
-                    return color(d.group)
+                    if(d.group == 1){
+                        return "#91cf60";}
+
+                    else if(d.group == 2) {
+                        return "#fc8d59";
+                    }
+                    else{
+                        return "#ffffbf";
+                    }
                 });
 
         // node click feature
