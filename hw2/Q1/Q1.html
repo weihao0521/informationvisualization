@@ -85,7 +85,7 @@
             .attr("width", width)
             .attr("height", height);
 
-    var color = d3.scale.category20();
+    var color = ["red", "yellow", "blue"];
 
     var force = d3.layout.force()
             .distance(30)
@@ -119,16 +119,7 @@
                     return d.degree;
                 })
                 .style("fill", function (d) {
-                    if (d.group == 1) {
-                        return "#91cf60";
-                    }
-
-                    else if (d.group == 2) {
-                        return "#fc8d59";
-                    }
-                    else {
-                        return "#ffffbf";
-                    }
+                    return color[d.group - 1];
                 });
 
         node.append("text")
@@ -336,28 +327,11 @@
         //generate colorTip
         var ul = $("#colorTip");
         for (var group = 1; group <= 3; group++) {
-            var color;
-            switch (group) {
-                case 1:
-                {
-                    color = "#91cf60";
-                    break;
-                }
-                case 2:
-                {
-                    color = "#fc8d59";
-                    break;
-                }
-                case 3:
-                {
-                    color = "#ffffbf";
-                    break;
-                }
-            }
+            var bgColor = color[group - 1];
             var li = $(document.createElement("li"));
             var span = $(document.createElement("span"));
             var span2 = $(document.createElement("span"));
-            span.css("background", color);
+            span.css("background", bgColor);
             span.addClass("colorSpan");
             span2.text(" Group" + group);
             ul.append(li);
