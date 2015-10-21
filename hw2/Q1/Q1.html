@@ -69,9 +69,9 @@
 </div>
 <div id="footer">
     <a id="reset" href="javascript:;" style="color:blue;">Reset to center</a>&nbsp;
-    <input type="checkbox" value="1" checked="true"/><span>Show Liberal</span>&nbsp;
+    <input type="checkbox" value="1" checked="true"/><span>Show Conservatism</span>&nbsp;
     <input type="checkbox" value="2" checked="true"/><span>Show Neutral</span>&nbsp;
-    <input type="checkbox" value="3" checked="true"/><span>Show Conservatism</span>&nbsp;
+    <input type="checkbox" value="3" checked="true"/><span>Show Liberal</span>&nbsp;
     &nbsp;Show label:
     <select id="labelSelect">
         <option value="all">all label</option>
@@ -87,7 +87,7 @@
             .attr("width", width)
             .attr("height", height);
 
-    var color = ["blue", "yellow", "red"];
+    var color = ["red", "yellow", "blue"];
 
     var force = d3.layout.force()
             .distance(30)
@@ -338,7 +338,7 @@
             switch (group) {
                 case 1:
                 {
-                    span2.text(" Liberal Books Purchase");
+                    span2.text(" Conservatism Books Purchase");
                     break;
                 }
                 case 2:
@@ -348,7 +348,7 @@
                 }
                 case 3:
                 {
-                    span2.text(" Conservatism Books Purchase");
+                    span2.text(" Liberal Books Purchase");
                     break;
                 }
             }
