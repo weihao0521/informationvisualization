@@ -4,8 +4,17 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../utils/css/initialization.css"/>
     <style>
-        body {
-            /*overflow: hidden;*/
+        #colorTip {
+            position: absolute;
+            top: 50%;
+            font-size: 20px;
+        }
+
+        #colorTip .colorSpan {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            border: 1px #000 solid;
         }
 
         .node text {
@@ -14,9 +23,7 @@
         }
 
         #footer {
-            position: absolute;
-            top: 95%;
-            left: 30%;
+            margin: 0 auto;
             text-align: center;
             font-size: 18px;
         }
@@ -56,7 +63,7 @@
 <h1 style="text-align: center">Question 1</h1>
 
 <div id="container">
-    <ul id="colorTip" style="position:absolute;top:50%;font-size:20px"></ul>
+    <ul id="colorTip"></ul>
 </div>
 <div id="footer">
     <a id="reset" href="javascript:;" style="color:blue;">Reset to center</a>&nbsp;
@@ -72,7 +79,7 @@
 </div>
 <script>
     var width = window.innerWidth,
-            height = window.innerHeight - 100;
+            height = window.innerHeight - 70;
     $("body").css("height", window.innerHeight);
     var svg = d3.select("#container").append("svg")
             .attr("width", width)
@@ -350,10 +357,8 @@
             var li = $(document.createElement("li"));
             var span = $(document.createElement("span"));
             var span2 = $(document.createElement("span"));
-            span.css("background-color", color);
-            span.css("width", "16px");
-            span.css("height", "16px");
-            span.css("display", "inline-block");
+            span.css("background", color);
+            span.addClass("colorSpan");
             span2.text(" Group" + group);
             ul.append(li);
             li.append(span);
