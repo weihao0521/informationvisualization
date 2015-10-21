@@ -98,7 +98,7 @@
 
         force.nodes(json.nodes)
                 .charge(function (d) {
-                    return d.degree * (-70)
+                    return d.degree * d.degree * (-6);
                 })
                 .links(json.links)
                 .start();
