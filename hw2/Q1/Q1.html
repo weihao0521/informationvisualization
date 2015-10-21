@@ -47,7 +47,6 @@
             display: block;
             stroke-width: 0.8;
             stroke: black;
-            z-index: 100;
         }
     </style>
     <script src="../utils/js/d3.js"></script>
@@ -105,6 +104,26 @@
                 .attr("class", "node")
                 .call(force.drag);
 
+        node.append("circle")
+                .attr("class", function (d) {
+                    return "class id" + d.id
+                })
+                .attr("r", function (d) {
+                    return d.degree;
+                })
+                .style("fill", function (d) {
+                    if (d.group == 1) {
+                        return "#91cf60";
+                    }
+
+                    else if (d.group == 2) {
+                        return "#fc8d59";
+                    }
+                    else {
+                        return "#ffffbf";
+                    }
+                });
+
         node.append("text")
                 .attr("dx", function (d) {
                     return (d.degree + 4) + "px";
@@ -126,26 +145,6 @@
                     }
                 });
 
-        node.append("circle")
-                .attr("class", function (d) {
-                    return "class id" + d.id
-                })
-                .attr("r", function (d) {
-                    return d.degree;
-                })
-                .style("fill", function (d) {
-                    if (d.group == 1) {
-                        return "#91cf60";
-                    }
-
-                    else if (d.group == 2) {
-                        return "#fc8d59";
-                    }
-                    else {
-                        return "#ffffbf";
-                    }
-                });
-
         // node click feature
         var target = d3.select();
         var targetText = d3.select();
@@ -159,9 +158,9 @@
                     over = true;
                     var id = d.id;
                     target = d3.select(this);
-                    target[0][0] = target[0][0].childNodes[1];
+                    target[0][0] = target[0][0].childNodes[0];
                     targetText = d3.select(this);
-                    targetText[0][0] = targetText[0][0].childNodes[0];
+                    targetText[0][0] = targetText[0][0].childNodes[1];
                     notTarget = d3.select();
                     notTarget[0].length = 0;
                     link.each(function (innerD) {
@@ -172,15 +171,15 @@
                                 var tempNode = node.filter(function (innerInnerD) {
                                     return innerInnerD.id == innerD.target.id;
                                 })[0][0];
-                                target[0].push(tempNode.childNodes[1]);//add node to target
-                                targetText[0].push(tempNode.childNodes[0]);
+                                target[0].push(tempNode.childNodes[0]);//add node to target
+                                targetText[0].push(tempNode.childNodes[1]);
                                 target[0].push(thisLink[0][0]);//add link to target
                             } else if (innerD.target.id == id) {
                                 var tempNode = node.filter(function (innerInnerD) {
                                     return innerInnerD.id == innerD.source.id;
                                 })[0][0];
-                                target[0].push(tempNode.childNodes[1]);//add node to target
-                                targetText[0].push(tempNode.childNodes[0]);
+                                target[0].push(tempNode.childNodes[0]);//add node to target
+                                targetText[0].push(tempNode.childNodes[1]);
                                 target[0].push(thisLink[0][0]);//add link to target
                             }
                             else {
@@ -192,8 +191,8 @@
                         var thisG = d3.select(this);
                         var className = thisG.attr("class");
                         if (!className || (className && className.indexOf("filter") < 0)) {
-                            if (target[0].indexOf(thisG[0][0].childNodes[1]) == -1) {
-                                notTarget[0].push(thisG[0][0].childNodes[1]);
+                            if (target[0].indexOf(thisG[0][0].childNodes[0]) == -1) {
+                                notTarget[0].push(thisG[0][0].childNodes[0]);
                             }
                         }
                     });
