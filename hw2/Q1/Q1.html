@@ -7,7 +7,7 @@
         #colorTip {
             position: absolute;
             top: 50%;
-            font-size: 20px;
+            font-size: 16px;
         }
 
         #colorTip .colorSpan {
@@ -85,7 +85,7 @@
             .attr("width", width)
             .attr("height", height);
 
-    var color = ["red", "yellow", "blue"];
+    var color = ["blue", "yellow", "red"];
 
     var force = d3.layout.force()
             .distance(30)
@@ -333,7 +333,23 @@
             var span2 = $(document.createElement("span"));
             span.css("background", bgColor);
             span.addClass("colorSpan");
-            span2.text(" Group" + group);
+            switch (group) {
+                case 1:
+                {
+                    span2.text(" Liberal Books Purchase");
+                    break;
+                }
+                case 2:
+                {
+                    span2.text(" Neutral Books Purchase");
+                    break;
+                }
+                case 3:
+                {
+                    span2.text(" Conservatism Books Purchase");
+                    break;
+                }
+            }
             ul.append(li);
             li.append(span);
             li.append(span2);
