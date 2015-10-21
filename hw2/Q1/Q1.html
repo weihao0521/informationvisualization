@@ -63,7 +63,13 @@
     <a id="reset" href="javascript:;" style="color:blue;">Reset to center</a>&nbsp;
     <input type="checkbox" value="1" checked="true"/><span>Show group1</span>&nbsp;
     <input type="checkbox" value="2" checked="true"/><span>Show group2</span>&nbsp;
-    <input type="checkbox" value="3" checked="true"/><span>Show group3</span>
+    <input type="checkbox" value="3" checked="true"/><span>Show group3</span>&nbsp;
+    &nbsp;Show label:
+    <select id="labelSelect">
+        <option value="all">all label</option>
+        <option value="ten" selected="true">degree > 10</option>
+        <option value="no">no label</option>
+    </select>
 </div>
 <script>
     var width = window.innerWidth,
@@ -106,6 +112,18 @@
                 .attr("dy", ".35em")
                 .text(function (d) {
                     return d.label
+                })
+            /*.attr("class",function(d){
+             if(d.degree>10){
+             return "text";
+             }
+             });*/
+                .style("display", function (d) {
+                    if (d.degree > 10) {
+                        return "block";
+                    } else {
+                        return null;
+                    }
                 });
 
         node.append("circle")
@@ -207,7 +225,7 @@
         $(window).on("mouseup", function () {
             //change nodes
             clicking = false;
-            notTarget.attr("class", function(d){
+            notTarget.attr("class", function (d) {
                 var className = d3.select(this).attr("class");
                 if (!className || (className && className.indexOf("filter") < 0)) {
                     return "";
@@ -400,6 +418,32 @@
             input.attr("checked", checked);
 
             groupFilter.filter(group, checked);
+        });
+        $("#labelSelect").on("change", function () {
+            var val = $("#labelSelect").val();
+            switch (val) {
+                case "all":
+                {
+                    node.selectAll("text").style("display", "block");
+                    break;
+                }
+                case "ten":
+                {
+                    node.selectAll("text").style("display", function (d) {
+                        if (d.degree > 10) {
+                            return "block"
+                        } else {
+                            return null;
+                        }
+                    });
+                    break;
+                }
+                case "no":
+                {
+                    node.selectAll("text").style("display", "none");
+                    break;
+                }
+            }
         });
     });
 </script>
