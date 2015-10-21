@@ -200,7 +200,11 @@
   },
   {
     "id": 33,
+<<<<<<< HEAD
     "label": "Useful Idiots",
+=======
+    "label": "Useful idiots",
+>>>>>>> origin/master
     "group": 1,
     "degree": 9
   },
@@ -368,7 +372,11 @@
   },
   {
     "id": 61,
+<<<<<<< HEAD
     "label": "Rush Limbaugh Is a Big Fat Idiot",
+=======
+    "label": "Rush Limbaugh Is a Big Fat idiot",
+>>>>>>> origin/master
     "group": 3,
     "degree": 4
   },
