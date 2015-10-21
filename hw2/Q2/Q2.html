@@ -15,6 +15,10 @@
             stroke: #fff;
         }
 
+        svg {
+            font-size: 12px;
+        }
+
         text.active {
             fill: red;
         }
@@ -29,14 +33,19 @@
     <script src="../utils/js/d3.min.js" charset="utf-8"></script>
     <link href="../utils/css/initialization.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
-<header>
-    <aside>October 16, 2015</aside>
-    <a href="https://github.com/weihao0521/informationvisualization" rel="author">Visulization Homework Group</a>
-</header>
+<body style="width:100%;overflow:visible">
+<div style="width:60%;margin-left:10%">
+    <header>
+        <aside>October 16, 2015</aside>
+        <a href="https://github.com/weihao0521/informationvisualization" rel="author">Visulization Homework
+            Group</a>
+    </header>
 
-<h1><i>Political Books</i> Co-Purchasing </h1>
-<aside id="demo" style="margin-top:80px;margin-right:-100px">
+    <h1><i>Political Books</i> Co-Purchasing </h1>
+</div>
+<svg></svg>
+
+<div id="demo" style="margin-top:80px;margin-right:-100px;float:left;width:250px">
     <p>Order: <select id="order">
         <option value="name">by Name</option>
         <option value="count">by Degree</option>
@@ -74,22 +83,30 @@
                 style="width: 8px; height: 8px; display: inline-block; background-color: #FFA500;"></span><span> Co-Purchase Between Con and Neu Books </span>
         </li>
     </ul>
+</div>
+<p style="clear:both"></p>
 
-</aside>
+<div style="margin-left:10%">
+    <p class="attribution">Source: <a href="http://www-personal.umich.edu/~mejn/netdata/">Network Data</a>.
 
+    <p>Many thanks to <b>Mike Bostock</b>. His design <a href="http://bost.ocks.org/mike/miserables/">Matrix
+        Diagram</a>
+        inspired our solution on Task 2.</p>
+</div>
 <script>
-    var margin = {top: 250, right: 30, bottom: 30, left: 250},
-            width = 850,
-            height = 850;
+    var scaleW = window.innerWidth / 1366;
+    var margin = {top: 250 * scaleW, right: 30 * scaleW, bottom: 30 * scaleW, left: 300 * scaleW},
+            width = 1200 * 0.6 * scaleW,
+            height = 1200 * 0.6 * scaleW;
 
     var x = d3.scale.ordinal().rangeBands([0, width]),
             z = d3.scale.linear().domain([0, 4]).clamp(true),
             c = d3.scale.category10().domain(d3.range(10));
 
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-            .style("margin-left", -margin.left + "px")
+            .style("float", "left")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -178,7 +195,7 @@
                 .attr("text-anchor", "start")
                 .text(function (d, i) {
                     return nodes[i].label;
-                })
+                });
 
         function row(row) {
             var cell = d3.select(this).selectAll(".cell")
@@ -292,10 +309,5 @@
     });
 
 </script>
-
-<p class="attribution">Source: <a href="http://www-personal.umich.edu/~mejn/netdata/">Network Data</a>.
-
-<p>Many thanks to <b>Mike Bostock</b>. His design <a href="http://bost.ocks.org/mike/miserables/">Matrix Diagram</a>
-    inspired our solution on Task 2.</p>
 </body>
 </html>
