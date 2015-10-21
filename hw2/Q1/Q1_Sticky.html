@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../utils/css/initialization.css"/>
+    <style>
+        #colorTip {
+            position: absolute;
+            top: 75%;
+            font-size: 16px;
+            background-color:white;
+            border:1px solid #000;
+        }
+
+        #colorTip .colorSpan {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            border: 1px #000 solid;
+        }
+
+        .node text {
+            pointer-events: none;
+            font: 10px sans-serif;
+        }
+
+        #footer {
+            margin: 0 auto;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        circle, line {
+            stroke: #999;
+            stroke-width: 1px;
+        }
+
+        .target {
+            stroke: blue;
+            stroke-width: 1.5px;
+        }
+
+        .notTarget {
+            opacity: 0.2;
+        }
+
+        .filter {
+            opacity: 0.2;
+        }
+
+        text {
+            display: none;
+        }
+
+        .text {
+            display: block;
+            stroke-width: 0.8;
+            stroke: black;
+        }
+    </style>
+    <script src="../utils/js/d3.js"></script>
+    <script src="../utils/js/jquery-1.11.3.js"></script>
+</head>
+<body>
+<h1 style="text-align: center">Question 1</h1>
+
+<div id="container">
+    <ul id="colorTip"></ul>
+</div>
+<div id="footer">
+    <a id="reset" href="javascript:;" style="color:blue;">Reset to center</a>&nbsp;
+    <input type="checkbox" value="1" checked="true"/><span>Show Conservatism</span>&nbsp;
+    <input type="checkbox" value="2" checked="true"/><span>Show Neutral</span>&nbsp;
+    <input type="checkbox" value="3" checked="true"/><span>Show Liberal</span>&nbsp;
+    &nbsp;Show label:
+    <select id="labelSelect">
+        <option value="all">all label</option>
+        <option value="ten" selected="true">degree > 10</option>
+        <option value="no">no label</option>
+    </select>
+</div>
+<script>
+    var width = window.innerWidth,
+            height = window.innerHeight - 70;
+    $("body").css("height", window.innerHeight);
+    var svg = d3.select("#container").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+    var color = ["red", "yellow", "blue"];
+
+    var force = d3.layout.force()
+            .distance(30)
+            .size([width, height]);
+
+    function dragstart(d) {
+        d3.select(this).classed("fixed", d.fixed = true);
+    }
+
+    d3.json("../data/hw2_nodes.json", function (error, json) {
+        if (error) throw error;
+
+        force.nodes(json.nodes)
+                .charge(function (d) {
+                    return d.degree * (-70)
+                })
+                .links(json.links)
+                .start();
+
+        var link = svg.selectAll("link")
+                .data(json.links)
+                .enter().append("line");
+
+        var node = svg.selectAll(".node")
+                .data(json.nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .call(force.drag()
+                        .on("dragstart", dragstart));
+
+        node.append("circle")
+                .attr("class", function (d) {
+                    return "class id" + d.id
+                })
+                .attr("r", function (d) {
+                    return d.degree;
+                })
+                .style("fill", function (d) {
+                    return color[d.group - 1];
+                });
+
+        node.append("text")
+                .attr("dx", function (d) {
+                    return (d.degree + 4) + "px";
+                })
+                .attr("dy", ".35em")
+                .text(function (d) {
+                    return d.label
+                })
+            /*.attr("class",function(d){
+             if(d.degree>10){
+             return "text";
+             }
+             });*/
+                .style("display", function (d) {
+                    if (d.degree > 10) {
+                        return "block";
+                    } else {
+                        return null;
+                    }
+                });
+
+        // node click feature
+        var target = d3.select();
+        var targetText = d3.select();
+        var notTarget = d3.select();
+        var clicking = false;
+        var over = false;
+        node.on("mousemove", function (d) {
+            if (!over && !clicking) {
+                var className = d3.select(this).attr("class");
+                if (!className || (className && className.indexOf("filter") < 0)) {
+                    over = true;
+                    var id = d.id;
+                    target = d3.select(this);
+                    target[0][0] = target[0][0].childNodes[0];
+                    targetText = d3.select(this);
+                    targetText[0][0] = targetText[0][0].childNodes[1];
+                    notTarget = d3.select();
+                    notTarget[0].length = 0;
+                    link.each(function (innerD) {
+                        var thisLink = d3.select(this);
+                        var className = thisLink.attr("class");
+                        if (!className || (className && className.indexOf("filter") < 0)) {
+                            if (innerD.source.id == id) {
+                                var tempNode = node.filter(function (innerInnerD) {
+                                    return innerInnerD.id == innerD.target.id;
+                                })[0][0];
+                                target[0].push(tempNode.childNodes[0]);//add node to target
+                                targetText[0].push(tempNode.childNodes[1]);
+                                target[0].push(thisLink[0][0]);//add link to target
+                            } else if (innerD.target.id == id) {
+                                var tempNode = node.filter(function (innerInnerD) {
+                                    return innerInnerD.id == innerD.source.id;
+                                })[0][0];
+                                target[0].push(tempNode.childNodes[0]);//add node to target
+                                targetText[0].push(tempNode.childNodes[1]);
+                                target[0].push(thisLink[0][0]);//add link to target
+                            }
+                            else {
+                                notTarget[0].push(thisLink[0][0]);//add link to notTarget
+                            }
+                        }
+                    });
+                    node.each(function (innerD) {
+                        var thisG = d3.select(this);
+                        var className = thisG.attr("class");
+                        if (!className || (className && className.indexOf("filter") < 0)) {
+                            if (target[0].indexOf(thisG[0][0].childNodes[0]) == -1) {
+                                notTarget[0].push(thisG[0][0].childNodes[0]);
+                            }
+                        }
+                    });
+                    target.attr("class", "target")
+                    targetText.attr("class", "text");
+                    notTarget.attr("class", "");
+                    console.log(target, notTarget);
+                }
+            }
+        })
+                .on("mousedown", function (d) {
+                    var className = d3.select(this).attr("class");
+                    if (!className || (className && className.indexOf("filter") < 0)) {
+                        clicking = true;
+                        notTarget.attr("class", "notTarget");
+                    }
+                })
+                .on("mouseleave", function (d) {
+                    var className = d3.select(this).attr("class");
+                    if (!className || (className && className.indexOf("filter") < 0)) {
+                        over = false;
+                        if (!clicking) {
+                            target.attr("class", "");
+                            targetText.attr("class", "");
+                        }
+                    }
+                });
+
+        $(window).on("mouseup", function () {
+            //change nodes
+            clicking = false;
+            notTarget.attr("class", function (d) {
+                var className = d3.select(this).attr("class");
+                if (!className || (className && className.indexOf("filter") < 0)) {
+                    return "";
+                }
+            });
+            if (!over) {
+                target.attr("class", "");
+                targetText.attr("class", "");
+            }
+
+            //set margin for "drag"
+            mouseCordinate.clicked = false;
+        });
+        svg.on("mousedown", function () {
+            var e = d3.event;
+            if (e.target.nodeName == "svg" && !mouseCordinate.clicked) {
+                mouseCordinate.clicked = true;
+                mouseCordinate.x = e.clientX;
+                mouseCordinate.y = e.clientY;
+            }
+        })
+                .on("mousemove", function () {
+                    var e = d3.event;
+                    if (e.target.nodeName == "svg" && mouseCordinate.clicked) {
+                        //set margin.x, margin.y
+                        margin.x += e.clientX - mouseCordinate.x;
+                        margin.y += e.clientY - mouseCordinate.y;
+
+                        mouseCordinate.x = e.clientX;
+                        mouseCordinate.y = e.clientY;
+
+                        console.log(margin);
+                    }
+                })
+                .on("dblclick", function () {
+                    var e = d3.event;
+                    if (e.target.nodeName !== "svg") {
+                        var centerX = width / 2;
+                        var centerY = height / 2;
+
+                        margin.x += centerX - e.clientX;
+                        margin.y += centerY - e.clientY;
+
+                        dblclicked = true;
+                        originalScale = zoom.scale();
+
+                        doTick();
+                    }
+                });
+        // end node click feature
+
+        var mouseCordinate = {
+            clicked: false,
+            x: 0,
+            y: 0
+        }
+        var margin = {
+            x: 0,
+            y: 0
+        };
+        var dblclicked = false;
+        var originalScale = 0;
+
+        var doTick = function () {
+            if (dblclicked) {
+                return;
+                dblclicked = false;
+                zoom.scale(originalScale);
+            }
+            var scale = zoom.scale();
+            var marginScaleX = (1 - scale) * width / 2;
+            var marginScaleY = (1 - scale) * height / 2;
+            link.attr("x1", function (d) {
+                return d.source.x * scale + margin.x + marginScaleX;
+            })
+                    .attr("y1", function (d) {
+                        return d.source.y * scale + margin.y + marginScaleY;
+                    })
+                    .attr("x2", function (d) {
+                        return d.target.x * scale + margin.x + marginScaleX;
+                    })
+                    .attr("y2", function (d) {
+                        return d.target.y * scale + margin.y + marginScaleY;
+                    });
+
+            node.attr("transform", function (d) {
+                return "translate(" + (d.x * scale + margin.x + marginScaleX) + "," + (d.y * scale + margin.y + marginScaleY) + ") scale(" + scale + ")";
+            });
+        };
+        force.on("tick", doTick);
+        var zoom = d3.behavior.zoom().scaleExtent([0.2, 7]);
+        zoom.on("zoom", doTick);
+        zoom.on("zoomend", function () {
+            if (dblclicked) {
+                dblclicked = false;
+                zoom.scale(originalScale);
+                doTick();
+            }
+        });
+        svg.call(zoom);
+
+        //generate colorTip
+        var ul = $("#colorTip");
+        for (var group = 1; group <= 3; group++) {
+            var bgColor = color[group - 1];
+            var li = $(document.createElement("li"));
+            var span = $(document.createElement("span"));
+            var span2 = $(document.createElement("span"));
+            span.css("background", bgColor);
+            span.addClass("colorSpan");
+            switch (group) {
+                case 1:
+                {
+                    span2.text(" Conservatism Books Purchase");
+                    break;
+                }
+                case 2:
+                {
+                    span2.text(" Neutral Books Purchase");
+                    break;
+                }
+                case 3:
+                {
+                    span2.text(" Liberal Books Purchase");
+                    break;
+                }
+            }
+            ul.append(li);
+            li.append(span);
+            li.append(span2);
+        }
+        var groupFilter = {
+            groups: [1, 2, 3],
+            target: d3.select(),
+            notTarget: d3.select(),
+            nodeIds: [],
+            filter: function (group, boolean) {
+                if (boolean) {
+                    this.groups.push(group);
+                } else {
+                    this.groups.splice(this.groups.indexOf(group), 1);
+                }
+
+                this.selectTargetAndNotTarget();
+                this.target.attr("class", "");
+                this.notTarget.attr("class", "filter");
+                console.log(this.target, this.notTarget);
+            },
+            selectTargetAndNotTarget: function () {
+                this.target = d3.select();
+                this.notTarget = d3.select();
+                this.nodeIds = [];
+                var _this = this;
+
+                //select node
+                node.each(function (d) {
+                    var thisNode = d3.select(this)[0][0];
+                    if (_this.groups.indexOf(d.group) >= 0) {
+                        _this.target[0].push(thisNode)
+                        _this.nodeIds.push(d.id);
+                    } else {
+                        _this.notTarget[0].push(thisNode);
+                    }
+                });
+
+                //select link
+                link.each(function (d) {
+                    var thisLink = d3.select(this)[0][0];
+                    if (_this.nodeIds.indexOf(d.source.id) >= 0 && _this.nodeIds.indexOf(d.target.id) >= 0) {
+                        _this.target[0].push(thisLink);
+                    } else {
+                        _this.notTarget[0].push(thisLink);
+                    }
+                });
+            }
+        };
+        $("#reset").on("click", function () {
+            margin.x = 0;
+            margin.y = 0;
+            doTick();
+        });
+        $("input[type=checkbox]").on("click", function (e) {
+            var input = $(this);
+            var group = parseInt(input.val());
+            var checked = input.attr("checked");
+            checked = (checked == "checked" || checked == "true") ? false : true;
+            input.attr("checked", checked);
+
+            groupFilter.filter(group, checked);
+        });
+        $("#labelSelect").on("change", function () {
+            var val = $("#labelSelect").val();
+            switch (val) {
+                case "all":
+                {
+                    node.selectAll("text").style("display", "block");
+                    break;
+                }
+                case "ten":
+                {
+                    node.selectAll("text").style("display", function (d) {
+                        if (d.degree > 10) {
+                            return "block"
+                        } else {
+                            return null;
+                        }
+                    });
+                    break;
+                }
+                case "no":
+                {
+                    node.selectAll("text").style("display", null);
+                    break;
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
