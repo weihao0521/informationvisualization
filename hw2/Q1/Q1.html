@@ -103,7 +103,7 @@
                 .links(json.links)
                 .start();
 
-        var link = svg.selectAll(".link")
+        var link = svg.selectAll("link")
                 .data(json.links)
                 .enter().append("line");
 
