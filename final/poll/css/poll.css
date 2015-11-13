@@ -11,13 +11,13 @@ body {
 
 .line {
     fill: none;
-    stroke-width: 1px;
+    stroke-width: 3px;
 }
 
 #mouseTip{
     display:none;
     border:1px solid #000;
-    position:absolute;
+    position:fixed;
     background:white
 }
 #mouseTipName{
