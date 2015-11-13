@@ -1,5 +1,5 @@
 body {
-    font: 10px sans-serif;
+    font: 12px sans-serif;
 }
 
 .axis path,
@@ -12,4 +12,14 @@ body {
 .line {
     fill: none;
     stroke-width: 1px;
+}
+
+#mouseTip{
+    display:none;
+    border:1px solid #000;
+    position:absolute;
+    background:white
+}
+#mouseTipName{
+    margin:5px 10px;
 }

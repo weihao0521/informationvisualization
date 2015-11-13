@@ -85,12 +85,13 @@ d3.csv("./data/2016_Rep.csv", function (error, data) {
                 })
             }
         }
-        svg.append("path")
+        var g = svg.append("g").attr("class", "candidate").attr("name", candidates[party][key]);
+        g.append("path")
             .datum(pathData)
             .attr("class", "line")
             .attr("d", line)
             .attr("stroke", color(+key));
-        svg.selectAll(".circle").data(pathData)
+        g.selectAll(".circle").data(pathData)
             .enter().append("circle")
             .attr("r", 3)
             .attr("cx", function (d) {
@@ -101,5 +102,10 @@ d3.csv("./data/2016_Rep.csv", function (error, data) {
             })
             .attr("fill", color(+key));
     }
-    console.log(d3.selectAll(".line"));
+    $("svg").on("mouseenter", ".candidate", function (e) {
+        $("#mouseTip").css("display", "inline-block").css("left", e.clientX).css("top", e.clientY);
+        $("#mouseTipName").text($(this).attr("name"));
+    }).on("mouseleave", ".candidate", function () {
+        $("#mouseTip").css("display", "none");
+    });
 });
