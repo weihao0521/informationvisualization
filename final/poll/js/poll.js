@@ -32,10 +32,10 @@ var svg = d3.select("body").append("svg")
 
 var candidates = {
     dem: ["MoE", "Clinton", "Sanders", "O'Malley"],
-    con: ["Trump", "Carson", "Rubio", "Cruz", "Bush", "Paul", "Kasich", "Fiorina", "Huckabee", "Christie", "Jindal", "Santorum", "Pataki", "Graham"]
+    rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush", "Paul", "Kasich", "Fiorina", "Huckabee", "Christie", "Jindal", "Santorum", "Pataki", "Graham"]
 };
-var party = "con";
-d3.csv("./data/2016_Con.csv", function (error, data) {
+var party = "rep";
+d3.csv("./data/2016_Rep.csv", function (error, data) {
     if (error) throw error;
 
     data.forEach(function (d) {
