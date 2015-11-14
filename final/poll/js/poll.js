@@ -3,14 +3,24 @@ var draw = function (party) {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("class", party + "_plot");
 
     // draw plot
-    d3.csv("./data/2016_" + party + ".csv", function (error, data) {
+    d3.csv("./data/poll/2016_poll_" + party + ".csv", function (error, data) {
         if (error) throw error;
 
+        var dateParser = d3.time.format("%m/%_d/%Y").parse;
+        var pathFn = d3.svg.line()
+            .x(function (d) {
+                return x(d.date);
+            })
+            .y(function (d) {
+                return y(d.poll);
+            });
+
         data.forEach(function (d) {// process data
-            d.date = parseDate(d.Date);
+            d.date = dateParser(d.date);
             for (var key in candidates[party]) {
                 d[candidates[party][key]] = +d[candidates[party][key]];
             }
@@ -43,9 +53,9 @@ var draw = function (party) {
             .style("text-anchor", "end")
             .text("poll (%)");
 
-        // draw plot lines
+        // draw plot paths
         for (var key in candidates[party]) {
-            // generate data for plot line
+            // generate data for plot path
             var pathData = [];
             for (var dataIndex in data) {
                 var d = data[dataIndex];
@@ -57,14 +67,13 @@ var draw = function (party) {
                 }
             }
 
-            // draw line
+            // draw path
             var gLine = svg.append("g")
                 .datum(pathData)
-                .attr("class", "line")
+                .attr("class", "path")
                 .attr("name", candidates[party][key]);
             gLine.append("path")
-                .attr("class", "line_path")
-                .attr("d", line)
+                .attr("d", pathFn)
                 .attr("stroke", color(+key));
             /*gLine.selectAll(".circle").data(pathData)
              .enter().append("circle")
@@ -80,31 +89,46 @@ var draw = function (party) {
     });
 
     // draw event lines
-    d3.csv("./data/2016_poll_" + party + ".csv", function (error, data) {
-        var gEvent = svg.append("g").attr("class", "event");
+    d3.tsv("./data/event/" + party + "GroupEvent.tsv", function (error, data) {
+        if (error) throw error;
+
+        var dateParser = d3.time.format("%Y/%m/%_d").parse;
+
+        data.forEach(function (d) {// process data
+            d.date = dateParser(d.date);
+        });
+
+        var gEvent = svg.selectAll(".event")
+            .data(data)
+            .enter()
+            .append("g")
+            .attr("class", "event");
+        gEvent.append("line")
+            .attr("class", "event_line")
+            .attr("x1", function (d) {
+                return x(new Date(d.date));
+            })
+            .attr("y1", 0)
+            .attr("x2", function (d) {
+                return x(new Date(d.date));
+            })
+            .attr("y2", height)
+            .attr("stroke", "#000");
     });
 };
 var bindEvent = function () {
-    $("svg").on("mouseenter", ".line", function (e) {
+    $("svg").on("mouseenter", ".path", function (e) {
         $("#mouseTip").css("display", "inline-block").css("left", e.clientX + 3).css("top", e.clientY);
         $("#mouseTipName").text($(this).attr("name"));
-    }).on("mouseleave", ".line", function () {
+    }).on("mouseleave", ".path", function () {
         $("#mouseTip").css("display", "none");
     });
 };
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
-var line = d3.svg.line()
-    .x(function (d) {
-        return x(d.date);
-    })
-    .y(function (d) {
-        return y(d.poll);
-    });
 
 var color = d3.scale.category20();
-var parseDate = d3.time.format("%m/%_d/%Y").parse;
 
 var x = d3.time.scale()
     .range([0, width]);

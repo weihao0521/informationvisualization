@@ -9,7 +9,7 @@ body {
     shape-rendering: crispEdges;
 }
 
-.line {
+.path {
     fill: none;
     stroke-width: 3px;
 }
