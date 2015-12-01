@@ -1,3 +1,24 @@
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var color = d3.scale.category20();
+
+var x = d3.time.scale()
+    .range([0, width]);
+var y = d3.scale.linear()
+    .range([height, 0]);
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var candidates = {
+    dem: ["MoE", "Clinton", "Sanders", "O'Malley"],
+    rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush", "Paul", "Kasich", "Fiorina", "Huckabee", "Christie", "Jindal", "Santorum", "Pataki", "Graham"]
+};
 var draw = function (party) {
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -75,16 +96,16 @@ var draw = function (party) {
             gLine.append("path")
                 .attr("d", pathFn)
                 .attr("stroke", color(+key));
-            /*gLine.selectAll(".circle").data(pathData)
-             .enter().append("circle")
-             .attr("r", 3)
-             .attr("cx", function (d) {
-             return x(new Date(d.date));
-             })
-             .attr("cy", function (d) {
-             return height - margin.top - margin.bottom - (height - margin.top - margin.bottom - y(d.poll));
-             })
-             .attr("fill", color(+key));*/
+            gLine.selectAll(".circle").data(pathData)
+                .enter().append("circle")
+                .attr("r", 3)
+                .attr("cx", function (d) {
+                    return x(new Date(d.date));
+                })
+                .attr("cy", function (d) {
+                    return height - margin.top - margin.bottom - (height - margin.top - margin.bottom - y(d.poll));
+                })
+                .attr("fill", color(+key));
         }
     });
 
@@ -124,28 +145,8 @@ var bindEvent = function () {
         $("#mouseTip").css("display", "none");
     });
 };
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
 
-var color = d3.scale.category20();
-
-var x = d3.time.scale()
-    .range([0, width]);
-var y = d3.scale.linear()
-    .range([height, 0]);
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
-
-var candidates = {
-    dem: ["MoE", "Clinton", "Sanders", "O'Malley"],
-    rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush", "Paul", "Kasich", "Fiorina", "Huckabee", "Christie", "Jindal", "Santorum", "Pataki", "Graham"]
-};
-
+// call funcitons
 draw("rep");
 draw("dem");
 bindEvent();
