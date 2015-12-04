@@ -14,12 +14,32 @@ body {
     stroke-width: 3px;
 }
 
-#mouseTip{
-    display:none;
-    border:1px solid #000;
-    position:fixed;
-    background:white
+#candidateTip {
+    display: none;
+    border: 1px solid #000;
+    position: fixed;
+    background: white;
+    opacity: 0.9;
+    max-width: 500px;
+    padding: 5px 10px;
 }
-#mouseTipName{
-    margin:5px 10px;
+
+#eventTip {
+    display: none;
+    border: 1px solid #000;
+    position: fixed;
+    background: white;
+    opacity: 0.9;
+    width: 400px;
+    padding: 5px 10px;
+}
+
+#eventTipDescriptionDiv span {
+    float: left;
+    display: block;
+}
+
+#eventTipDescription {
+    width: 350px;
+    margin-left: 5px;
 }

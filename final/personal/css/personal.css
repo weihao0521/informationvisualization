@@ -23,6 +23,13 @@ body {
     display:block;
     content:" ";
 }
+#svg{
+    text-align: center;
+}
 svg{
     border:1px solid #000;
+}
+#map{
+    display:block;
+    margin:0 auto;
 }
