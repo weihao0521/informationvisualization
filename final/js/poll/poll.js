@@ -1,100 +1,136 @@
 (function () {
-    var margin = {top: 20, right: 20, bottom: 30, left: 50},
-        width = (window.innerWidth - 20) / 2 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+    var poll = {
+        var: {},
+        init: function () {
+            //initialize variables
+            this.var.margin = {top: 20, right: 20, bottom: 30, left: 50};
+            this.var.width = (window.innerWidth - 20) / 2 - this.var.margin.left - this.var.margin.right;
+            this.var.height = 500 - this.var.margin.top - this.var.margin.bottom;
 
-    var color = d3.scale.category20();
+            this.var.color = d3.scale.category20();
 
-    var x = d3.time.scale()
-        .range([0, width]);
-    var y = d3.scale.linear()
-        .range([height, 0]);
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .ticks(d3.time.month, 1)
-        .tickFormat(d3.time.format("%B"));
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left");
+            this.var.x = d3.time.scale()
+                .range([0, this.var.width]);
+            this.var.y = d3.scale.linear()
+                .range([this.var.height, 0]);
+            this.var.xAxis = d3.svg.axis()
+                .scale(this.var.x)
+                .orient("bottom")
+                .ticks(d3.time.month, 1)
+                .tickFormat(d3.time.format("%B"));
+            this.var.yAxis = d3.svg.axis()
+                .scale(this.var.y)
+                .orient("left");
 
-    /*var candidates = {
-     dem: ["MoE", "Clinton", "Sanders", "O'Malley"],
-     rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush", "Paul", "Kasich", "Fiorina", "Huckabee", "Christie", "Jindal", "Santorum", "Pataki", "Graham"]
-     };*/
-    var candidates = {
-        dem: ["Clinton", "Sanders"],
-        rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush"]
-    };// filtered out some candidates
-    var months = ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"];
-    var draw = function (party) {
-        var svg = d3.select("body").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .attr("class", party + "_plot");
+            this.var.candidates = {
+                dem: ["Clinton", "Sanders"],
+                rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush"]
+            };// filtered out some candidates
+            this.var.months = ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"];
 
-        // draw plot
-        d3.csv("../data/poll/2016_poll_" + party + ".csv", function (error, data) {
-            if (error) throw error;
+            // start drawing
+            this.drawStart("rep");
+            // this.drawStart("dem");
+        },
+        drawStart: function (party) {
+            this.var.party = party;
 
-            var dateParser = d3.time.format("%m/%_d/%Y").parse;
-            var pathFn = d3.svg.line()
+            //start drawing
+            this.var.svg = d3.select("body").append("svg")
+                .attr("width", this.var.width + this.var.margin.left + this.var.margin.right)
+                .attr("height", this.var.height + this.var.margin.top + this.var.margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + this.var.margin.left + "," + this.var.margin.top + ")")
+                .attr("class", party + "_plot");
+
+            this.var.pathFn = d3.svg.line()
                 .x(function (d) {
-                    return x(d.date);
+                    return poll.var.x(d.date);
                 })
                 .y(function (d) {
-                    return y(d.poll);
+                    return poll.var.y(d.poll);
                 });
 
-            // filter data with Array.prototype.filter
-            var baseDate = new Date(2015, 6, 1);// July 1, 2015
-            data = data.filter(function (d) {
-                return new Date(dateParser(d.date)) >= baseDate;
+            // load data
+            this.loadData();
+        },
+        loadData: function () {
+            // load path data
+            d3.csv("../data/poll/2016_poll_" + this.var.party + ".csv", function (error, data) {
+                if (error) throw error;
+
+                // filter data with Array.prototype.filter
+                var dateParser = d3.time.format("%m/%_d/%Y").parse;
+                var baseDate = new Date(2015, 6, 1);// July 1, 2015
+                data = data.filter(function (d) {
+                    return new Date(dateParser(d.date)) >= baseDate;
+                });
+
+                // process data
+                data.forEach(function (d, i) {
+                    d.date = dateParser(d.date);
+                    for (var key in poll.var.candidates[poll.var.party]) {
+                        d[poll.var.candidates[poll.var.party][key]] = +d[poll.var.candidates[poll.var.party][key]];
+                    }
+                });
+
+                //draw axis and paths
+                poll.drawAxis(data);
+                poll.drawPath(data);
+
+                // load event data
+                d3.tsv("../data/event/" + poll.var.party + "GroupEvent.tsv", function (error, data) {
+                    if (error) throw error;
+
+                    // process data
+                    var dateParser = d3.time.format("%Y/%m/%_d").parse;
+                    data.forEach(function (d) {// process data
+                        d.date = dateParser(d.date);
+                    });
+
+                    //draw event lines
+                    poll.drawEvent(data);
+
+                    //end drawing
+                    if (poll.var.party == "rep") {
+                        poll.drawStart("dem");
+                    }
+                });
             });
-
-            // process data
-            data.forEach(function (d, i) {
-                d.date = dateParser(d.date);
-                for (var key in candidates[party]) {
-                    d[candidates[party][key]] = +d[candidates[party][key]];
-                }
-            });
-
-            console.log(data);
-
+        },
+        drawAxis: function (data) {
             // set axis range
-            x.domain(d3.extent(data, function (d) {
+            this.var.x.domain(d3.extent(data, function (d) {
                 return d.date;
             }));
-            y.domain([0, d3.max(data, function (d) {
+            this.var.y.domain([0, d3.max(data, function (d) {
                 var arg = [];
-                for (var key in candidates[party]) {
-                    arg.push(d[candidates[party][key]]);
+                for (var key in poll.var.candidates[poll.var.party]) {
+                    arg.push(d[poll.var.candidates[poll.var.party][key]]);
                 }
                 return Math.max.apply(this, arg);
             })]);
 
             // draw axis
-            svg.append("g")
+            this.var.svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
-            svg.append("g")
+                .attr("transform", "translate(0," + this.var.height + ")")
+                .call(this.var.xAxis);
+            this.var.svg.append("g")
                 .attr("class", "y axis")
-                .call(yAxis)
+                .call(this.var.yAxis)
                 .append("text")
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text("poll (%)");
-
+        },
+        drawPath: function (data) {
             // draw plot paths
-            for (var key in candidates[party]) {
+            for (var key in this.var.candidates[this.var.party]) {
                 // generate data for plot path
-                var candidate = candidates[party][key];
+                var candidate = this.var.candidates[this.var.party][key];
                 var pathData = [];
                 for (var dataIndex in data) {
                     var d = data[dataIndex];
@@ -107,39 +143,29 @@
                 }
 
                 // draw path
-                var gLine = svg.append("a")
+                var gLine = this.var.svg.append("a")
                     .datum(pathData)
                     .attr("class", "path")
                     .attr("name", candidate)
                     .attr("xlink:href", "./personal.html?candidate=" + candidate)
                     .attr("target", "_blank");
                 gLine.append("path")
-                    .attr("d", pathFn)
-                    .attr("stroke", color(+key));
+                    .attr("d", this.var.pathFn)
+                    .attr("stroke", this.var.color(+key));
                 gLine.selectAll(".circle").data(pathData)
                     .enter().append("circle")
                     .attr("r", 3)
                     .attr("cx", function (d) {
-                        return x(new Date(d.date));
+                        return poll.var.x(new Date(d.date));
                     })
                     .attr("cy", function (d) {
-                        return height - margin.top - margin.bottom - (height - margin.top - margin.bottom - y(d.poll));
+                        return poll.var.height - poll.var.margin.top - poll.var.margin.bottom - (poll.var.height - poll.var.margin.top - poll.var.margin.bottom - poll.var.y(d.poll));
                     })
-                    .attr("fill", color(+key));
+                    .attr("fill", this.var.color(+key));
             }
-        });
-
-        // draw event lines
-        d3.tsv("../data/event/" + party + "GroupEvent.tsv", function (error, data) {
-            if (error) throw error;
-
-            var dateParser = d3.time.format("%Y/%m/%_d").parse;
-
-            data.forEach(function (d) {// process data
-                d.date = dateParser(d.date);
-            });
-
-            var gEvent = svg.selectAll(".event")
+        },
+        drawEvent: function (data) {
+            var gEvent = this.var.svg.selectAll(".event")
                 .data(data)
                 .enter()
                 .append("g")
@@ -152,49 +178,45 @@
                     var yyyy = date.getFullYear().toString();
                     var mm = date.getMonth(); // getMonth() is zero-based
                     var dd = date.getDate().toString();
-                    mm = months[mm];
+                    mm = poll.var.months[mm];
                     return mm + " " + dd + ", " + yyyy;
                 });
             gEvent.append("line")
                 .attr("class", "event_line")
                 .attr("x1", function (d) {
-                    return parseInt(x(new Date(d.date)));
+                    return parseInt(poll.var.x(new Date(d.date)));
                 })
                 .attr("y1", 0)
                 .attr("x2", function (d) {
-                    return parseInt(x(new Date(d.date)));
+                    return parseInt(poll.var.x(new Date(d.date)));
                 })
-                .attr("y2", height)
+                .attr("y2", this.var.height)
                 .attr("stroke", "#000")
                 .attr("stroke-width", "2px");
-        });
+        },
+        bindEvent: function () {
+            $("svg").on("mouseenter", ".path", function (e) {
+                $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
+                $("#candidateTipName").text($(this).attr("name"));
+                $("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("name"))
+            }).on("mouseleave", ".path", function () {
+                $("#candidateTip").css("display", "none");
+            });
+
+            $("svg").on("mouseenter", ".event", function (e) {
+                $("#eventTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 10);
+                $("#eventTipDate").text($(this).attr("date"));
+                $("#eventTipDescription").text($(this).attr("description"));
+            }).on("mouseleave", ".event", function (e) {
+                $("#eventTip").css("display", "none");
+            });
+
+            $("#candidateTip,#eventTip").on("mouseenter", function () {
+                $(this).css("display", "block");
+            }).on("mouseleave", function () {
+                $(this).css("display", "none");
+            });
+        }
     };
-    var bindEvent = function () {
-        $("svg").on("mouseenter", ".path", function (e) {
-            $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY-5);
-            $("#candidateTipName").text($(this).attr("name"));
-            $("#candidateTipLink").attr("href","./personal.html?candidate="+$(this).attr("name"))
-        }).on("mouseleave", ".path", function () {
-            $("#candidateTip").css("display", "none");
-        });
-
-        $("svg").on("mouseenter", ".event", function (e) {
-            $("#eventTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 10);
-            $("#eventTipDate").text($(this).attr("date"));
-            $("#eventTipDescription").text($(this).attr("description"));
-        }).on("mouseleave", ".event", function (e) {
-            $("#eventTip").css("display", "none");
-        });
-
-        $("#candidateTip,#eventTip").on("mouseenter", function () {
-            $(this).css("display", "block");
-        }).on("mouseleave", function () {
-            $(this).css("display", "none");
-        })
-    };
-
-    // call funcitons
-    draw("rep");
-    draw("dem");
-    bindEvent();
+    poll.init();
 })();
