@@ -2,7 +2,7 @@
  * Created by Ian on 9/29/2015.
  */
 var color = (function () {
-    var color = ["#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15"];
+    var color = ["#fcc5c0", "#fa9fb5", "#f768a1", "#dd3497", "#ae017e", "#7a0177"];
     var range = ["45% - 50%", "50% - 55%", "55% - 60%", "60% - 65%", "65% - 70%", "> 70%"];
     return {
         getFillKey: function (percent) {

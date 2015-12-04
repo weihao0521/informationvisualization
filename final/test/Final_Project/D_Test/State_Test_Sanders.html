@@ -6,7 +6,7 @@
     <script src="../utils/js/topojson.min.js"></script>
     <script src="../utils/js/datamaps.usa.min.js"></script>
     <script src="../utils/js/jquery-1.11.3.min.js"></script>
-    <script src="color.js"></script>
+    <script src="S_color.js"></script>
     <link href="../utils/css/initialization.css" rel="stylesheet" type="text/css"/>
     <style>
         body {
@@ -55,7 +55,7 @@
 </head>
 <body>
 <div id="title">
-    <h1>Hillary's Support Rate inside Democrats Party.</h1>
+    <h1>Sanders's Support Rate inside Democrats Party.</h1>
 </div>
 </div>
 <div id="parent">
@@ -75,7 +75,7 @@
             d3.csv("Dem_States.csv", function (error, data) {
                 var newData = {};
                 for (var index = 0, length = data.length; index < length; index++) {
-                    if (data[index].candidate == "Hillary") {
+                    if (data[index].candidate == "Sanders") {
                         newData.candidate = data[index].candidate;
                         for (var key in data[index]) {
                             if (key != "candidate") {
@@ -124,21 +124,20 @@
                 element: document.getElementById('container'),
                 scope: 'usa',
                 fills: {
-                    45: "#d0d1e6",
-                    50: "#a6bddb",
-                    55: "#74a9cf",
-                    60: "#3690c0",
-                    65: "#0570b0",
-                    70: "#034e7b",
+                    10: "#a6bddb",
+                    15: "#74a9cf",
+                    20: "#3690c0",
+                    30: "#0570b0",
+                    40: "#034e7b",
                     defaultFill: '#FAEBD7'
                 },
                 data: map.data,
                 geographyConfig: {
                     popupTemplate: function (geo, data) {
-                        return '<div class="hoverinfo"><strong>'
+                        return '<div class="hoverinfo"><stronßg>'
                                 + 'Percent of  ' + geo.properties.name
-                                + ': ' + data[index][key] + '%'
-                                + '</strong></div>';
+                                + ': ' + data["Sanders"].value + '%'
+                                + '</stronßg></div>';
                     }
                 }
             });
