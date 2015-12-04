@@ -28,7 +28,7 @@ var draw = function (party) {
         .attr("class", party + "_plot");
 
     // draw plot
-    d3.csv("./data/poll/2016_poll_" + party + ".csv", function (error, data) {
+    d3.csv("../data/poll/2016_poll_" + party + ".csv", function (error, data) {
         if (error) throw error;
 
         var dateParser = d3.time.format("%m/%_d/%Y").parse;

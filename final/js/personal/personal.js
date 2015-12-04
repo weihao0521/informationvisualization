@@ -7,10 +7,10 @@ var candidate;
     }
     candidate = searchStr.split("=")[1];
 
-    $("#portraitImg").attr("src","./img/"+candidate+".jpg");
+    $("#portraitImg").attr("src","../img/intro/"+candidate+".jpg");
 
     //get introduction data
-    d3.tsv("./data/CandidateIntroduction.tsv", function (error, data) {
+    d3.tsv("../data/intro/CandidateIntroduction.tsv", function (error, data) {
         if (error) throw error;
 
         var intro;

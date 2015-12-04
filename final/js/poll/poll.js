@@ -36,7 +36,7 @@
             .attr("class", party + "_plot");
 
         // draw plot
-        d3.csv("./data/poll/2016_poll_" + party + ".csv", function (error, data) {
+        d3.csv("../data/poll/2016_poll_" + party + ".csv", function (error, data) {
             if (error) throw error;
 
             var dateParser = d3.time.format("%m/%_d/%Y").parse;
@@ -111,7 +111,7 @@
                     .datum(pathData)
                     .attr("class", "path")
                     .attr("name", candidate)
-                    .attr("xlink:href", "../personal/personal.html?candidate=" + candidate)
+                    .attr("xlink:href", "./personal.html?candidate=" + candidate)
                     .attr("target", "_blank");
                 gLine.append("path")
                     .attr("d", pathFn)
@@ -130,7 +130,7 @@
         });
 
         // draw event lines
-        d3.tsv("./data/event/" + party + "GroupEvent.tsv", function (error, data) {
+        d3.tsv("../data/event/" + party + "GroupEvent.tsv", function (error, data) {
             if (error) throw error;
 
             var dateParser = d3.time.format("%Y/%m/%_d").parse;
@@ -173,7 +173,7 @@
         $("svg").on("mouseenter", ".path", function (e) {
             $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY-5);
             $("#candidateTipName").text($(this).attr("name"));
-            $("#candidateTipLink").attr("href","../personal/personal.html?candidate="+$(this).attr("name"))
+            $("#candidateTipLink").attr("href","./personal.html?candidate="+$(this).attr("name"))
         }).on("mouseleave", ".path", function () {
             $("#candidateTip").css("display", "none");
         });
