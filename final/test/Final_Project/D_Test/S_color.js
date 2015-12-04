@@ -18,6 +18,9 @@ var color = (function () {
                 return "40";
             }
         },
+        getFillKey2:function(){
+
+        },
         getColor: function (index) {
             return color[index];
         },

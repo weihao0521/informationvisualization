@@ -12,14 +12,12 @@
         body {
             font-size: 16px;
         }
-
         #ul {
             height: 1em;
             background-color: #aaaaaa;
             /*letter-spacing: -4px;*/
             word-spacing: -4px;
         }
-
         #ul li {
             letter-spacing: normal;
             word-spacing: normal;
@@ -30,15 +28,12 @@
             width: 79px;
             height: 16px;
         }
-
         .li {
             border-right: 1px solid #000000;
         }
-
         #parent {
             overflow: hidden;
         }
-
         .container {
             float: left;
         }
@@ -47,104 +42,117 @@
         #title {
             text-align: center;
         }
-
         #title h1 {
             display: inline-block;
         }
     </style>
 </head>
 <body>
-<div id="title">
-    <h1>Hillary's Support Rate inside Democrats Party.</h1>
-</div>
-</div>
-<div id="parent">
-    <div id="container" class="container" style="position: relative; width: 640px; height: 400px;"></div>
-    <div id="container2" class="container" style="position: relative; width: 640px; height: 360px;"></div>
-</div>
-<div id="root">
+    <div id="title">
+        <h1>Hillary's Support Rate inside Democrats Party.</h1>
+    </div>
+    </div>
+    <div id="parent">
+        <div id="container" class="container" style="position: relative; width: 640px; height: 400px;"></div>
+        <div id="container2" class="container" style="position: relative; width: 640px; height: 360px;"></div>
+    </div>
+    <div id="root">
 
-</div>
-<script>
-    var map = {
-        data: {},
-        init: function () {
-            this.loadData();
-        },
-        loadData: function () {
-            d3.csv("Dem_States.csv", function (error, data) {
-                var newData = {};
-                for (var index = 0, length = data.length; index < length; index++) {
-                    if (data[index].candidate == "Hillary") {
-                        newData.candidate = data[index].candidate;
-                        for (var key in data[index]) {
-                            if (key != "candidate") {
-                                newData[key] = {};
-                                newData[key].value = data[index][key];
-                                newData[key].fillKey = color.getFillKey(newData[key].value);
+    </div>
+    <script>
+        var map = {
+            data: {},
+            init: function () {
+                this.loadData();
+            },
+            loadData: function () {
+                d3.csv("Dem_States.csv", function (error, data) {
+                    console.log(data);
+                    var newData = {};
+                    for (var index = 0, length = data.length; index < length; index++) {
+                        if (data[index].candidate == "Hillary") {
+                            newData.candidate = data[index].candidate;
+                            for (var key in data[index]) {
+                                if (key != "candidate") {
+                                    newData[key] = {};
+                                    newData[key].value = parseInt(data[index][key]);
+                                }
+                            }
+                        } else if (data[index].candidate == "Swing States") {
+                            for (var key in newData) {
+                                newData[key].isSwing = data[index][key] == "Yes" ? true : false;
+                            }
+                        } else if (data[index].candidate == "Date") {
+                            for (var key in newData) {
+                                newData[key].date = data[index][key];
                             }
                         }
                     }
-                }
-                map.data = newData;
-                map.draw();
-            });
+                    console.log(newData);
+                    map.data = newData;
+                    map.draw();
+                });
 
-        },
-        processDataColor: function () {
-            for (var key in map.data) {
-                map.data[key].fillKey = color.getFillKey(map.data[key].value);
-            }
-        },
-        drawColorTip: function (id) {
-            var ul = $(document.createElement("ul"));
-            for (var index = 0; index < 6; index++) {
-                var li = $(document.createElement("li"));
-                var span = $(document.createElement("span"));
-                var span2 = $(document.createElement("span"));
-                span.css("background-color", color.getColor(index));
-                span.css("width", "16px");
-                span.css("height", "16px");
-                span.css("display", "inline-block");
-                span2.text(color.getRange(index));
-                ul.append(li);
-                li.append(span);
-                li.append(span2);
-            }
-            ul.css("position", "absolute");
-            ul.css("top", "50%");
-            $("#" + id).append(ul);
-        },
-        draw: function () {
-            $("#container").empty();
-            this.drawColorTip("container");
-            this.processDataColor();
-            console.log(map.data)
-            var dataMap = new Datamap({
-                element: document.getElementById('container'),
-                scope: 'usa',
-                fills: {
-                    45: "#d0d1e6",
-                    50: "#a6bddb",
-                    55: "#74a9cf",
-                    60: "#3690c0",
-                    65: "#0570b0",
-                    70: "#034e7b",
-                    defaultFill: '#FAEBD7'
-                },
-                data: map.data,
-                geographyConfig: {
-                    popupTemplate: function (geo, data) {
-                        return '<div class="hoverinfo"><strong>'
-                                + 'Percent of  ' + geo.properties.name
-                                + ': ' + data[index][key] + '%'
-                                + '</strong></div>';
+            },
+            processDataColor: function () {
+                for (var key in map.data) {
+                    if (map.data[key].isSwing) {
+                        map.data[key].fillKey = color.getFillKey(map.data[key].value);
+                    } else {
+                        //map.data[key].fillKey = color.getFillKey2(map.data[key].value);
                     }
                 }
-            });
-        }
-    };
-    map.init();
-</script>
+            },
+            drawColorTip: function (id) {
+                var ul = $(document.createElement("ul"));
+                for (var index = 0; index < 6; index++) {
+                    var li = $(document.createElement("li"));
+                    var span = $(document.createElement("span"));
+                    var span2 = $(document.createElement("span"));
+                    span.css("background-color", color.getColor(index));
+                    span.css("width", "16px");
+                    span.css("height", "16px");
+                    span.css("display", "inline-block");
+                    span2.text(color.getRange(index));
+                    ul.append(li);
+                    li.append(span);
+                    li.append(span2);
+                }
+                ul.css("position", "absolute");
+                ul.css("top", "50%");
+                $("#" + id).append(ul);
+            },
+            draw: function () {
+                $("#container").empty();
+                this.drawColorTip("container");
+                this.processDataColor();
+                var dataMap = new Datamap({
+                    element: document.getElementById('container'),
+                    scope: 'usa',
+                    fills: {
+                        45: "#d0d1e6",
+                        50: "#a6bddb",
+                        55: "#74a9cf",
+                        60: "#3690c0",
+                        65: "#0570b0",
+                        70: "#034e7b",
+                        defaultFill: '#FAEBD7'
+                    },
+                    data: map.data,
+                    geographyConfig: {
+                        popupTemplate: function (geo, d) {
+                            if (d) {
+                                return '<div class="hoverinfo"><strong>'
+                                        + 'Percent of  ' + geo.properties.name
+                                        + ': ' + d.value + '%'
+                                        + '</strong></div>';
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        map.init();
+    </script>
 </body>
 </html>
