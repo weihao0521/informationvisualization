@@ -8,20 +8,26 @@ body {
 #title{
     text-align: center;
 }
-#portrait{
-    float:left;
-}
-#portraitImg{
-    max-width:300px;
-    max-height:300px;
-}
-#description{
-    float:left;
+#content{
+    width:800px;
+    margin:20px auto 0;
+    display:flex;
 }
 #content::after{
     clear:both;
     display:block;
     content:" ";
+}
+#portrait{
+
+}
+#portraitImg{
+    max-width:300px;
+    max-height:300px;
+}
+#intro{
+    margin:0 0 0 30px;
+    font-size:14px;
 }
 #svg{
     text-align: center;
