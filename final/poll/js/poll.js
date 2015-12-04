@@ -173,6 +173,7 @@
         $("svg").on("mouseenter", ".path", function (e) {
             $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY-5);
             $("#candidateTipName").text($(this).attr("name"));
+            $("#candidateTipLink").attr("href","../personal/personal.html?candidate="+$(this).attr("name"))
         }).on("mouseleave", ".path", function () {
             $("#candidateTip").css("display", "none");
         });

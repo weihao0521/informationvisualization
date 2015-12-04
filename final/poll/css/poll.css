@@ -21,7 +21,11 @@ body {
     background: white;
     opacity: 0.9;
     max-width: 500px;
+}
+
+#candidateTipLink {
     padding: 5px 10px;
+    display:block;
 }
 
 #eventTip {
