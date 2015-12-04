@@ -44,11 +44,12 @@
         }
     </style>
     <style>
-        #title{
+        #title {
             text-align: center;
         }
-        #title h1{
-            display:inline-block;
+
+        #title h1 {
+            display: inline-block;
         }
     </style>
 </head>
@@ -71,21 +72,24 @@
         init: function () {
             this.loadData();
         },
-        loadData: function () {d3.csv("Hillary_State.csv", function (error, data) {
-            var newData = {};
-            for (var index = 0, length = data.length; index < length; index++) {
-                if(data[index].candidate=="Hillary"){
-                    var newData = {};
-                    for(var key in data[index]){
-                        if(key!="candidate"){
-                            newData[key]=data[index][key];
+        loadData: function () {
+            d3.csv("Hillary_State.csv", function (error, data) {
+                var newData = {};
+                for (var index = 0, length = data.length; index < length; index++) {
+                    if (data[index].candidate == "Clinton") {
+                        newData.candidate = data[index].candidate;
+                        for (var key in data[index]) {
+                            if (key != "candidate") {
+                                newData[key] = {};
+                                newData[key].value = data[index][key];
+                                newData[key].fillKey = color.getFillKey(newData[key].value);
+                            }
                         }
                     }
                 }
-            }
-            map.data = newData;
-            map.draw();
-        });
+                map.data = newData;
+                map.draw();
+            });
 
         },
         processDataColor: function () {
@@ -116,7 +120,7 @@
             $("#container").empty();
             this.drawColorTip("container");
             this.processDataColor();
-
+            console.log(map.data)
             var dataMap = new Datamap({
                 element: document.getElementById('container'),
                 scope: 'usa',
@@ -134,7 +138,7 @@
                     popupTemplate: function (geo, data) {
                         return '<div class="hoverinfo"><strong>'
                                 + 'Percent of  ' + geo.properties.name
-                                + ': ' + data[candidate + ""] + '%'
+                                + ': ' + data[candidate] + '%'
                                 + '</strong></div>';
                     }
                 }
