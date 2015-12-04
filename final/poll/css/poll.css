@@ -1,0 +1,25 @@
+body {
+    font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.path {
+    fill: none;
+    stroke-width: 3px;
+}
+
+#mouseTip{
+    display:none;
+    border:1px solid #000;
+    position:fixed;
+    background:white
+}
+#mouseTipName{
+    margin:5px 10px;
+}

@@ -1,0 +1,28 @@
+body {
+    font: 12px sans-serif;
+}
+#container{
+    width:90%;
+    margin:0 auto;
+}
+#title{
+    text-align: center;
+}
+#portrait{
+    float:left;
+}
+#portraitImg{
+    width:200px;
+    height:200px;
+}
+#description{
+    float:left;
+}
+#content::after{
+    clear:both;
+    display:block;
+    content:" ";
+}
+svg{
+    border:1px solid #000;
+}
