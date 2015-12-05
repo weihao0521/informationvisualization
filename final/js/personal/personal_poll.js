@@ -1,6 +1,8 @@
 (function () {
     var poll = {
-        var: {},
+        var: {
+            data: {}
+        },
         init: function () {
             //initialize variables
             this.var.margin = {top: 20, right: 20, bottom: 30, left: 50};
@@ -49,6 +51,7 @@
                 .attr("width", this.var.width + this.var.margin.left + this.var.margin.right)
                 .attr("height", this.var.height + this.var.margin.top + this.var.margin.bottom)
                 .append("g")
+                .attr("id", "svg_g")
                 .attr("width", this.var.width)
                 .attr("height", this.var.height)
                 .attr("transform", "translate(" + this.var.margin.left + "," + this.var.margin.top + ")")
@@ -73,9 +76,9 @@
 
                 // filter data, remain data after certain date
                 /*var baseDate = new Date(2015, 6, 1);// July 1, 2015
-                data = data.filter(function (d) {
-                    return new Date(dateParser(d.date)) >= baseDate;
-                });*/
+                 data = data.filter(function (d) {
+                 return new Date(dateParser(d.date)) >= baseDate;
+                 });*/
 
                 // process data
                 data.forEach(function (d, i) {
@@ -85,8 +88,8 @@
                     d.date = dateParser(d.date);
                     d[poll.var.candidate] = +d[poll.var.candidate];
                 });
+
                 poll.processSource(data);
-                poll.drawPathBySource();
 
                 // load public event data
                 d3.tsv("../data/event/" + poll.var.party + "GroupEvent.tsv", function (error, data) {
@@ -98,8 +101,10 @@
                         d.date = dateParser(d.date);
                     });
 
+                    poll.var.data.publicEvent = data;
+
                     //draw event lines
-                    poll.drawEvent(data);
+                    poll.drawEvent(poll.var.data.publicEvent, "public");
                 });
 
                 // load individual event data
@@ -107,8 +112,8 @@
                     if (error) throw error;
 
                     data = data.filter(function (d) {
-                        if (d.name) {
-                            return d.name.indexOf(poll.var.candidate) >= 0;
+                        if (d.candidate) {
+                            return d.candidate.indexOf(poll.var.candidate) >= 0;
                         }
                     });
 
@@ -118,8 +123,10 @@
                         d.date = dateParser(d.date);
                     });
 
+                    poll.var.data.privateEvent = data;
+
                     //draw event lines
-                    poll.drawEvent(data);
+                    poll.drawEvent(poll.var.data.privateEvent, "personal");
                 });
             });
             poll.bindEvent();
@@ -132,31 +139,43 @@
             }
             poll.var.sources = tempSources;
             poll.var.source = poll.var.sources[0];
-            poll.var.pathData = data;
+            poll.var.data.path = data;
+
+            poll.addSourceRadio();
+            poll.drawPathBySource();
+        },
+        addSourceRadio: function () {
+            var sources = this.var.sources;
+            var html = "";
+            for (var index = 0; index < sources.length; index++) {
+                if (index == 0) {
+                    html += '<input type="radio" name="source" value="' + sources[index] + '" checked="checked"/><span>' + sources[index] + '</span>';
+                } else {
+                    html += '<input type="radio" name="source" value="' + sources[index] + '"/><span>' + sources[index] + '</span>';
+                }
+            }
+            $("#radioDiv").html(html);
         },
         drawPathBySource: function () {
-            var data = poll.var.pathData;
+            var data = poll.var.data.path;
             var source = poll.var.source;
             data = data.filter(function (d) {
                 return source == d.source;
             });
 
             //draw axis and paths
-            poll.drawAxis(data);
-            poll.drawPath(data);
-        },
-        addSourceRadio: function () {
-            var html = '<input type="radio" name="source" value=""/><span></span>';
+            this.drawAxis(data);
+            this.drawPath(data);
         },
         drawAxis: function (data) {
             // set axis range
             this.var.x.domain(d3.extent(data, function (d) {
                 return d.date;
             }));
-            this.var.y.domain([d3.min(data,function(d){
-                return d[poll.var.candidate]/1.1;
+            this.var.y.domain([d3.min(data, function (d) {
+                return d[poll.var.candidate] / 1.1;
             }), d3.max(data, function (d) {
-                return d[poll.var.candidate]*1.1;
+                return d[poll.var.candidate] * 1.1;
             })]);
 
             // draw axis
@@ -210,12 +229,12 @@
                 .attr("fill", this.var.color(+0));
 
         },
-        drawEvent: function (data) {
-            var gEvent = this.var.svg.selectAll(".event")
+        drawEvent: function (data, type) {
+            var gEvent = this.var.svg.selectAll("." + type + "Event")
                 .data(data)
                 .enter()
                 .append("g")
-                .attr("class", "event")
+                .attr("class", type + "Event event")
                 .attr("description", function (d) {
                     return d.event;
                 })
@@ -270,11 +289,26 @@
                 $("#eventTip").css("display", "none");
             });
 
+            // event for mouse tip divs
             $(".pollMouseTip").on("mouseenter", function () {
                 $(this).css("display", "block");
             }).on("mouseleave", function () {
                 $(this).css("display", "none");
             });
+
+            // event to change source
+            $("#radioDiv").on("mouseup", "input[type='radio']", function () {
+                $("input[type='radio']").attr("checked", false);
+                $(this).attr("checked", true);
+                var newSource = $(this).attr("value");
+                if (newSource != poll.var.source) {
+                    poll.var.source = newSource;
+                    $("#svg_g").empty();
+                    poll.drawPathBySource();
+                    poll.drawEvent(poll.var.data.publicEvent, "public");
+                    poll.drawEvent(poll.var.data.privateEvent, "private");
+                }
+            })
         }
     };
     poll.init();
