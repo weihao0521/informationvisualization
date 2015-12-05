@@ -60,6 +60,8 @@
 
     </div>
     <script>
+        var candidate = "Rubio";
+        var party = "R";
         var map = {
             data: {},
             init: function () {
@@ -69,7 +71,7 @@
                 d3.csv("Dem_States.csv", function (error, data) {
                     var newData = {};
                     for (var index = 0, length = data.length; index < length; index++) {
-                        if (data[index].candidate == "Sanders") {
+                        if (data[index].candidate == candidate) {
                             newData.candidate = data[index].candidate;
                             for (var key in data[index]) {
                                 if (key != "candidate") {
@@ -81,9 +83,19 @@
                             for (var key in newData) {
                                 newData[key].isSwing = data[index][key] == "Yes" ? true : false;
                             }
-                        } else if (data[index].candidate == "Date") {
-                            for (var key in newData) {
-                                newData[key].date = data[index][key];
+                        }
+                          if(party == "D") {
+                              if (data[index].candidate == "D_Date") {
+                                  for (var key in newData) {
+                                      newData[key].date = data[index][key];
+                                  }
+                              }
+                        }
+                        if(party == "R") {
+                            if (data[index].candidate == "R_Date") {
+                                for (var key in newData) {
+                                    newData[key].date = data[index][key];
+                                }
                             }
                         }
                     }
@@ -94,28 +106,18 @@
             },
             processDataColor: function () {
                 for (var key in map.data) {
-                    if(map.data.candidate == "Hillary") {
-                        var candidate = "Hillary";
+                    if(map.data.candidate == candidate) {
                         if (map.data[key].isSwing) {
                             map.data[key].fillKey = color.getFillKey2(map.data[key].value,candidate);
                         } else {
-                            map.data[key].fillKey = color.getFillKey(map.data[key].value,candidate);
-                        }
-                    }
-
-                    if(map.data.candidate == "Sanders") {
-                        var candidate = "Sanders";
-                        if (map.data[key].isSwing) {
-                            map.data[key].fillKey = color.getFillKey2(map.data[key].value,candidate);
-                        } else {
-                            map.data[key].fillKey = color.getFillKey(map.data[key].value,candidate);
+                            map.data[key].fillKey = color.getFillKey(map.data[key].value,candidate,party);
                         }
                     }
                 }
             },
             drawColorTip: function (id) {
                 var ul = $(document.createElement("ul"));
-                for (var index = 0; index < 6; index++) {
+                for (var index = 0; index < 7; index++) {
                     var li = $(document.createElement("li"));
                     var span = $(document.createElement("span"));
                     var span2 = $(document.createElement("span"));
@@ -130,7 +132,7 @@
                     span3.css("height", "16px");
                     span3.css("display", "inline-block");
 
-                    span2.text(color.getRange(index));
+                    span2.text(color.getRange(index,candidate));
                     ul.append(li);
 
                     li.append(span);
@@ -149,18 +151,24 @@
                     element: document.getElementById('container'),
                     scope: 'usa',
                     fills: {
-                        0: "#d0d1e6",
+                        0:  "#d0d1e6",
                         10: "#fcc5c0",
-                        1: "#a6bddb",
+                        20: "#fed976",
+                        1:  "#a6bddb",
                         11: "#fa9fb5",
-                        2: "#74a9cf",
+                        21: "#feb24c",
+                        2:  "#74a9cf",
                         12: "#f768a1",
-                        3: "#3690c0",
+                        22: "#fd8d3c",
+                        3:  "#3690c0",
                         13: "#dd3497",
-                        4: "#0570b0",
+                        23: "#fc4e2a",
+                        4:  "#0570b0",
                         14: "#ae017e",
-                        5: "#034e7b",
+                        24: "#e31a1c",
+                        5:  "#034e7b",
                         15: "#7a0177",
+                        25: "#b10026",
                         defaultFill: '#F8F9D0'
                     },
                     data: map.data,
