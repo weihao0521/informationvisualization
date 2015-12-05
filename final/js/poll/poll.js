@@ -213,7 +213,7 @@
                 $("#eventTip").css("display", "none");
             });
 
-            $("pollMouseTip").on("mouseenter", function () {
+            $(".pollMouseTip").on("mouseenter", function () {
                 $(this).css("display", "block");
             }).on("mouseleave", function () {
                 $(this).css("display", "none");
