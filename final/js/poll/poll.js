@@ -41,7 +41,7 @@
                 .attr("height", this.var.height + this.var.margin.top + this.var.margin.bottom)
                 .append("g")
                 .attr("transform", "translate(" + this.var.margin.left + "," + this.var.margin.top + ")")
-                .attr("class", party + "_plot");
+                .attr("class", this.var.party + "_plot");
 
             this.var.pathFn = d3.svg.line()
                 .x(function (d) {
@@ -94,6 +94,8 @@
                     //end drawing
                     if (poll.var.party == "rep") {
                         poll.drawStart("dem");
+                    } else {
+                        poll.bindEvent();
                     }
                 });
             });
@@ -211,7 +213,7 @@
                 $("#eventTip").css("display", "none");
             });
 
-            $("#candidateTip,#eventTip").on("mouseenter", function () {
+            $("pollMouseTip").on("mouseenter", function () {
                 $(this).css("display", "block");
             }).on("mouseleave", function () {
                 $(this).css("display", "none");

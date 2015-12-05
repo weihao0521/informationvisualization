@@ -1,19 +1,16 @@
 body {
-    font: 12px sans-serif;
+    font: 12px Arial, sans-serif;
 }
-
 .axis path,
 .axis line {
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
 }
-
 .path {
     fill: none;
     stroke-width: 3px;
 }
-
 #candidateTip {
     display: none;
     border: 1px solid #000;
@@ -22,12 +19,10 @@ body {
     opacity: 0.9;
     max-width: 500px;
 }
-
 #candidateTipLink {
     padding: 5px 10px;
-    display:block;
+    display: block;
 }
-
 #eventTip {
     display: none;
     border: 1px solid #000;
@@ -37,12 +32,10 @@ body {
     width: 400px;
     padding: 5px 10px;
 }
-
 #eventTipDescriptionDiv span {
     float: left;
     display: block;
 }
-
 #eventTipDescription {
     width: 350px;
     margin-left: 5px;
