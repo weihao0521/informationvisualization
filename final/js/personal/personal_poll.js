@@ -63,7 +63,7 @@
             this.loadData();
         },
         loadData: function () {
-            // load path data
+            // load individual poll data
             d3.csv("../data/poll/2016_poll_" + this.var.party + ".csv", function (error, data) {
                 if (error) throw error;
 
@@ -204,7 +204,11 @@
                     var dd = date.getDate().toString();
                     mm = poll.var.months[mm];
                     return mm + " " + dd + ", " + yyyy;
+                })
+                .attr("candidate", function (d) {
+                    return d.candidate ? d.candidate : "";
                 });
+
             gEvent.append("line")
                 .attr("class", "event_line")
                 .attr("x1", function (d) {
@@ -219,6 +223,7 @@
                 .attr("stroke-width", "2px");
         },
         bindEvent: function () {
+            // path tip
             $("#poll").on("mouseenter", ".path", function (e) {
                 $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
                 $("#candidateTipName").text($(this).attr("name"));
@@ -227,10 +232,18 @@
                 $("#candidateTip").css("display", "none");
             });
 
+            // event tip
             $("#poll").on("mouseenter", ".event", function (e) {
                 $("#eventTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 10);
                 $("#eventTipDate").text($(this).attr("date"));
                 $("#eventTipDescription").text($(this).attr("description"));
+                var candidate = $(this).attr("candidate")
+                if(candidate){
+                    $("#eventTipCandidateDiv").css("display","block");
+                    $("#eventTipCandidate").text(candidate);
+                }else{
+                    $("#eventTipCandidateDiv").css("display","none");
+                }
             }).on("mouseleave", ".event", function (e) {
                 $("#eventTip").css("display", "none");
             });
