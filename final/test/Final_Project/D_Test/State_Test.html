@@ -49,7 +49,8 @@
 </head>
 <body>
     <div id="title">
-        <h1>Hillary's Support Rate inside Democrats Party.</h1>
+        <h1>Hillary's Support Rate inside Democrats Party</h1>
+        <h3>Left color is marked for Swing States</h3>
     </div>
     </div>
     <div id="parent">
@@ -96,10 +97,13 @@
             },
             processDataColor: function () {
                 for (var key in map.data) {
-                    if (map.data[key].isSwing) {
-                        map.data[key].fillKey = color.getFillKey(map.data[key].value);
-                    } else {
-                        //map.data[key].fillKey = color.getFillKey2(map.data[key].value);
+                    if(newData.candidate == "Hillary") {
+                        var candidate = "Hillary";
+                        if (map.data[key].isSwing) {
+                            map.data[key].fillKey = color.getFillKey2(map.data[key].value,candidate);
+                        } else {
+                            map.data[key].fillKey = color.getFillKey(map.data[key].value,candidate);
+                        }
                     }
                 }
             },
@@ -109,13 +113,22 @@
                     var li = $(document.createElement("li"));
                     var span = $(document.createElement("span"));
                     var span2 = $(document.createElement("span"));
-                    span.css("background-color", color.getColor(index));
+                    var span3 = $(document.createElement("span"));
+                    span.css("background-color", color.getColor(index,false));
                     span.css("width", "16px");
                     span.css("height", "16px");
                     span.css("display", "inline-block");
+
+                    span3.css("background-color", color.getColor(index,true));
+                    span3.css("width", "16px");
+                    span3.css("height", "16px");
+                    span3.css("display", "inline-block");
+
                     span2.text(color.getRange(index));
                     ul.append(li);
+
                     li.append(span);
+                    li.append(span3)
                     li.append(span2);
                 }
                 ul.css("position", "absolute");
@@ -131,12 +144,18 @@
                     scope: 'usa',
                     fills: {
                         45: "#d0d1e6",
+                        46: "#fcc5c0",
                         50: "#a6bddb",
+                        51: "#fa9fb5",
                         55: "#74a9cf",
+                        56: "#f768a1",
                         60: "#3690c0",
+                        61: "#dd3497",
                         65: "#0570b0",
+                        66: "#ae017e",
                         70: "#034e7b",
-                        defaultFill: '#FAEBD7'
+                        71: "#7a0177",
+                        defaultFill: '#F8F9D0'
                     },
                     data: map.data,
                     geographyConfig: {
@@ -144,7 +163,8 @@
                             if (d) {
                                 return '<div class="hoverinfo"><strong>'
                                         + 'Percent of  ' + geo.properties.name
-                                        + ': ' + d.value + '%'
+                                        + ': ' + d.value + '%' + ' Completed by '
+                                                + d.date
                                         + '</strong></div>';
                             }
                         }
