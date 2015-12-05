@@ -67,7 +67,7 @@
             d3.csv("../data/poll/2016_poll_" + this.var.party + ".csv", function (error, data) {
                 if (error) throw error;
 
-                // filter data with Array.prototype.filter
+                // filter data, remain data after certain date
                 var dateParser = d3.time.format("%m/%_d/%Y").parse;
                 var baseDate = new Date(2015, 6, 1);// July 1, 2015
                 data = data.filter(function (d) {
@@ -88,7 +88,7 @@
                 poll.drawAxis(data);
                 poll.drawPath(data);
 
-                // load event data
+                // load public event data
                 d3.tsv("../data/event/" + poll.var.party + "GroupEvent.tsv", function (error, data) {
                     if (error) throw error;
 
@@ -100,11 +100,29 @@
 
                     //draw event lines
                     poll.drawEvent(data);
+                });
 
-                    //end drawing
-                    poll.bindEvent();
+                // load individual event data
+                d3.tsv("../data/event/" + poll.var.party + "IndividualEvent.tsv", function (error, data) {
+                    if (error) throw error;
+
+                    data = data.filter(function (d) {
+                        return d.name.indexOf(poll.var.candidate) >= 0;
+                    });
+
+                    // process data
+                    var dateParser = d3.time.format("%Y/%m/%_d").parse;
+                    data.forEach(function (d) {// process data
+                        d.date = dateParser(d.date);
+                    });
+
+                    console.log(data);
+
+                    //draw event lines
+                    poll.drawEvent(data);
                 });
             });
+            poll.bindEvent();
         },
         drawAxis: function (data) {
             // set axis range
