@@ -1,13 +1,24 @@
-var candidate;
-// get portrait and introduction
+var getCandidate;
+
+// initialize get function of candidate
 (function () {
     var searchStr = location.search;
     if (!searchStr) {
         searchStr = "candidate=Clinton";
     }
-    candidate = searchStr.split("=")[1];
+    var candidate = searchStr.split("=")[1];
+    getCandidate = function () {
+        return candidate;
+    };
+    getCandidate = getCandidate.bind(this);
+})();
 
-    $("#portraitImg").attr("src","../img/intro/"+candidate+".jpg");
+// get portrait and introduction
+(function () {
+    $("#titleText").text(getCandidate());
+    $("#portraitImg")
+        .attr("src", "../img/intro/" + getCandidate() + ".jpg")
+        .attr("alt", getCandidate());
 
     //get introduction data
     d3.tsv("../data/intro/CandidateIntroduction.tsv", function (error, data) {
@@ -15,7 +26,7 @@ var candidate;
 
         var intro;
         data.forEach(function (d) {
-            if (d.candidate == candidate) {
+            if (d.candidate == getCandidate()) {
                 intro = d.intro;
             }
         });

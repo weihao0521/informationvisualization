@@ -10,29 +10,46 @@
     <link href="../css/personal/personal.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="container">
-    <div id="title">
-        <h2>This is title</h2>
-    </div>
-    <div id="content">
-        <div id="portrait">
-            <img id="portraitImg" src=""/>
+    <div id="container">
+        <div id="title">
+            <h2 id="titleText">This is title</h2>
         </div>
-        <div id="intro">this is intro</div>
+        <div id="content">
+            <div id="portrait">
+                <img id="portraitImg" src=""/>
+            </div>
+            <div id="intro">this is intro</div>
+        </div>
+        <div id="svgDiv">
+            <svg id="poll">
+
+            </svg>
+            <svg id="tree">
+
+            </svg>
+            <svg id="map">
+
+            </svg>
+        </div>
     </div>
-    <div id="svg">
-        <svg id="poll">
 
-        </svg>
-        <svg id="tree">
-
-        </svg>
-        <svg id="map">
-
-        </svg>
+    <!-- poll mouse tip divs -->
+    <div id="candidateTip" class="pollMouseTip">
+        <a id="candidateTipLink" href="javascript:;" target="_blank" >
+            <span>Candidate: </span><span id="candidateTipName">Candidate Name</span>
+        </a>
     </div>
-</div>
-<script src="../js/personal/personal.js"></script>
-<script src="../js/personal/poll.js"></script>
+    <div id="eventTip" class="pollMouseTip">
+        <div>
+            <span>Date: </span>
+            <span id="eventTipDate"></span>
+        </div>
+        <div id="eventTipDescriptionDiv">
+            <span>Event: </span>
+            <span id="eventTipDescription"></span>
+        </div>
+    </div>
+    <script src="../js/personal/personal.js"></script>
+    <script src="../js/personal/personal_poll.js"></script>
 </body>
 </html>

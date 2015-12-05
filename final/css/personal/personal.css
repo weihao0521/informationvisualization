@@ -1,41 +1,105 @@
 body {
-    font: 12px sans-serif;
+    font: 12px Arial, sans-serif;
 }
-#container{
-    width:90%;
-    margin:0 auto;
+#container {
+    margin: 0 auto;
 }
-#title{
+@media screen and (min-width: 800px) {
+    #container {
+        width: 90%;
+    }
+}
+@media screen and (max-width: 799px) {
+    #container {
+        width: 100%;
+    }
+}
+#title {
     text-align: center;
+    margin: 10px 0 0 0;
 }
-#content{
-    width:800px;
-    margin:20px auto 0;
-    display:flex;
+#content {
+    margin: 20px auto 0;
+    padding: 0 30px;
+    display: flex;
 }
-#content::after{
-    clear:both;
-    display:block;
-    content:" ";
+#content::after {
+    clear: both;
+    display: block;
+    content: " ";
 }
-#portrait{
+#portrait {
 
 }
-#portraitImg{
-    max-width:300px;
-    max-height:300px;
+#portraitImg {
+    max-width: 400px;
+    max-height: 200px;
 }
-#intro{
-    margin:0 0 0 30px;
-    font-size:14px;
+#intro {
+    margin: 0 0 0 30px;
+    font-size: 14px;
 }
-#svg{
+#svgDiv {
+    margin: 20px auto 0;
     text-align: center;
+    word-spacing: -3px;
 }
-svg{
-    border:1px solid #000;
+#svgDiv svg {
+    word-spacing: default;
 }
-#map{
-    display:block;
-    margin:0 auto;
+#poll, #tree {
+    box-sizing: border-box;
+    border: 1px solid #000;
+    width: 50%;
+    height: 400px;
+    vertical-align: bottom;
 }
+#map {
+    box-sizing: border-box;
+    border: 1px solid #000;
+    width: 100%;
+    height: 400px;
+    display: block;
+    margin: 0 auto;
+}
+/* poll styles */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+.path {
+    fill: none;
+    stroke-width: 3px;
+}
+#candidateTip {
+    display: none;
+    border: 1px solid #000;
+    position: fixed;
+    background: white;
+    opacity: 0.9;
+    max-width: 500px;
+}
+#candidateTipLink {
+    padding: 5px 10px;
+    display: block;
+}
+#eventTip {
+    display: none;
+    border: 1px solid #000;
+    position: fixed;
+    background: white;
+    opacity: 0.9;
+    width: 400px;
+    padding: 5px 10px;
+}
+#eventTipDescriptionDiv span {
+    float: left;
+    display: block;
+}
+#eventTipDescription {
+    width: 350px;
+    margin-left: 5px;
+}
+/* end poll styles */
