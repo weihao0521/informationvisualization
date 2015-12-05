@@ -44,15 +44,22 @@ body {
     text-align: center;
     word-spacing: -3px;
 }
-#svgDiv svg {
+.svg {
     word-spacing: default;
 }
-#poll, #tree {
+#pollDiv, #tree {
+    display:inline-block;
     box-sizing: border-box;
     border: 1px solid #000;
     width: 50%;
     height: 400px;
     vertical-align: bottom;
+}
+
+#poll {
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(100% - 16px);
 }
 #map {
     box-sizing: border-box;

@@ -16,7 +16,7 @@
             this.var.xAxis = d3.svg.axis()
                 .scale(this.var.x)
                 .orient("bottom")
-                .ticks(d3.time.month, 1)
+                .ticks(d3.time.month, 3)
                 .tickFormat(d3.time.format("%B"));
             this.var.yAxis = d3.svg.axis()
                 .scale(this.var.y)
@@ -37,7 +37,8 @@
                 }
             })(this);
 
-            this.var.months = ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"];
+            this.var.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            this.var.sources = {};
 
             // start drawing
             this.drawStart();
@@ -48,6 +49,8 @@
                 .attr("width", this.var.width + this.var.margin.left + this.var.margin.right)
                 .attr("height", this.var.height + this.var.margin.top + this.var.margin.bottom)
                 .append("g")
+                .attr("width", this.var.width)
+                .attr("height", this.var.height)
                 .attr("transform", "translate(" + this.var.margin.left + "," + this.var.margin.top + ")")
                 .attr("class", this.var.party + "_plot");
 
@@ -64,29 +67,26 @@
         },
         loadData: function () {
             // load individual poll data
-            d3.csv("../data/poll/2016_poll_" + this.var.party + ".csv", function (error, data) {
+            d3.csv("../data/poll/" + this.var.party + "_Individual_Poll.csv", function (error, data) {
                 if (error) throw error;
+                var dateParser = d3.time.format("%m/%_d/%Y").parse;
 
                 // filter data, remain data after certain date
-                var dateParser = d3.time.format("%m/%_d/%Y").parse;
-                var baseDate = new Date(2015, 6, 1);// July 1, 2015
+                /*var baseDate = new Date(2015, 6, 1);// July 1, 2015
                 data = data.filter(function (d) {
                     return new Date(dateParser(d.date)) >= baseDate;
-                });
-
-                console.log(data);
+                });*/
 
                 // process data
                 data.forEach(function (d, i) {
-                    d.date = dateParser(d.date);
-                    for (var key in poll.var.candidates[poll.var.party]) {
-                        d[poll.var.candidates[poll.var.party][key]] = +d[poll.var.candidates[poll.var.party][key]];
-                    }
-                });
+                    // add sources to poll.var.sources
+                    poll.var.sources[d.source] = d.source;
 
-                //draw axis and paths
-                poll.drawAxis(data);
-                poll.drawPath(data);
+                    d.date = dateParser(d.date);
+                    d[poll.var.candidate] = +d[poll.var.candidate];
+                });
+                poll.processSource(data);
+                poll.drawPathBySource();
 
                 // load public event data
                 d3.tsv("../data/event/" + poll.var.party + "GroupEvent.tsv", function (error, data) {
@@ -107,7 +107,9 @@
                     if (error) throw error;
 
                     data = data.filter(function (d) {
-                        return d.name.indexOf(poll.var.candidate) >= 0;
+                        if (d.name) {
+                            return d.name.indexOf(poll.var.candidate) >= 0;
+                        }
                     });
 
                     // process data
@@ -116,25 +118,45 @@
                         d.date = dateParser(d.date);
                     });
 
-                    console.log(data);
-
                     //draw event lines
                     poll.drawEvent(data);
                 });
             });
             poll.bindEvent();
         },
+        processSource: function (data) {
+            // process source
+            var tempSources = [];
+            for (var key in poll.var.sources) {
+                tempSources.push(poll.var.sources[key]);
+            }
+            poll.var.sources = tempSources;
+            poll.var.source = poll.var.sources[0];
+            poll.var.pathData = data;
+        },
+        drawPathBySource: function () {
+            var data = poll.var.pathData;
+            var source = poll.var.source;
+            data = data.filter(function (d) {
+                return source == d.source;
+            });
+
+            //draw axis and paths
+            poll.drawAxis(data);
+            poll.drawPath(data);
+        },
+        addSourceRadio: function () {
+            var html = '<input type="radio" name="source" value=""/><span></span>';
+        },
         drawAxis: function (data) {
             // set axis range
             this.var.x.domain(d3.extent(data, function (d) {
                 return d.date;
             }));
-            this.var.y.domain([0, d3.max(data, function (d) {
-                var arg = [];
-                for (var key in poll.var.candidates[poll.var.party]) {
-                    arg.push(d[poll.var.candidates[poll.var.party][key]]);
-                }
-                return Math.max.apply(this, arg);
+            this.var.y.domain([d3.min(data,function(d){
+                return d[poll.var.candidate]/1.1;
+            }), d3.max(data, function (d) {
+                return d[poll.var.candidate]*1.1;
             })]);
 
             // draw axis
@@ -238,11 +260,11 @@
                 $("#eventTipDate").text($(this).attr("date"));
                 $("#eventTipDescription").text($(this).attr("description"));
                 var candidate = $(this).attr("candidate")
-                if(candidate){
-                    $("#eventTipCandidateDiv").css("display","block");
+                if (candidate) {
+                    $("#eventTipCandidateDiv").css("display", "block");
                     $("#eventTipCandidate").text(candidate);
-                }else{
-                    $("#eventTipCandidateDiv").css("display","none");
+                } else {
+                    $("#eventTipCandidateDiv").css("display", "none");
                 }
             }).on("mouseleave", ".event", function (e) {
                 $("#eventTip").css("display", "none");
