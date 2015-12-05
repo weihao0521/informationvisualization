@@ -20,19 +20,12 @@ var color = (function () {
                 }
             }
         },
-        getFillKey2: function (percent) {
-            if (percent >= 45 && percent <= 50) {
-                return "46";
-            } else if (percent <= 55) {
-                return "51";
-            } else if (percent <= 60) {
-                return "56";
-            } else if (percent <= 65) {
-                return "61";
-            } else if (percent <= 70) {
-                return "66";
-            } else {
-                return "71";
+        getFillKey2: function (percent, candidate) {
+            var rangeArray = range[candidate];
+            for(var index = 0 ;index<rangeArray.length;index++){
+                if(percent<=rangeArray[index]){
+                    return index+10;
+                }
             }
         },
         getColor: function (index,isSwing) {

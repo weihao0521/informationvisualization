@@ -49,8 +49,7 @@
 </head>
 <body>
     <div id="title">
-        <h1>Hillary's Support Rate inside Democrats Party</h1>
-        <h3>Left color is marked for Swing States</h3>
+        <h1>Support Rate inside Democrats Party</h1>
     </div>
     </div>
     <div id="parent">
@@ -68,10 +67,9 @@
             },
             loadData: function () {
                 d3.csv("Dem_States.csv", function (error, data) {
-                    console.log(data);
                     var newData = {};
                     for (var index = 0, length = data.length; index < length; index++) {
-                        if (data[index].candidate == "Hillary") {
+                        if (data[index].candidate == "Sanders") {
                             newData.candidate = data[index].candidate;
                             for (var key in data[index]) {
                                 if (key != "candidate") {
@@ -89,7 +87,6 @@
                             }
                         }
                     }
-                    console.log(newData);
                     map.data = newData;
                     map.draw();
                 });
@@ -97,8 +94,17 @@
             },
             processDataColor: function () {
                 for (var key in map.data) {
-                    if(newData.candidate == "Hillary") {
+                    if(map.data.candidate == "Hillary") {
                         var candidate = "Hillary";
+                        if (map.data[key].isSwing) {
+                            map.data[key].fillKey = color.getFillKey2(map.data[key].value,candidate);
+                        } else {
+                            map.data[key].fillKey = color.getFillKey(map.data[key].value,candidate);
+                        }
+                    }
+
+                    if(map.data.candidate == "Sanders") {
+                        var candidate = "Sanders";
                         if (map.data[key].isSwing) {
                             map.data[key].fillKey = color.getFillKey2(map.data[key].value,candidate);
                         } else {
@@ -143,18 +149,18 @@
                     element: document.getElementById('container'),
                     scope: 'usa',
                     fills: {
-                        45: "#d0d1e6",
-                        46: "#fcc5c0",
-                        50: "#a6bddb",
-                        51: "#fa9fb5",
-                        55: "#74a9cf",
-                        56: "#f768a1",
-                        60: "#3690c0",
-                        61: "#dd3497",
-                        65: "#0570b0",
-                        66: "#ae017e",
-                        70: "#034e7b",
-                        71: "#7a0177",
+                        0: "#d0d1e6",
+                        10: "#fcc5c0",
+                        1: "#a6bddb",
+                        11: "#fa9fb5",
+                        2: "#74a9cf",
+                        12: "#f768a1",
+                        3: "#3690c0",
+                        13: "#dd3497",
+                        4: "#0570b0",
+                        14: "#ae017e",
+                        5: "#034e7b",
+                        15: "#7a0177",
                         defaultFill: '#F8F9D0'
                     },
                     data: map.data,
