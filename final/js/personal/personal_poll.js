@@ -212,14 +212,27 @@
                 .attr("stroke", this.var.color(0));
             gLine.selectAll(".circle").data(pathData)
                 .enter().append("circle")
-                .attr("r", 3)
+                .attr("class", "circle")
+                .attr("r", 5)
                 .attr("cx", function (d) {
                     return poll.var.x(new Date(d.date));
                 })
                 .attr("cy", function (d) {
                     return poll.var.height - poll.var.margin.top - poll.var.margin.bottom - (poll.var.height - poll.var.margin.top - poll.var.margin.bottom - poll.var.y(d.poll));
                 })
-                .attr("fill", this.var.color(+0));
+                .attr("fill", this.var.color(+0))
+                .attr("candidate", candidate)
+                .attr("date", function (d) {
+                    var date = new Date(d.date);
+                    var yyyy = date.getFullYear().toString();
+                    var mm = date.getMonth(); // getMonth() is zero-based
+                    var dd = date.getDate().toString();
+                    mm = poll.var.months[mm];
+                    return mm + " " + dd + ", " + yyyy;
+                })
+                .attr("percentage", function (d) {
+                    return d.poll;
+                });
 
         },
         drawEvent: function (data, type) {
@@ -259,9 +272,12 @@
         bindEvent: function () {
             // path tip
             $("#poll").on("mouseenter", ".path", function (e) {
+                console.log("path");
+                // hide value and date
+                $("#candidateTipValue").css("display", "none");
+                $("#candidateTipDate").css("display", "none");
+
                 $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
-                $("#candidateTipName").text($(this).attr("name"));
-                //$("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("name"))
             }).on("mouseleave", ".path", function () {
                 $("#candidateTip").css("display", "none");
             });
@@ -280,6 +296,21 @@
                 }
             }).on("mouseleave", ".event", function (e) {
                 $("#eventTip").css("display", "none");
+            });
+
+            // circle tip
+            $("#poll").on("mouseenter", ".circle", function (e) {
+                e.stopPropagation();// do not trigger .path event
+                console.log("circle");
+
+                $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
+                $("#candidateTipName").text($(this).attr("candidate"));
+                $("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("candidate"));
+
+                $("#candidateTipValue").css("display", "block").text("Percentage: " + $(this).attr("percentage"));
+                $("#candidateTipDate").css("display", "block").text("Date: " + $(this).attr("date"));
+            }).on("mouseleave", ".circle", function () {
+                $("#candidateTip").css("display", "none");
             });
 
             // event for mouse tip divs
@@ -301,7 +332,7 @@
                     poll.drawEvent(poll.var.data.publicEvent, "public");
                     poll.drawEvent(poll.var.data.individual, "private");
                 }
-            })
+            });
         }
     };
     poll.init();

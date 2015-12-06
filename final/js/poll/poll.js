@@ -217,8 +217,6 @@
                 $("#candidateTipDate").css("display", "none");
 
                 $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
-                $("#candidateTipName").text($(this).attr("candidate"));
-                $("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("candidate"))
             }).on("mouseleave", ".path", function () {
                 $("#candidateTip").css("display", "none");
             });
