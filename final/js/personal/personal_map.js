@@ -86,7 +86,6 @@
             $("#mapDiv").empty();
             this.drawColorTip("mapDiv");
             this.processDataColor();
-            console.log(map.data);
             var dataMap = new Datamap({
                 element: document.getElementById('mapDiv'),
                 width: $("#mapDiv").width() * 0.7,
@@ -121,7 +120,6 @@
                 data: map.data,
                 geographyConfig: {
                     popupTemplate: function (geo, d) {
-                        console.log(geo, d);
                         if (d) {
                             return '<div class="hoverinfo"><strong>'
                                 + 'Percent of  ' + geo.properties.name
