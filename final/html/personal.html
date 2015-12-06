@@ -7,6 +7,9 @@
     <script src="../../utils/js/jquery-1.11.3.js"></script>
     <script src="../../utils/js/d3.js"></script>
 
+    <script src="../../utils/js/topojson.min.js"></script>
+    <script src="../../utils/js/datamaps.usa.min.js"></script>
+
     <link href="../css/personal/personal.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
@@ -20,30 +23,31 @@
             </div>
             <div id="intro">this is intro</div>
         </div>
-        <div id="svgDiv">
-            <div id="pollDiv">
+        <div id="svgContainer">
+            <div class="svgDiv" id="pollDiv">
                 <div id="radioDiv">
 
                 </div>
-                <svg class="svg" id="poll">
+                <svg id="poll">
 
                 </svg>
             </div>
+            <div class="svgDiv" id="treeDiv">
+                <svg id="tree">
 
-            <svg class="svg" id="tree">
+                </svg>
+            </div>
+            <div class="svgDiv" id="mapDiv">
 
-            </svg>
-            <svg class="svg" id="map">
-
-            </svg>
+            </div>
         </div>
     </div>
 
     <!-- poll mouse tip divs -->
     <div id="candidateTip" class="pollMouseTip">
-        <a id="candidateTipLink" href="javascript:;" target="_blank">
+        <div id="candidateTipDiv">
             <span>Candidate: </span><span id="candidateTipName">Candidate Name</span>
-        </a>
+        </div>
     </div>
     <div id="eventTip" class="pollMouseTip">
         <div>
@@ -61,5 +65,6 @@
     </div>
     <script src="../js/personal/personal.js"></script>
     <script src="../js/personal/personal_poll.js"></script>
+    <script src="../js/personal/personal_map.js"></script>
 </body>
 </html>

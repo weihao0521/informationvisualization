@@ -39,35 +39,34 @@ body {
     margin: 0 0 0 30px;
     font-size: 14px;
 }
-#svgDiv {
+#svgContainer {
     margin: 20px auto 0;
     text-align: center;
     word-spacing: -3px;
 }
-.svg {
-    word-spacing: default;
+.svgDiv {
+    word-spacing: normal;
 }
-#pollDiv, #tree {
-    display:inline-block;
+#pollDiv, #treeDiv {
+    display: inline-block;
     box-sizing: border-box;
     border: 1px solid #000;
     width: 50%;
     height: 400px;
     vertical-align: bottom;
 }
-
 #poll {
-    box-sizing: border-box;
     width: 100%;
     height: calc(100% - 16px);
 }
-#map {
+#mapDiv {
     box-sizing: border-box;
     border: 1px solid #000;
     width: 100%;
     height: 400px;
     display: block;
     margin: 0 auto;
+    position:relative;
 }
 /* poll styles */
 .axis path,
@@ -88,7 +87,7 @@ body {
     opacity: 0.9;
     max-width: 500px;
 }
-#candidateTipLink {
+#candidateTipDiv {
     padding: 5px 10px;
     display: block;
 }

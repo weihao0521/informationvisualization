@@ -1,4 +1,5 @@
 var getCandidate;
+var getParty;
 
 // initialize get function of candidate
 (function () {
@@ -11,6 +12,22 @@ var getCandidate;
         return candidate;
     };
     getCandidate = getCandidate.bind(this);
+})();
+
+// initialize get function of party
+(function () {
+    var candidates = {
+        dem: ["Clinton", "Sanders"],
+        rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush"]
+    };// filtered out some candidates
+    var candidate = getCandidate();
+    getParty = function () {
+        if (candidates["dem"].indexOf(candidate) >= 0) {
+            return "dem";
+        } else if (candidates["rep"].indexOf(candidate) >= 0) {
+            return "rep";
+        }
+    };
 })();
 
 // get portrait and introduction
