@@ -148,7 +148,7 @@
                 var gLine = this.var.svg.append("a")
                     .datum(pathData)
                     .attr("class", "path")
-                    .attr("name", candidate)
+                    .attr("candidate", candidate)
                     .attr("xlink:href", "./personal.html?candidate=" + candidate)
                     .attr("target", "_blank");
                 gLine.append("path")
@@ -156,14 +156,27 @@
                     .attr("stroke", this.var.color(+key));
                 gLine.selectAll(".circle").data(pathData)
                     .enter().append("circle")
-                    .attr("r", 3)
+                    .attr("class", "circle")
+                    .attr("r", 5)
                     .attr("cx", function (d) {
                         return poll.var.x(new Date(d.date));
                     })
                     .attr("cy", function (d) {
                         return poll.var.height - poll.var.margin.top - poll.var.margin.bottom - (poll.var.height - poll.var.margin.top - poll.var.margin.bottom - poll.var.y(d.poll));
                     })
-                    .attr("fill", this.var.color(+key));
+                    .attr("fill", this.var.color(+key))
+                    .attr("candidate", candidate)
+                    .attr("date", function (d) {
+                        var date = new Date(d.date);
+                        var yyyy = date.getFullYear().toString();
+                        var mm = date.getMonth(); // getMonth() is zero-based
+                        var dd = date.getDate().toString();
+                        mm = poll.var.months[mm];
+                        return mm + " " + dd + ", " + yyyy;
+                    })
+                    .attr("percentage", function (d) {
+                        return d.poll;
+                    });
             }
         },
         drawEvent: function (data) {
@@ -197,14 +210,20 @@
                 .attr("stroke-width", "2px");
         },
         bindEvent: function () {
+            // path tip
             $("svg").on("mouseenter", ".path", function (e) {
+                // hide value and date
+                $("#candidateTipValue").css("display", "none");
+                $("#candidateTipDate").css("display", "none");
+
                 $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
-                $("#candidateTipName").text($(this).attr("name"));
-                $("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("name"))
+                $("#candidateTipName").text($(this).attr("candidate"));
+                $("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("candidate"))
             }).on("mouseleave", ".path", function () {
                 $("#candidateTip").css("display", "none");
             });
 
+            // event tip
             $("svg").on("mouseenter", ".event", function (e) {
                 $("#eventTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 10);
                 $("#eventTipDate").text($(this).attr("date"));
@@ -213,6 +232,21 @@
                 $("#eventTip").css("display", "none");
             });
 
+            // circle tip
+            $("svg").on("mouseenter", ".circle", function (e) {
+                e.stopPropagation();// do not trigger .path event
+
+                $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
+                $("#candidateTipName").text($(this).attr("candidate"));
+                $("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("candidate"));
+
+                $("#candidateTipValue").css("display", "block").text("Percentage: " + $(this).attr("percentage"));
+                $("#candidateTipDate").css("display", "block").text("Date: " + $(this).attr("date"));
+            }).on("mouseleave", ".circle", function () {
+                $("#candidateTip").css("display", "none");
+            });
+
+            // event for mouse tip divs
             $(".pollMouseTip").on("mouseenter", function () {
                 $(this).css("display", "block");
             }).on("mouseleave", function () {
