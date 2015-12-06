@@ -19,25 +19,13 @@
                 .scale(this.var.x)
                 .orient("bottom")
                 .ticks(d3.time.month, 3)
-                .tickFormat(d3.time.format("%B"));
+                .tickFormat(d3.time.format("%B,%Y"));
             this.var.yAxis = d3.svg.axis()
                 .scale(this.var.y)
                 .orient("left");
 
-            this.var.candidates = {
-                dem: ["Clinton", "Sanders"],
-                rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush"]
-            };// filtered out some candidates
             this.var.candidate = getCandidate();
-
-            // get and set party
-            this.var.party = (function (_this) {
-                if (_this.var.candidates["dem"].indexOf(_this.var.candidate) >= 0) {
-                    return "dem";
-                } else if (_this.var.candidates["rep"].indexOf(_this.var.candidate) >= 0) {
-                    return "rep";
-                }
-            })(this);
+            this.var.party = getParty();
 
             this.var.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             this.var.sources = {};
@@ -71,7 +59,6 @@
         loadData: function () {
             // load individual poll data
             d3.csv("../data/poll/" + this.var.party + "_Individual_Poll.csv", function (error, data) {
-                console.log("../data/poll/" + poll.var.party + "_Individual_Poll.csv");
                 if (error) throw error;
                 var dateParser = d3.time.format("%m/%_d/%Y").parse;
 
@@ -88,6 +75,11 @@
 
                     d.date = dateParser(d.date);
                     d[poll.var.candidate] = +d[poll.var.candidate];
+                });
+
+                // filter out data that are not available for this candidate
+                data = data.filter(function (d) {
+                    return !isNaN(d[poll.var.candidate]);
                 });
 
                 poll.processSource(data);
@@ -124,10 +116,10 @@
                         d.date = dateParser(d.date);
                     });
 
-                    poll.var.data.privateEvent = data;
+                    poll.var.data.individual = data;
 
                     //draw event lines
-                    poll.drawEvent(poll.var.data.privateEvent, "personal");
+                    poll.drawEvent(poll.var.data.individual, "individual");
                 });
             });
             poll.bindEvent();
@@ -213,7 +205,7 @@
                 .datum(pathData)
                 .attr("class", "path")
                 .attr("name", candidate)
-                .attr("xlink:href", "./personal.html?candidate=" + candidate)
+                //.attr("xlink:href", "./personal.html?candidate=" + candidate)
                 .attr("target", "_blank");
             gLine.append("path")
                 .attr("d", this.var.pathFn)
@@ -269,7 +261,7 @@
             $("#poll").on("mouseenter", ".path", function (e) {
                 $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
                 $("#candidateTipName").text($(this).attr("name"));
-                $("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("name"))
+                //$("#candidateTipLink").attr("href", "./personal.html?candidate=" + $(this).attr("name"))
             }).on("mouseleave", ".path", function () {
                 $("#candidateTip").css("display", "none");
             });
@@ -307,7 +299,7 @@
                     $("#svg_g").empty();
                     poll.drawPathBySource();
                     poll.drawEvent(poll.var.data.publicEvent, "public");
-                    poll.drawEvent(poll.var.data.privateEvent, "private");
+                    poll.drawEvent(poll.var.data.individual, "private");
                 }
             })
         }
