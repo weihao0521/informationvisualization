@@ -66,20 +66,21 @@
                 span.css("height", "16px");
                 span.css("display", "inline-block");
 
-                span3.css("background-color", color.getColor(index, true));
-                span3.css("width", "16px");
-                span3.css("height", "16px");
-                span3.css("display", "inline-block");
+                span2.css("background-color", color.getColor(index, true));
+                span2.css("width", "16px");
+                span2.css("height", "16px");
+                span2.css("display", "inline-block");
 
-                span2.text(color.getRange(index, candidate));
+                span3.text(color.getRange(index, candidate));
                 ul.append(li);
 
                 li.append(span);
-                li.append(span3)
-                li.append(span2);
+                li.append(span2)
+                li.append(span3);
             }
+            ul.css("text-align", "left");
             ul.css("position", "absolute");
-            ul.css("top", $("#mapDiv").height()*0.5);
+            ul.css("top", $("#mapDiv").height() * 0.5);
             $("#" + id).append(ul);
         },
         draw: function () {
@@ -91,7 +92,7 @@
                 width: $("#mapDiv").width() * 0.7,
                 height: $("#mapDiv").height() * 0.7,
                 done: function () {
-                    $(".datamaps-subunits").attr("transform", "translate("+$('#mapDiv').width() * 0.15+"," + $('#mapDiv').height() * 0.15 + ")");
+                    $(".datamaps-subunits").attr("transform", "translate(" + $('#mapDiv').width() * 0.15 + "," + $('#mapDiv').height() * 0.15 + ")");
                     $(".datamap").attr("height", $("#mapDiv").height());
                     $(".datamap").attr("width", $("#mapDiv").width());
                 },
@@ -183,10 +184,10 @@
                 if (isSwing == true) {
                     return color_swing[index];
                 }
-                else if (party == "D") {
+                else if (party == "dem") {
                     return D_color[index];
                 }
-                else if (party == "R") {
+                else if (party == "rep") {
                     return R_color[index];
                 }
             },
