@@ -71,6 +71,7 @@
         loadData: function () {
             // load individual poll data
             d3.csv("../data/poll/" + this.var.party + "_Individual_Poll.csv", function (error, data) {
+                console.log("../data/poll/" + poll.var.party + "_Individual_Poll.csv");
                 if (error) throw error;
                 var dateParser = d3.time.format("%m/%_d/%Y").parse;
 
