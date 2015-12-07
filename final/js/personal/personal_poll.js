@@ -39,7 +39,7 @@
                 .attr("width", this.var.width + this.var.margin.left + this.var.margin.right)
                 .attr("height", this.var.height + this.var.margin.top + this.var.margin.bottom)
                 .append("g")
-                .attr("id", "svg_g")
+                .attr("id", "poll_g")
                 .attr("width", this.var.width)
                 .attr("height", this.var.height)
                 .attr("transform", "translate(" + this.var.margin.left + "," + this.var.margin.top + ")")
@@ -63,10 +63,10 @@
                 var dateParser = d3.time.format("%m/%_d/%Y").parse;
 
                 // filter data, remain data after certain date
-                /*var baseDate = new Date(2015, 6, 1);// July 1, 2015
-                 data = data.filter(function (d) {
-                 return new Date(dateParser(d.date)) >= baseDate;
-                 });*/
+                var baseDate = new Date(2015, 0, 1);// Jan 1, 2015
+                data = data.filter(function (d) {
+                    return new Date(dateParser(d.date)) >= baseDate;
+                });
 
                 // process data
                 data.forEach(function (d, i) {
@@ -142,12 +142,12 @@
             var html = "";
             for (var index = 0; index < sources.length; index++) {
                 if (index == 0) {
-                    html += '<input type="radio" name="source" value="' + sources[index] + '" checked="checked"/><span>' + sources[index] + '</span>';
+                    html += '<input class="poll source" type="radio" name="poll_source" value="' + sources[index] + '" checked="checked"/><span>' + sources[index] + '</span>';
                 } else {
-                    html += '<input type="radio" name="source" value="' + sources[index] + '"/><span>' + sources[index] + '</span>';
+                    html += '<input class="poll source" type="radio" name="poll_source" value="' + sources[index] + '"/><span>' + sources[index] + '</span>';
                 }
             }
-            $("#radioDiv").html(html);
+            $("#pollRadioDiv").html(html);
         },
         drawPathBySource: function () {
             var data = poll.var.data.path;
@@ -321,13 +321,13 @@
             });
 
             // event to change source
-            $("#radioDiv").on("mouseup", "input[type='radio']", function () {
-                $("input[type='radio']").attr("checked", false);
+            $("#pollRadioDiv").on("mouseup", ".poll.source", function () {
+                $(".poll.source").attr("checked", false);
                 $(this).attr("checked", true);
                 var newSource = $(this).attr("value");
                 if (newSource != poll.var.source) {
                     poll.var.source = newSource;
-                    $("#svg_g").empty();
+                    $("#poll_g").empty();
                     poll.drawPathBySource();
                     poll.drawEvent(poll.var.data.publicEvent, "public");
                     poll.drawEvent(poll.var.data.individual, "private");

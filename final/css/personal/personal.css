@@ -55,7 +55,7 @@ body {
     height: 400px;
     vertical-align: bottom;
 }
-#poll {
+#poll, #tree{
     width: 100%;
     height: calc(100% - 16px);
 }
