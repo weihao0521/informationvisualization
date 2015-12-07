@@ -1,5 +1,67 @@
 {
-  "name": "SuperPAC",
+  "SuperPAC": [
+    {
+      "name": "Hillary Clinton",
+      "state": [
+        {"name": "California", "size": 13371509},
+        {"name": "New York", "size": 10964425},
+        {"name": "Florida", "size": 4001057},
+        {"name": "Texas", "size": 3308803},
+        {"name": "Other States", "size": 29887477}
+      ]
+    },
+    {
+      "name": "Bernie Sanders",
+      "state": [
+        {"name": "California", "size": 2129210},
+        {"name": "New York", "size": 833414},
+        {"name": "Washington", "size": 557695},
+        {"name": "Massachusettss", "size": 464310},
+        {"name": "Other States", "size": 5153235}
+      ]
+    },
+    {
+      "name": "Donald Trump",
+      "state": [
+       {"name": "Texas", "size": 139132},
+       {"name": "California", "size": 128586},
+       {"name": "Florida", "size": 115921},
+       {"name": "New York", "size": 71934},
+       {"name": "Other States", "size": 555928}
+      ]
+    },
+    {
+      "name": "Ben Carson",
+      "state": [
+        {"name": "Texas", "size": 1381761},
+        {"name": "California", "size": 1330459},
+        {"name": "Florida", "size": 836194},
+        {"name": "North Carolina", "size": 607838},
+        {"name": "Other States", "size": 7495413}
+      ]
+    },
+    {
+      "name": "Ted Cruz",
+      "children": [
+        {"name": "Texas", "size": 8336583},
+        {"name": "California", "size": 1110102},
+        {"name": "Florida", "size": 796226},
+        {"name": "New York", "size": 470851},
+        {"name": "Other States", "size": 5125522}
+      ]
+    },
+    {
+      "name": "Marco Rubio",
+      "children": [
+        {"name": "Florida", "size": 2492908},
+        {"name": "California", "size": 2413363},
+        {"name": "Texas", "size": 1132703},
+        {"name": "New York", "size": 833763},
+        {"name": "Other States", "size": 4735779}
+      ]
+    }
+  ]
+}
   "children": [
     {
       "name": "Democrats",
@@ -23,7 +85,8 @@
             {"name": "Massachusettss", "size": 464310},
             {"name": "Other States", "size": 5153235}
           ]
-        }
+        },
+
       ]
     },
     {

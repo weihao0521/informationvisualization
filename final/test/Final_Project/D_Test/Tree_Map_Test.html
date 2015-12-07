@@ -63,8 +63,25 @@
                 .enter().append("div")
                 .attr("class", "node")
                 .call(position)
-                .style("background", function(d) { return d.children ? color(d.name) : null; })
-                .text(function(d) { return d.children ? null : d.name; });
+                .style("background", function(d)
+                {
+                    if (d.children){
+                        if(d.name == "Hillary Clinton"){
+                            return "Yellow";
+                        }
+                        else{
+                            return color(d.name);
+                        }
+
+                    }
+                    else{
+                        return null;
+                    }
+
+                })
+                .text(function(d) { return d.children ? null : d.name; })
+                .style("font-size","14px")
+                .style("text-align","center");
 
         d3.selectAll("input").on("change", function change() {
             var value = this.value === "3"

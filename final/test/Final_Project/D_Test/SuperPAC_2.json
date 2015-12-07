@@ -7,15 +7,15 @@
         {
           "name": "Hillary Clinton",
           "children": [
-            {"name": "Spending", "size":18699814.02, "size2": 25776617.14},
-            {"name": "Cash on Hand", "size": 28850135.62, "size2":32995172.39}
+            {"name": "Hillary Clinton Spending", "size":18699814.02, "size2": 25776617.14},
+            {"name": "Hillary Clinton Cash on Hand", "size": 28850135.62, "size2":32995172.39}
           ]
         },
         {
           "name": "Bernie Sanders",
           "children": [
-            {"name": "Spending", "size": 3085615.76, "size2":11258446.55},
-            {"name": "Cash on Hand", "size": 12161737.67, "size2":27119721.5}
+            {"name": "Bernie Sanders Spending", "size": 3085615.76, "size2":11258446.55},
+            {"name": "Bernie Sanders Cash on Hand", "size": 12161737.67, "size2":27119721.5}
           ]
         }
       ]
@@ -26,36 +26,36 @@
         {
           "name": "Jeb Bush",
           "children": [
-            {"name": "Spending", "size": 3078087.31, "size2":11465513.3},
-            {"name": "Cash on Hand", "size": 8351810.33,"size2":10271129.09}
+            {"name": "Jeb Bush Spending", "size": 3078087.31, "size2":11465513.3},
+            {"name": "Jeb Bush Cash on Hand", "size": 8351810.33,"size2":10271129.09}
           ]
         },
         {
           "name": "Ben Carson",
           "children": [
-            {"name": "Spending", "size": 5416772.63, "size2":14240044.51},
-            {"name": "Cash on Hand", "size": 4745312.13, "size2":11272534.13}
+            {"name": "Ben Carson Spending", "size": 5416772.63, "size2":14240044.51},
+            {"name": "Ben Carson Cash on Hand", "size": 4745312.13, "size2":11272534.13}
           ]
         },
         {
           "name": "Ted Cruz",
           "children": [
-            {"name": "Spending", "size": 5450051.61, "size2":6966829.6},
-            {"name": "Cash on Hand", "size": 8527595.93, "size2":13778904.04}
+            {"name": "Ted Cruz Spending", "size": 5450051.61, "size2":6966829.6},
+            {"name": "Ted Cruz Cash on Hand", "size": 8527595.93, "size2":13778904.04}
           ]
         },
         {
           "name": "Marco Rubio",
           "children": [
-            {"name": "Spending", "size": 3079705.95, "size2":4607861.17},
-            {"name": "Cash on Hand", "size": 9859065.49, "size2":10975988.78}
+            {"name": "Marco Rubio Spending", "size": 3079705.95, "size2":4607861.17},
+            {"name": "Marco Rubio Cash on Hand", "size": 9859065.49, "size2":10975988.78}
           ]
         },
         {
           "name": "Donald Trump",
           "children": [
-            {"name": "Spending", "size": 0, "size2":4607861.17},
-            {"name": "Cash on Hand", "size": 0, "size2":254772.88}
+            {"name": "Donald Trump Spending", "size": 0, "size2":4607861.17},
+            {"name": "Donald Trump Cash on Hand", "size": 0, "size2":254772.88}
           ]
         }
       ]
