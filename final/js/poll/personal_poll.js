@@ -97,7 +97,7 @@
                     poll.var.data.publicEvent = data;
 
                     //draw event lines
-                    poll.drawEvent(poll.var.data.publicEvent, "public");
+                    //poll.drawEvent(poll.var.data.publicEvent, "public");
                 });
 
                 // load individual event data

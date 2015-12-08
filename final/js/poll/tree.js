@@ -10,7 +10,7 @@
             dataSources,
             dataSource,
             wholeData,
-            candidate = "Clinton";
+            candidate = getCandidate();
 
         var tree = d3.layout.tree()
             // .size([h, w]);
@@ -111,10 +111,12 @@
             parseData: function () {
                 // get data from one source
                 var data = wholeData.filter(function (d) {
-                    return d.source == dataSource;
+                    return d.source == dataSource && d.candidate == candidate;
                 });
+                data.sort(function (a, b) {
+                    return +a.rival_rank - +b.rival_rank;
+                })
 
-                candidate = data[0].candidate;
                 root = {
                     name: data[0].candidate,
                     children: []
