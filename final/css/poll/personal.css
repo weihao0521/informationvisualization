@@ -42,7 +42,7 @@ body {
 #svgContainer {
     margin: 20px auto 0;
     text-align: center;
-    word-spacing: -3px;
+    word-spacing: -4px;
 }
 .svgDiv {
     word-spacing: normal;

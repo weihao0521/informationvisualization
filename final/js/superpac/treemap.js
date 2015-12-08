@@ -27,7 +27,7 @@
             .call(position)
             .style("width", width)
             .style("height", height)
-/*            .style("left", margin.left + "px")
+            /*            .style("left", margin.left + "px")
              .style("top", margin.top + "px")*/
             .style("background", function (d) {
                 if (d.children) {
@@ -69,10 +69,10 @@
 
     function position() {
         this.style("left", function (d) {
-                return d.x + margin.left+ "px";
+                return d.x + margin.left + "px";
             })
             .style("top", function (d) {
-                return d.y +margin.top+ "px";
+                return d.y + margin.top + "px";
             })
             .style("width", function (d) {
                 return Math.max(0, d.dx - 1) + "px";
