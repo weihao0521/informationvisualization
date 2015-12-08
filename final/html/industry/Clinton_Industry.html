@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+</style>
+<body>
+<script src="../../../utils/js/d3.min.js"></script>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 100, left: 80},
+    width = 1160 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10);
+
+var color_blue = d3.scale.ordinal()
+    .range(["#00159C","#001FA6","#0029B0","#0033BA","#033DC4","#0D47CE","#1751D8","#215BE2","#356FF6","#3F79FF","#4983FF","#538DFF","#5D97FF","#67A1FF","#71ABFF","#7BB5FF","#85BFFF","#8FC9FF","#99D3FF","#A3DDFF"]);
+
+var color_red = d3.scale.ordinal()
+    .range(["#760000","#800000","#8A0000","#9E0A0A","#A81414","#B21E1E","#BC2828","#C63232","#D03C3C","#DA4646","#E45050","#EE5A5A","#F86464","#FF6E6E","#FF7878","#FF8C8C","#FF9696","#FFA0A0","#FFAAAA","#FFB4B4"]);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("../../data/industry/Clinton_Industry.tsv", type, function(error, data) {
+  if (error) throw error;
+
+  x.domain(data.map(function(d) { return d.Industry; }));
+  y.domain([0, d3.max(data, function(d) { return d.Money_Raise; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", ".15em")
+      .attr("transform", function(d) {
+                return "rotate(-35)" 
+                });
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".50em")
+      .style("text-anchor", "end")
+      .text("U.S. Dollar");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.Industry); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.Money_Raise); })
+      .attr("height", function(d) { return height - y(d.Money_Raise); })
+      .style("fill", function(d) { return color_blue(d.Industry); });
+});
+
+  svg.append("line")
+        .attr("x1", 0.8)
+        .attr("x2", width-10)
+        .attr("y1", height)
+        .attr("y2", height)
+        .style("stroke", "black")
+        .attr("stroke-width",1)
+
+function type(d) {
+  d.Money_Raise = +d.Money_Raise;
+  return d;
+}
+
+</script>
