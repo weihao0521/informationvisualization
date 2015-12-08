@@ -4,7 +4,7 @@
         init: function () {
             //initialize variables
             this.var.margin = {top: 20, right: 20, bottom: 30, left: 50};
-            this.var.width = $("#svgDiv").width() / 2 - this.var.margin.left - this.var.margin.right;
+            this.var.width = $("#svgDiv").width() / 2 - 40 - this.var.margin.left - this.var.margin.right;
             this.var.height = $("#svgDiv").height() - this.var.margin.top - this.var.margin.bottom;
 
             this.var.color = d3.scale.category20();
@@ -26,7 +26,7 @@
                 dem: ["Clinton", "Sanders"],
                 rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush"]
             };// filtered out some candidates
-            this.var.months = ["January", "February", "March", "April", "June", "July", "August", "September", "October", "November", "December"];
+            this.var.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             // start drawing
             this.drawStart("rep");
@@ -36,11 +36,12 @@
             this.var.party = party;
 
             //start drawing
-            this.var.svg = d3.select("#"+party+"Svg")
+            this.var.svg = d3.select("#" + party + "Svg")
                 .attr("width", this.var.width + this.var.margin.left + this.var.margin.right)
                 .attr("height", this.var.height + this.var.margin.top + this.var.margin.bottom)
                 .append("g")
-                .attr("transform", "translate(" + this.var.margin.left + "," + this.var.margin.top + ")")
+                /*.attr("transform", "translate(" + this.var.margin.left + "," + this.var.margin.top + ")")*/
+                .attr("transform", "translate(20,10)")
                 .attr("class", this.var.party + "_plot");
 
             this.var.pathFn = d3.svg.line()

@@ -329,7 +329,7 @@
                     poll.var.source = newSource;
                     $("#poll_g").empty();
                     poll.drawPathBySource();
-                    poll.drawEvent(poll.var.data.publicEvent, "public");
+                    //poll.drawEvent(poll.var.data.publicEvent, "public");
                     poll.drawEvent(poll.var.data.individual, "private");
                 }
             });
