@@ -56,7 +56,7 @@
         },
         loadData: function () {
             // load path data
-            d3.csv("../data/poll/2016_poll_" + this.var.party + ".csv", function (error, data) {
+            d3.csv("../../data/poll/2016_poll_" + this.var.party + ".csv", function (error, data) {
                 if (error) throw error;
 
                 // filter data with Array.prototype.filter
@@ -79,7 +79,7 @@
                 poll.drawPath(data);
 
                 // load event data
-                d3.tsv("../data/event/" + poll.var.party + "GroupEvent.tsv", function (error, data) {
+                d3.tsv("../../data/event/" + poll.var.party + "GroupEvent.tsv", function (error, data) {
                     if (error) throw error;
 
                     // process data

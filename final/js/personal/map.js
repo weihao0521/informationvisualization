@@ -7,7 +7,7 @@
             this.loadData();
         },
         loadData: function () {
-            d3.csv("../data/map/bothParty_map.csv", function (error, data) {
+            d3.csv("../../data/map/bothParty_map.csv", function (error, data) {
                 var newData = {};
                 for (var index = 0, length = data.length; index < length; index++) {
                     if (data[index].candidate == candidate) {

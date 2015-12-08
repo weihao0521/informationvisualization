@@ -58,7 +58,7 @@
         },
         loadData: function () {
             // load individual poll data
-            d3.csv("../data/poll/" + this.var.party + "_Individual_Poll.csv", function (error, data) {
+            d3.csv("../../data/poll/" + this.var.party + "_Individual_Poll.csv", function (error, data) {
                 if (error) throw error;
                 var dateParser = d3.time.format("%m/%_d/%Y").parse;
 
@@ -85,7 +85,7 @@
                 poll.processSource(data);
 
                 // load public event data
-                d3.tsv("../data/event/" + poll.var.party + "GroupEvent.tsv", function (error, data) {
+                d3.tsv("../../data/event/" + poll.var.party + "GroupEvent.tsv", function (error, data) {
                     if (error) throw error;
 
                     // process data
@@ -101,7 +101,7 @@
                 });
 
                 // load individual event data
-                d3.tsv("../data/event/" + poll.var.party + "IndividualEvent.tsv", function (error, data) {
+                d3.tsv("../../data/event/" + poll.var.party + "IndividualEvent.tsv", function (error, data) {
                     if (error) throw error;
 
                     data = data.filter(function (d) {

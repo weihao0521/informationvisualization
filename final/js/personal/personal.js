@@ -34,11 +34,11 @@ var getParty;
 (function () {
     $("#titleText").text(getCandidate());
     $("#portraitImg")
-        .attr("src", "../img/intro/" + getCandidate() + ".jpg")
+        .attr("src", "../../img/intro/" + getCandidate() + ".jpg")
         .attr("alt", getCandidate());
 
     //get introduction data
-    d3.tsv("../data/intro/CandidateIntroduction.tsv", function (error, data) {
+    d3.tsv("../../data/intro/CandidateIntroduction.tsv", function (error, data) {
         if (error) throw error;
 
         var intro;
