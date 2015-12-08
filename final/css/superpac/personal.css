@@ -1,0 +1,126 @@
+body {
+    font: 12px Arial, sans-serif;
+}
+#container {
+    margin: 0 auto;
+}
+@media screen and (min-width: 800px) {
+    #container {
+        width: 90%;
+    }
+}
+@media screen and (max-width: 799px) {
+    #container {
+        width: 100%;
+    }
+}
+#title {
+    text-align: center;
+    margin: 10px 0 0 0;
+}
+#content {
+    margin: 20px auto 0;
+    padding: 0 30px;
+    display: flex;
+}
+#content::after {
+    clear: both;
+    display: block;
+    content: " ";
+}
+#portrait {
+
+}
+#portraitImg {
+    max-width: 400px;
+    max-height: 200px;
+}
+#intro {
+    margin: 0 0 0 30px;
+    font-size: 14px;
+}
+#svgContainer {
+    margin: 20px auto 0;
+    text-align: center;
+    word-spacing: -3px;
+}
+.svgDiv {
+    word-spacing: normal;
+}
+#pollDiv, #treeDiv {
+    display: inline-block;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    width: 50%;
+    height: 400px;
+    vertical-align: bottom;
+}
+#poll, #tree{
+    width: 100%;
+    height: calc(100% - 16px);
+}
+#industryDiv {
+    box-sizing: border-box;
+    border: 1px solid #000;
+    width: 100%;
+    height: 400px;
+    display: block;
+    margin: 0 auto;
+    position:relative;
+}
+/* poll styles */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+.path {
+    fill: none;
+    stroke-width: 3px;
+}
+
+.bar {
+    fill: steelblue;
+}
+.bar:hover {
+    fill: brown;
+}
+.axis {
+    font: 10px sans-serif;
+}
+.x.axis path {
+    display: none;
+}
+
+
+#candidateTip {
+    display: none;
+    border: 1px solid #000;
+    position: fixed;
+    background: white;
+    opacity: 0.9;
+    max-width: 500px;
+}
+#candidateTipDiv {
+    padding: 5px 10px;
+    display: block;
+}
+#eventTip {
+    display: none;
+    border: 1px solid #000;
+    position: fixed;
+    background: white;
+    opacity: 0.9;
+    width: 400px;
+    padding: 5px 10px;
+}
+#eventTipDescriptionDiv span {
+    float: left;
+    display: block;
+}
+#eventTipDescription {
+    width: 350px;
+    margin-left: 5px;
+}
+/* end poll styles */
