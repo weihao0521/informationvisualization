@@ -4,8 +4,8 @@
         init: function () {
             //initialize variables
             this.var.margin = {top: 20, right: 20, bottom: 30, left: 50};
-            this.var.width = (window.innerWidth - 20) / 2 - this.var.margin.left - this.var.margin.right;
-            this.var.height = 500 - this.var.margin.top - this.var.margin.bottom;
+            this.var.width = $("#svgDiv").width() / 2 - this.var.margin.left - this.var.margin.right;
+            this.var.height = $("#svgDiv").height() - this.var.margin.top - this.var.margin.bottom;
 
             this.var.color = d3.scale.category20();
 
@@ -36,7 +36,7 @@
             this.var.party = party;
 
             //start drawing
-            this.var.svg = d3.select("body").append("svg")
+            this.var.svg = d3.select("#"+party+"Svg")
                 .attr("width", this.var.width + this.var.margin.left + this.var.margin.right)
                 .attr("height", this.var.height + this.var.margin.top + this.var.margin.bottom)
                 .append("g")

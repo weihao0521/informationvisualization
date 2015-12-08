@@ -1,6 +1,18 @@
 body {
     font: 12px Arial, sans-serif;
 }
+#title{
+    text-align: center;
+    padding:10px 0 0 0;
+}
+#svgDiv{
+    margin:0 20px;
+    height:400px;
+    word-spacing: -4px;
+}
+.svg{
+    word-spacing: normal;
+}
 .axis path,
 .axis line {
     fill: none;
@@ -10,6 +22,18 @@ body {
 .path {
     fill: none;
     stroke-width: 3px;
+}
+#descriptionDiv{
+    word-spacing: -4px;
+    margin:0 20px;
+}
+.description{
+    display:inline-block;
+    box-sizing: border-box;
+    word-spacing: normal;
+    width:50%;
+    height:200px;
+    border:1px solid #000;
 }
 /* mouse tip styles */
 #candidateTip {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>poll</title>
+    <title>Poll</title>
     <link href="../../css/utils/initialization.css" rel="stylesheet" type="text/css"/>
     <script src="../../js/utils/jquery-1.11.3.min.js"></script>
     <script src="../../js/utils/d3.min.js"></script>
@@ -10,25 +10,44 @@
     <link href="../../css/poll/poll.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="candidateTip" class="pollMouseTip">
-    <a  id="candidateTipLink" href="javascript:;" target="_blank" >
-        <div>
-            <span>Candidate: </span><span id="candidateTipName">Candidate Name</span>
+    <h1 id="title">This is title</h1>
+    <div id="svgDiv">
+        <svg id="demSvg" class="svg">
+
+        </svg>
+        <svg id="repSvg" class="svg">
+
+        </svg>
+    </div>
+    <div id="descriptionDiv">
+        <div class="description">
+            <p>This is description</p>
         </div>
-        <div><span id="candidateTipValue"></span></div>
-        <div><span id="candidateTipDate"></span></div>
-    </a>
-</div>
-<div id="eventTip" class="pollMouseTip">
-    <div>
-        <span>Date: </span>
-        <span id="eventTipDate"></span>
+        <div class="description">
+            <p>This is description</p>
+        </div>
     </div>
-    <div id="eventTipDescriptionDiv">
-        <span>Event: </span>
-        <span id="eventTipDescription"></span>
+
+    <!-- mouse tip divs -->
+    <div id="candidateTip" class="pollMouseTip">
+        <a id="candidateTipLink" href="javascript:;" target="_blank">
+            <div>
+                <span>Candidate: </span><span id="candidateTipName">Candidate Name</span>
+            </div>
+            <div><span id="candidateTipValue"></span></div>
+            <div><span id="candidateTipDate"></span></div>
+        </a>
     </div>
-</div>
-<script src="../../js/poll/poll.js"></script>
+    <div id="eventTip" class="pollMouseTip">
+        <div>
+            <span>Date: </span>
+            <span id="eventTipDate"></span>
+        </div>
+        <div id="eventTipDescriptionDiv">
+            <span>Event: </span>
+            <span id="eventTipDescription"></span>
+        </div>
+    </div>
+    <script src="../../js/poll/poll.js"></script>
 </body>
 </html>

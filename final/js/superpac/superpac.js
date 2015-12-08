@@ -5,8 +5,8 @@
     };
 
     var margin = {top: 20, right: 20, bottom: 30, left: 50};
-    var width = (window.innerWidth - 20) / 2 - margin.left - margin.right;
-    var height = 500 - margin.top - margin.bottom;
+    var width = $("#svgDiv").width() / 2 - margin.left - margin.right;
+    var height = $("#svgDiv").height() - margin.top - margin.bottom;
 
     var x0 = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
@@ -26,7 +26,7 @@
         .tickFormat(d3.format(".2s"));
 
     var draw = function (party) {
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select("#" + party + "Svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -91,12 +91,12 @@
             svg.append("text")
                 .attr("class", "cap text")
                 .attr("transform", function () {
-                    return party == "dem" ? "translate(" + (width - 220) + "," + y(90717000) + ")" : "translate(" + (width - 220) + "," + y(33717000) + ")";
+                    return party == "dem" ? "translate(" + (width - 400) + "," + y(90717000) + ")" : "translate(" + (width - 400) + "," + y(33717000) + ")";
                 })
                 .attr("dy", ".35em")
                 .attr("text-anchor", "start")
                 .style("fill", "steelblue")
-                .text("Obama Raises On Certain Time of Last Campaign");
+                .text(party == "dem" ? "Obama Raises On Certain Time of Last Campaign" : "Romney Raises On Certain Time of Last Campaign");
 
             svg.append("line")
                 .attr("x1", 0.8)

@@ -23,12 +23,14 @@
     </style>
 </head>
 <body>
-    <script src="../../../utils/js/d3.v3.min.js"></script>
+    <script src="../../utils/js/d3.v3.min.js"></script>
     <script>
+        var demColor = ["#98abc5", "#8a89a6", "#7b6888"];
+        var repColor = ["#a05d56", "#d0743c", "#ff8c00"];
 
-        var margin = {top: 20, right: 20, bottom: 30, left: 40},
-                width = 960 - margin.left - margin.right,
-                height = 500 - margin.top - margin.bottom;
+        var margin = {top: 20, right: 20, bottom: 30, left: 50};
+        var width = (window.innerWidth - 20) / 2 - margin.left - margin.right;
+        var height = 500 - margin.top - margin.bottom;
 
         var x0 = d3.scale.ordinal()
                 .rangeRoundBands([0, width], .1);
@@ -39,7 +41,8 @@
                 .range([height, 0]);
 
         var color = d3.scale.ordinal()
-                .range(["#a05d56", "#d0743c", "#ff8c00"]);
+                .range(demColor);
+
 
         var xAxis = d3.svg.axis()
                 .scale(x0)
@@ -56,7 +59,7 @@
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        d3.csv("../../data/SuperPAC/RepSuperPAC.csv", function (error, data) {
+        d3.csv("../../data/SuperPAC/DemSuperPAC.csv", function (error, data) {
             if (error) throw error;
 
             var ageNames = d3.keys(data[0]).filter(function (key) {
@@ -77,7 +80,7 @@
                 return d3.max(d.ages, function (d) {
                     return d.value;
                 });
-            }) + 10000000]);
+            }) + 30000000]);
 
             svg.append("g")
                     .attr("class", "x axis")
@@ -97,24 +100,24 @@
             svg.append("line")
                     .attr("x1", 0)
                     .attr("x2", width)
-                    .attr("y1", y(32605827.32))
-                    .attr("y2", y(32605827.32))
-                    .style("stroke", "rgb(159, 11, 11)")
+                    .attr("y1", y(88394187.55))
+                    .attr("y2", y(88394187.55))
+                    .style("stroke", "rgb(25, 19, 191)")
                     .attr("stroke-width", 3)
+            svg.append("text")
+                    .attr("transform", "translate(" + (width - 220) + "," + y(90717000) + ")")
+                    .attr("dy", ".35em")
+                    .attr("text-anchor", "start")
+                    .style("fill", "steelblue")
+                    .text("Obama Raises On Certain Time of Last Campaign");
+
             svg.append("line")
                     .attr("x1", 0.8)
-                    .attr("x2", width - 20)
+                    .attr("x2", width - 45)
                     .attr("y1", height)
                     .attr("y2", height)
                     .style("stroke", "black")
                     .attr("stroke-width", 1)
-
-            svg.append("text")
-                    .attr("transform", "translate(" + (width - 220) + "," + y(33717000) + ")")
-                    .attr("dy", ".35em")
-                    .attr("text-anchor", "start")
-                    .style("fill", "red")
-                    .text("Romney Raises On Certain Time of Last Campaign");
 
             var candidate = svg.selectAll(".candidate")
                     .data(data)
