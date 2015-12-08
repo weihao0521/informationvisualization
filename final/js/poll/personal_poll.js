@@ -144,7 +144,7 @@
                 if (index == 0) {
                     html += '<input class="poll source" type="radio" name="poll_source" value="' + sources[index] + '" checked="checked"/><span>' + sources[index] + '</span>';
                 } else {
-                    html += '<input class="poll source" type="radio" name="poll_source" value="' + sources[index] + '"/><span>' + sources[index] + '</span>';
+                    html += '&nbsp;<input class="poll source" type="radio" name="poll_source" value="' + sources[index] + '"/><span>' + sources[index] + '</span>';
                 }
             }
             $("#pollRadioDiv").html(html);

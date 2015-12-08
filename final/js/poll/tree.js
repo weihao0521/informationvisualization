@@ -91,7 +91,7 @@
                     if (index == 0) {
                         html += '<input class="tree source" type="radio" name="tree_source" value="' + sources[index] + '" checked="checked"/><span>' + sources[index] + '</span>';
                     } else {
-                        html += '<input class="tree source" type="radio" name="tree_source" value="' + sources[index] + '"/><span>' + sources[index] + '</span>';
+                        html += '&nbsp;<input class="tree source" type="radio" name="tree_source" value="' + sources[index] + '"/><span>' + sources[index] + '</span>';
                     }
                 }
                 $("#treeRadioDiv").html(html);
