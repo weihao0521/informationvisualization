@@ -6,10 +6,6 @@
     <link href="../../css/utils/initialization.css" rel="stylesheet" type="text/css"/>
     <script src="../../js/utils/jquery-1.11.3.min.js"></script>
     <script src="../../js/utils/d3.min.js"></script>
-    <script src="../../js/utils/d3.layout.js"></script>
-
-    <script src="../../js/utils/topojson.min.js"></script>
-    <script src="../../js/utils/datamaps.usa.min.js"></script>
 
     <link href="../../css/superpac/personal.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -32,17 +28,29 @@
                 <svg id="poll">
 
                 </svg>
+                <div class="description">
+                    <p>This is description</p>
+                </div>
             </div>
-            <div class="svgDiv" id="treeDiv">
+            <div class="svgDiv" id="treemapDiv">
                 <div id="treeRadioDiv">
+                    <label><input class="treemap source" type="radio" name="mode" value="2" checked> 2015 Second Quarter Data </label>
+                    <label><input class="treemap source" type="radio" name="mode" value="3"> 2015 Third Quarter Data </label>
+                </div>
+                <div id="treemap">
 
                 </div>
-                <svg id="tree">
-
-                </svg>
+                <div class="description">
+                    <p>This is description</p>
+                </div>
             </div>
-            <div class="svgDiv" id="industryDiv">
+            <div class="svgDiv" id="industryDivContainer">
+                <div id="industryDiv">
 
+                </div>
+                <div class="description">
+                    <p>This is description</p>
+                </div>
             </div>
         </div>
     </div>
@@ -73,5 +81,6 @@
     </div>
     <script src="../../js/superpac/personal.js"></script>
     <script src="../../js/superpac/industry.js"></script>
+    <script src="../../js/superpac/treemap.js"></script>
 </body>
 </html>

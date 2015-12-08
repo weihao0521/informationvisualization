@@ -1,5 +1,5 @@
 (function () {
-    var margin = {top: 40, right: 10, bottom: 10, left: 10},
+    var margin = {top: 10, right: 10, bottom: 10, left: 10},
         width = $("#treemap").width() - margin.left - margin.right,
         height = $("#treemap").height() - margin.top - margin.bottom;
 
@@ -25,8 +25,10 @@
             .enter().append("div")
             .attr("class", "node")
             .call(position)
-            .style("width",width)
-            .style("height",height)
+            .style("width", width)
+            .style("height", height)
+/*            .style("left", margin.left + "px")
+             .style("top", margin.top + "px")*/
             .style("background", function (d) {
                 if (d.children) {
                     if (d.name == "Hillary Clinton") {
@@ -67,10 +69,10 @@
 
     function position() {
         this.style("left", function (d) {
-                return d.x + "px";
+                return d.x + margin.left+ "px";
             })
             .style("top", function (d) {
-                return d.y + "px";
+                return d.y +margin.top+ "px";
             })
             .style("width", function (d) {
                 return Math.max(0, d.dx - 1) + "px";

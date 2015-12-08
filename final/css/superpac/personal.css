@@ -47,7 +47,7 @@ body {
 .svgDiv {
     word-spacing: normal;
 }
-#pollDiv, #treeDiv {
+#pollDiv, #treemapDiv {
     display: inline-block;
     box-sizing: border-box;
     border: 1px solid #000;
@@ -55,7 +55,7 @@ body {
     height: 400px;
     vertical-align: bottom;
 }
-#poll, #tree{
+#poll, #treemap{
     width: 100%;
     height: calc(100% - 16px);
 }
@@ -92,7 +92,18 @@ body {
 .x.axis path {
     display: none;
 }
-
+/* treemap */
+.node {
+    border: solid 1px white;
+    font: 10px sans-serif;
+    line-height: 12px;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 2px;
+}
+.source{
+    vertical-align: middle;
+}
 
 #candidateTip {
     display: none;
