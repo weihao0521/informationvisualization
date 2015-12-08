@@ -20,7 +20,7 @@ body {
 }
 #content {
     margin: 20px auto 0;
-    padding: 0 30px;
+    padding: 0 5%;
     display: flex;
 }
 #content::after {
@@ -41,6 +41,7 @@ body {
 }
 #svgContainer {
     margin: 20px auto 0;
+    padding: 0 5%;
     text-align: center;
     word-spacing: -4px;
 }
