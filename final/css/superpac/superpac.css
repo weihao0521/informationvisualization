@@ -1,0 +1,28 @@
+body {
+    font: 10px sans-serif;
+}
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+.bar {
+    fill: steelblue;
+}
+.x.axis path {
+    display: none;
+}
+/* mouse tip styles */
+#candidateTip {
+    display: none;
+    border: 1px solid #000;
+    position: fixed;
+    background: white;
+    opacity: 0.9;
+    max-width: 500px;
+}
+#candidateTipLink {
+    padding: 5px 10px;
+    display: block;
+}

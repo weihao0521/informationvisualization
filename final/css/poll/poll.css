@@ -11,6 +11,7 @@ body {
     fill: none;
     stroke-width: 3px;
 }
+/* mouse tip styles */
 #candidateTip {
     display: none;
     border: 1px solid #000;

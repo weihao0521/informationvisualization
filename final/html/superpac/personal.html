@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SuperPAC</title>
+    <link href="../../css/utils/initialization.css" rel="stylesheet" type="text/css"/>
+    <script src="../../js/utils/jquery-1.11.3.min.js"></script>
+    <script src="../../js/utils/d3.min.js"></script>
+    <script src="../../js/utils/d3.layout.js"></script>
+
+    <script src="../../js/utils/topojson.min.js"></script>
+    <script src="../../js/utils/datamaps.usa.min.js"></script>
+
+    <link href="../../css/personal/personal.css" rel="stylesheet" type="text/css"/>
+    <link href="../../css/personal/tree.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div id="container">
+        <div id="title">
+            <h2 id="titleText">This is title</h2>
+        </div>
+        <div id="content">
+            <div id="portrait">
+                <img id="portraitImg" src=""/>
+            </div>
+            <div id="intro">this is intro</div>
+        </div>
+        <div id="svgContainer">
+            <div class="svgDiv" id="pollDiv">
+                <div id="pollRadioDiv">
+
+                </div>
+                <svg id="poll">
+
+                </svg>
+            </div>
+            <div class="svgDiv" id="treeDiv">
+                <div id="treeRadioDiv">
+
+                </div>
+                <svg id="tree">
+
+                </svg>
+            </div>
+            <div class="svgDiv" id="mapDiv">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- poll mouse tip divs -->
+    <div id="candidateTip" class="pollMouseTip">
+        <div id="candidateTipDiv">
+            <div>
+                <span>Candidate: </span><span id="candidateTipName">Candidate Name</span>
+            </div>
+            <div><span id="candidateTipValue"></span></div>
+            <div><span id="candidateTipDate"></span></div>
+        </div>
+    </div>
+    <div id="eventTip" class="pollMouseTip">
+        <div>
+            <span>Date: </span>
+            <span id="eventTipDate"></span>
+        </div>
+        <div id="eventTipCandidateDiv">
+            <span>Candidate: </span>
+            <span id="eventTipCandidate"></span>
+        </div>
+        <div id="eventTipDescriptionDiv">
+            <span>Event: </span>
+            <span id="eventTipDescription"></span>
+        </div>
+    </div>
+    <script src="../../js/personal/personal.js"></script>
+    <script src="../../js/personal/personal_poll.js"></script>
+    <script src="../../js/personal/map.js"></script>
+    <script src="../../js/personal/tree.js"></script>
+</body>
+</html>

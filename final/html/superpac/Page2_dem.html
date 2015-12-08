@@ -25,10 +25,12 @@
 <body>
     <script src="../../../utils/js/d3.v3.min.js"></script>
     <script>
+        var demColor = ["#98abc5", "#8a89a6", "#7b6888"];
+        var repColor = ["#a05d56", "#d0743c", "#ff8c00"];
 
-        var margin = {top: 20, right: 20, bottom: 30, left: 40},
-                width = 960 - margin.left - margin.right,
-                height = 500 - margin.top - margin.bottom;
+        var margin = {top: 20, right: 20, bottom: 30, left: 50};
+        var width = (window.innerWidth - 20) / 2 - margin.left - margin.right;
+        var height = 500 - margin.top - margin.bottom;
 
         var x0 = d3.scale.ordinal()
                 .rangeRoundBands([0, width], .1);
@@ -39,7 +41,8 @@
                 .range([height, 0]);
 
         var color = d3.scale.ordinal()
-                .range(["#98abc5", "#8a89a6", "#7b6888"]);
+                .range(demColor);
+
 
         var xAxis = d3.svg.axis()
                 .scale(x0)
