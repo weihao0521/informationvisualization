@@ -1,11 +1,16 @@
-candidate,rival,candidate_rate,rival_rate,difference,rival_rank,source
-Clinton,Trump,41,46,-5,1,Fox General Election Result
-Clinton,Carson,42,47,-5,2,Fox General Election Result
-Clinton,Rubio,42,50,-8,3,Fox General Election Result
-Clinton,Cruz,41,45,-4,4,Fox General Election Result
-Clinton,Bush,45,39,6,5,Fox General Election Result
-Clinton,Trump,10,46,-5,1,ff
-Clinton,Carson,10,47,-5,2,ff
-Clinton,Rubio,10,50,-8,3,ff
-Clinton,Cruz,10,45,-4,4,ff
-Clinton,Bush,10,39,6,5,ff
+candidate,rival,candidate_rate,rival_rate,rival_rank,source
+Clinton,Trump,41,46,1,Fox General Election Result
+Clinton,Carson,42,47,2,Fox General Election Result
+Clinton,Rubio,42,50,3,Fox General Election Result
+Clinton,Cruz,41,45,4,Fox General Election Result
+Clinton,Bush,45,39,5,Fox General Election Result
+Clinton,Trump,45,44,1,PPP Genernal Election Result
+Clinton,Carson,46,45,2,PPP Genernal Election Result
+Clinton,Rubio,45,43,3,PPP Genernal Election Result
+Clinton,Cruz,41,44,4,PPP Genernal Election Result
+Clinton,Bush,42,45,5,PPP Genernal Election Result
+Clinton,Trump,44,44,1,Iowa Genernal Election Result
+Clinton,Carson,45,43,2,Iowa Genernal Election Result
+Clinton,Rubio,45,43,3,Iowa Genernal Election Result
+Clinton,Cruz,44,46,4,Iowa Genernal Election Result
+Clinton,Bush,40,45,5,Iowa Genernal Election Result
