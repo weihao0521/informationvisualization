@@ -47,7 +47,7 @@ body {
 .svgDiv {
     word-spacing: normal;
 }
-#pollDiv, #treemapDiv {
+#pieDiv, #treemapDiv {
     display: inline-block;
     box-sizing: border-box;
     border: 1px solid #000;
@@ -55,7 +55,11 @@ body {
     height: 400px;
     vertical-align: bottom;
 }
-#poll, #treemap{
+#pie {
+    width: 100%;
+    height: 100%;
+}
+#treemap {
     width: 100%;
     height: calc(100% - 16px);
 }
@@ -66,7 +70,7 @@ body {
     height: 400px;
     display: block;
     margin: 0 auto;
-    position:relative;
+    position: relative;
 }
 /* poll styles */
 .axis path,
@@ -79,7 +83,6 @@ body {
     fill: none;
     stroke-width: 3px;
 }
-
 .bar {
     fill: steelblue;
 }
@@ -101,10 +104,19 @@ body {
     position: absolute;
     text-indent: 2px;
 }
-.source{
+.source {
     vertical-align: middle;
 }
-
+/* pie styles */
+path.slice {
+    stroke-width: 2px;
+}
+.polyline {
+    opacity: .3;
+    stroke: black;
+    stroke-width: 2px;
+    fill: none;
+}
 #candidateTip {
     display: none;
     border: 1px solid #000;
