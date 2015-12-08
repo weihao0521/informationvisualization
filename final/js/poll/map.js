@@ -81,6 +81,13 @@
             ul.css("text-align", "left");
             ul.css("position", "absolute");
             ul.css("top", $("#mapDiv").height() * 0.5);
+
+            var li = $(document.createElement("li"));
+            li.text("Left is not swing state")
+            ul.append(li);
+            var li = $(document.createElement("li"));
+            li.text("Right is swing state");
+            ul.append(li);
             $("#" + id).append(ul);
         },
         draw: function () {
