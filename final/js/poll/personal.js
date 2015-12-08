@@ -1,4 +1,5 @@
 var getCandidate;
+var getFullName;
 var getParty;
 
 // initialize get function of candidate
@@ -16,10 +17,25 @@ var getParty;
 
 // initialize get function of party
 (function () {
+    var fullName = {
+        dem: {
+            Clinton: "Hillary Cliton",
+            Sanders: "Bernie Sanders"
+        },
+        rep: {
+            Trump: "Donald Trump",
+            Carson: "Ben Carson",
+            Cruz: "Ted Cruz",
+            Rubio: "Marco Rubio",
+            Bush: "Jeb Bush"
+        }
+    };// filtered out some candidates
+
     var candidates = {
         dem: ["Clinton", "Sanders"],
         rep: ["Trump", "Carson", "Rubio", "Cruz", "Bush"]
-    };// filtered out some candidates
+    };
+
     var candidate = getCandidate();
     getParty = function () {
         if (candidates["dem"].indexOf(candidate) >= 0) {
@@ -28,11 +44,15 @@ var getParty;
             return "rep";
         }
     };
+    getFullName = function () {
+        return fullName[getParty()][getCandidate()];
+    }
+    getFullName = getFullName.bind(this);
 })();
 
 // get portrait and introduction
 (function () {
-    $("#titleText").text(getCandidate());
+    $("#titleText").text(getFullName());
     $("#portraitImg")
         .attr("src", "../../img/intro/" + getCandidate() + ".jpg")
         .attr("alt", getCandidate());
@@ -42,11 +62,18 @@ var getParty;
         if (error) throw error;
 
         var intro;
+        var des1="1",des2="2",des3="3";
         data.forEach(function (d) {
             if (d.candidate == getCandidate()) {
                 intro = d.intro;
+                des1= d.des1;
+                des2= d.des2;
+                des3= d.des3;
             }
         });
-        $("#intro").text(intro);
+        $("#intro").html(intro);
+        $("#des1").html(des1);
+        $("#des2").html(des2);
+        $("#des3").html(des3);
     });
 })();
