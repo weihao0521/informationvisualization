@@ -6,12 +6,18 @@ body {
     padding: 10px 0 0 0;
 }
 #svgDiv {
-    margin: 0 20px;
+    width:90%;
+    margin:20px auto 0;
     height: 400px;
     word-spacing: -4px;
 }
-.svg{
+.svg {
+    width:46%;
     word-spacing: normal;
+    box-sizing: border-box;
+    padding: 0 0 0 20px;
+    margin:0 2%;
+    border:5px solid #666;
 }
 .axis path,
 .axis line {
@@ -26,16 +32,20 @@ body {
     display: none;
 }
 #descriptionDiv {
-    word-spacing: -4px;
-    margin: 0 20px;
+    display: flex;
+    margin: 10px 40px 0;
+    width:90%;
 }
 .description {
-    display: inline-block;
-    box-sizing: border-box;
+    width:46%;
     word-spacing: normal;
-    width: 50%;
-    height: 200px;
-    border: 1px solid #000;
+    box-sizing: border-box;
+    padding: 0 0 0 30px;
+    margin:0 2%;
+    font-size:16px;
+    display: inline-block;
+    /*height: 200px;
+    border: 1px solid #000;*/
 }
 /* mouse tip styles */
 #candidateTip {

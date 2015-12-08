@@ -5,7 +5,7 @@
     };
 
     var margin = {top: 20, right: 20, bottom: 30, left: 50};
-    var width = $("#svgDiv").width() / 2 - margin.left - margin.right;
+    var width = $("#svgDiv").width() / 2 - 40 - margin.left - margin.right;
     var height = $("#svgDiv").height() - margin.top - margin.bottom;
 
     var x0 = d3.scale.ordinal()
@@ -30,7 +30,8 @@
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            //.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("transform", "translate(18,10)")
 
         var color = d3.scale.ordinal()
             .range(barColor[party]);
