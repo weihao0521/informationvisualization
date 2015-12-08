@@ -15,9 +15,9 @@ body {
     width:46%;
     word-spacing: normal;
     box-sizing: border-box;
-    padding: 0 20px;
+    padding: 0 0 0 20px;
     margin:0 2%;
-    border:5px solid #333;
+    border:5px solid #666;
 }
 .axis path,
 .axis line {
@@ -31,15 +31,17 @@ body {
 }
 #descriptionDiv {
     display: flex;
-    margin: 0 40px;
+    margin: 10px 40px 0;
+    width:90%;
 }
 .description {
-    font-size:16px;
-    margin: 0 40px;
-    display: inline-block;
-    box-sizing: border-box;
+    width:46%;
     word-spacing: normal;
-    width: 50%;
+    box-sizing: border-box;
+    padding: 0 0 0 30px;
+    margin:0 2%;
+    font-size:16px;
+    display: inline-block;
     /*height: 200px;
     border: 1px solid #000;*/
 }

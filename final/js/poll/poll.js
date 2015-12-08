@@ -41,7 +41,7 @@
                 .attr("height", this.var.height + this.var.margin.top + this.var.margin.bottom)
                 .append("g")
                 /*.attr("transform", "translate(" + this.var.margin.left + "," + this.var.margin.top + ")")*/
-                .attr("transform", "translate(20,10)")
+                .attr("transform", "translate(15,10)")
                 .attr("class", this.var.party + "_plot");
 
             this.var.pathFn = d3.svg.line()
