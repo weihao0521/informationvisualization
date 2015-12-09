@@ -96,7 +96,7 @@
                 })
                 .attr("dy", ".35em")
                 .attr("text-anchor", "start")
-                .style("fill", "steelblue")
+                .style("fill", party == "dem" ? "steelblue" : "red")
                 .text(party == "dem" ? "Obama Raises On Certain Time of Last Campaign" : "Romney Raises On Certain Time of Last Campaign");
 
             svg.append("line")
