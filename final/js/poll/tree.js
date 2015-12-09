@@ -37,7 +37,7 @@
             // .attr("transform", "translate(" + m[3] + "," + m[0] + ")"); // left-right
             // .attr("transform", "translate(" + m[0] + "," + m[3] + ")"); // top-bottom
             //.attr("transform", "translate(0,"+h/2+")"); // bidirectional-tree
-            .attr("transform", "translate(20,15)");
+            .attr("transform", "translate(20,24)");
 
 
         var that = {
