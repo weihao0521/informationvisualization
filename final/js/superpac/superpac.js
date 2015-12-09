@@ -92,7 +92,7 @@
             svg.append("text")
                 .attr("class", "cap text")
                 .attr("transform", function () {
-                    return party == "dem" ? "translate(" + (width - 270) + "," + (y(90717000) + 18) + ")" : "translate(" + (width - 270) + "," + (y(33717000) + 18) + ")";
+                    return party == "dem" ? "translate(" + (width - 275) + "," + (y(90717000) + 18) + ")" : "translate(" + (width - 275) + "," + (y(33717000) + 18) + ")";
                 })
                 .attr("dy", ".35em")
                 .attr("text-anchor", "start")
@@ -114,7 +114,7 @@
                 .attr("xlink:href", function (d) {
                     return "./personal.html?candidate=" + d.Candidate.split(" ")[1];
                 })
-                .attr("target","_blank")
+                .attr("target", "_blank")
                 .attr("candidate", function (d) {
                     return d.Candidate;
                 })
