@@ -114,6 +114,7 @@
                 .attr("xlink:href", function (d) {
                     return "./personal.html?candidate=" + d.Candidate.split(" ")[1];
                 })
+                .attr("target","_blank")
                 .attr("candidate", function (d) {
                     return d.Candidate;
                 })
