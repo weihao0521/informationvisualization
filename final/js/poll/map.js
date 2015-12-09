@@ -84,10 +84,10 @@
             ul.css("left","50px");
 
             var li = $(document.createElement("li"));
-            li.text("Color on left is not swing state.")
+            li.text("Colors on the left indicate not swing states.")
             ul.append(li);
             var li = $(document.createElement("li"));
-            li.text("Color on right is swing state.");
+            li.text("Colors on the right indicate swing states.");
             ul.append(li);
             $("#" + id).append(ul);
         },
