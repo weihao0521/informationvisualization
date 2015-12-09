@@ -92,7 +92,7 @@
             svg.append("text")
                 .attr("class", "cap text")
                 .attr("transform", function () {
-                    return party == "dem" ? "translate(" + (width - 400) + "," + y(90717000) + ")" : "translate(" + (width - 400) + "," + y(33717000) + ")";
+                    return party == "dem" ? "translate(" + (width - 300) + "," + (y(90717000) + 18) + ")" : "translate(" + (width - 300) + "," + (y(33717000) + 18) + ")";
                 })
                 .attr("dy", ".35em")
                 .attr("text-anchor", "start")
