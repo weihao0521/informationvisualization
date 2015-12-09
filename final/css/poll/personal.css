@@ -59,7 +59,6 @@ body {
 }
 #svgContainer {
     margin: 20px auto 0;
-
     text-align: center;
     display: flex;
 }
@@ -69,7 +68,6 @@ body {
 #pollDiv, #treeDiv {
     display: inline-block;
     box-sizing: border-box;
-
     width: 49%;
     vertical-align: bottom;
     padding: 0 5px;
@@ -94,8 +92,6 @@ body {
 }
 #mapDivContainer {
     position: relative;
-    /*padding: 0 5%;*/
-
 }
 #des3 {
     position: absolute;
@@ -104,7 +100,7 @@ body {
 .description {
     text-align: left;
     font-size: 16px;
-    /*height: 100px;*/
+    margin:0 1%;
 }
 .source {
     vertical-align: middle;

@@ -4,14 +4,32 @@ body {
 #container {
     margin: 0 auto;
 }
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1024px) {
     #container {
         width: 90%;
     }
+    #content {
+        margin: 20px 5% 0;
+    }
+    #svgContainer {
+        padding: 0 5%;
+    }
+    #industryDivContainer {
+        margin: 20px 5%;
+    }
 }
-@media screen and (max-width: 799px) {
+@media screen and (max-width: 1023px) {
     #container {
         width: 100%;
+    }
+    #content {
+        margin: 20px 0 0 0;
+    }
+    #svgContainer {
+        padding: 0;
+    }
+    #industryDivContainer {
+        margin: 20px 0;
     }
 }
 #title {
@@ -19,9 +37,9 @@ body {
     margin: 10px 0 0 0;
 }
 #content {
-    margin: 20px auto 0;
-    padding: 0 30px;
+    padding: 5px 5%;
     display: flex;
+    border: 5px solid #666;
 }
 #content::after {
     clear: both;
@@ -42,37 +60,52 @@ body {
 #svgContainer {
     margin: 20px auto 0;
     text-align: center;
-    word-spacing: -3px;
+    display: flex;
 }
 .svgDiv {
-    word-spacing: normal;
+    border: 5px solid #666;
 }
 #pieDiv, #treemapDiv {
     display: inline-block;
     box-sizing: border-box;
-    border: 1px solid #000;
-    width: 50%;
-    height: 400px;
+    width: 49%;
     vertical-align: bottom;
+    padding: 0 5px;
 }
-#pie {
-    width: 100%;
-    height: 100%;
+#pieDiv {
+    margin-right: 1%;
 }
-#treemap {
+#treemapDiv {
+    margin-left: 1%;
+}
+#pie, #treemap {
     width: 100%;
-    height: calc(100% - 16px);
+    height: 300px;
 }
 #industryDiv {
     box-sizing: border-box;
-    border: 1px solid #000;
     width: 100%;
-    height: 400px;
+    height: 500px;
     display: block;
     margin: 0 auto;
     position: relative;
 }
-/* poll styles */
+#industryDivContainer{
+    position: relative;
+}
+#des3 {
+    position: absolute;
+    top: calc(100% - 50px);
+}
+.description {
+    text-align: left;
+    font-size: 16px;
+    margin:0 1%;
+}
+.source {
+    vertical-align: middle;
+}
+/* bar styles */
 .axis path,
 .axis line {
     fill: none;
