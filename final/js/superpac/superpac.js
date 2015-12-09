@@ -31,7 +31,7 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             //.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .attr("transform", "translate(18,10)")
+            .attr("transform", "translate(25,10)")
 
         var color = d3.scale.ordinal()
             .range(barColor[party]);
