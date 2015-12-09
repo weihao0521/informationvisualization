@@ -85,7 +85,7 @@ body {
 #mapDiv {
     box-sizing: border-box;
     width: 100%;
-    height: 500px;
+    height: 400px;
     display: block;
     margin: 0 auto;
     position: relative;
@@ -94,8 +94,9 @@ body {
     position: relative;
 }
 #des3 {
-    position: absolute;
-    top: calc(100% - 50px);
+    /*position: absolute;
+    top: calc(100% - 50px);*/
+    margin:0 1% 5px;
 }
 .description {
     text-align: left;

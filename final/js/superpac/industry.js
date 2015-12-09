@@ -1,7 +1,7 @@
 (function () {
     var candidate = getCandidate();
     var party = getParty();
-    var margin = {top: 20, right: 20, bottom: 100, left: 80},
+    var margin = {top: 20, right: 20, bottom: 110, left: 80},
         width = $("#industryDiv").width() - margin.left - margin.right,
         height = $("#industryDiv").height() - margin.top - margin.bottom;
 

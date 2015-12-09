@@ -84,10 +84,10 @@
             ul.css("left","50px");
 
             var li = $(document.createElement("li"));
-            li.text("Left is not swing state")
+            li.text("Color on left is not swing state.")
             ul.append(li);
             var li = $(document.createElement("li"));
-            li.text("Right is swing state");
+            li.text("Color on right is swing state.");
             ul.append(li);
             $("#" + id).append(ul);
         },
@@ -100,8 +100,8 @@
                 width: $("#mapDiv").width() * 0.7,
                 height: $("#mapDiv").height() * 0.7,
                 done: function () {
-                    $(".datamaps-subunits").attr("transform", "translate(" + $('#mapDiv').width() * 0.15 + "," + $('#mapDiv').height() * 0.05 + ")");
-                    $(".datamap").attr("height", $("#mapDiv").height()-100);
+                    $(".datamaps-subunits").attr("transform", "translate(" + $('#mapDiv').width() * 0.15 + "," + $('#mapDiv').height() * 0.15 + ")");
+                    $(".datamap").attr("height", $("#mapDiv").height());
                     $(".datamap").attr("width", $("#mapDiv").width());
                 },
                 scope: 'usa',
