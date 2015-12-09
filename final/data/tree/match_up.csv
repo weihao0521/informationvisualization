@@ -1,53 +1,53 @@
 candidate,rival,candidate_rate,rival_rate,rival_rank,source
-Clinton,Trump,41,46,1,Fox General Election Result
-Clinton,Carson,42,47,2,Fox General Election Result
-Clinton,Rubio,42,50,3,Fox General Election Result
-Clinton,Cruz,41,45,4,Fox General Election Result
-Clinton,Bush,45,39,5,Fox General Election Result
-Clinton,Trump,45,44,1,PPP Genernal Election Result
-Clinton,Carson,46,45,2,PPP Genernal Election Result
-Clinton,Rubio,45,43,3,PPP Genernal Election Result
-Clinton,Cruz,41,44,4,PPP Genernal Election Result
-Clinton,Bush,42,45,5,PPP Genernal Election Result
-Clinton,Trump,44,44,1,Iowa Genernal Election Result
-Clinton,Carson,45,43,2,Iowa Genernal Election Result
-Clinton,Rubio,45,43,3,Iowa Genernal Election Result
-Clinton,Cruz,44,46,4,Iowa Genernal Election Result
-Clinton,Bush,40,45,5,Iowa Genernal Election Result
-Sanders,Trump,41,46,1,Fox General Election Result
-Sanders,Trump,41,44,1,PPP Genernal Election Result
-Sanders,Carson,39,46,2,PPP Genernal Election Result
-Sanders,Rubio,38,44,3,PPP Genernal Election Result
-Sanders,Cruz,39,44,4,PPP Genernal Election Result
-Sanders,Bush,39,42,5,PPP Genernal Election Result
-Sanders,Trump,44,44,1,Iowa Genernal Election Result
-Sanders,Carson,37,47,2,Iowa Genernal Election Result
-Sanders,Rubio,38,45,3,Iowa Genernal Election Result
-Sanders,Cruz,42,43,4,Iowa Genernal Election Result
-Sanders,Bush,41,41,5,Iowa Genernal Election Result
-Trump,Clinton,46,41,1,Fox General Election Result
-Trump,Sanders,46,41,2,Fox General Election Result
-Trump,Clinton,44,45,1,PPP Genernal Election Result
-Trump,Sanders,44,41,2,PPP Genernal Election Result
-Trump,Clinton,44,44,1,Iowa Genernal Election Result
-Trump,Sanders,44,44,2,Iowa Genernal Election Result
-Carson,Clinton,47,42,1,Fox General Election Result
-Carson,Clinton,45,46,1,PPP Genernal Election Result
-Carson,Sanders,46,39,2,PPP Genernal Election Result
-Carson,Clinton,43,45,1,Iowa Genernal Election Result
-Carson,Sanders,47,37,2,Iowa Genernal Election Result
-Rubio,Clinton,50,42,1,Fox General Election Result
-Rubio,Clinton,45,43,1,PPP Genernal Election Result
-Rubio,Sanders,44,38,2,PPP Genernal Election Result
-Rubio,Clinton,43,45,1,Iowa Genernal Election Result
-Rubio,Sanders,45,38,2,Iowa Genernal Election Result
-Cruz,Clinton,45,41,1,Fox General Election Result
-Cruz,Clinton,44,41,1,PPP Genernal Election Result
-Cruz,Sanders,44,39,2,PPP Genernal Election Result
-Cruz,Clinton,46,44,1,Iowa Genernal Election Result
-Cruz,Sanders,43,42,2,Iowa Genernal Election Result
-Bush,Clinton,39,45,1,Fox General Election Result
-Bush,Clinton,45,42,1,PPP Genernal Election Result
-Bush,Sanders,42,39,2,PPP Genernal Election Result
-Bush,Clinton,45,40,1,Iowa Genernal Election Result
-Bush,Sanders,41,41,2,Iowa Genernal Election Result
+Clinton,Trump,41,46,1,Fox General Election 
+Clinton,Carson,42,47,2,Fox General Election 
+Clinton,Rubio,42,50,3,Fox General Election 
+Clinton,Cruz,41,45,4,Fox General Election 
+Clinton,Bush,45,39,5,Fox General Election 
+Clinton,Trump,45,44,1,PPP Genernal Election 
+Clinton,Carson,46,45,2,PPP Genernal Election 
+Clinton,Rubio,45,43,3,PPP Genernal Election 
+Clinton,Cruz,41,44,4,PPP Genernal Election 
+Clinton,Bush,42,45,5,PPP Genernal Election 
+Clinton,Trump,44,44,1,Iowa Genernal Election 
+Clinton,Carson,45,43,2,Iowa Genernal Election 
+Clinton,Rubio,45,43,3,Iowa Genernal Election 
+Clinton,Cruz,44,46,4,Iowa Genernal Election 
+Clinton,Bush,40,45,5,Iowa Genernal Election 
+Sanders,Trump,41,46,1,Fox General Election 
+Sanders,Trump,41,44,1,PPP Genernal Election 
+Sanders,Carson,39,46,2,PPP Genernal Election 
+Sanders,Rubio,38,44,3,PPP Genernal Election 
+Sanders,Cruz,39,44,4,PPP Genernal Election 
+Sanders,Bush,39,42,5,PPP Genernal Election 
+Sanders,Trump,44,44,1,Iowa Genernal Election 
+Sanders,Carson,37,47,2,Iowa Genernal Election 
+Sanders,Rubio,38,45,3,Iowa Genernal Election 
+Sanders,Cruz,42,43,4,Iowa Genernal Election 
+Sanders,Bush,41,41,5,Iowa Genernal Election 
+Trump,Clinton,46,41,1,Fox General Election 
+Trump,Sanders,46,41,2,Fox General Election 
+Trump,Clinton,44,45,1,PPP Genernal Election 
+Trump,Sanders,44,41,2,PPP Genernal Election 
+Trump,Clinton,44,44,1,Iowa Genernal Election 
+Trump,Sanders,44,44,2,Iowa Genernal Election 
+Carson,Clinton,47,42,1,Fox General Election 
+Carson,Clinton,45,46,1,PPP Genernal Election 
+Carson,Sanders,46,39,2,PPP Genernal Election 
+Carson,Clinton,43,45,1,Iowa Genernal Election 
+Carson,Sanders,47,37,2,Iowa Genernal Election 
+Rubio,Clinton,50,42,1,Fox General Election 
+Rubio,Clinton,45,43,1,PPP Genernal Election 
+Rubio,Sanders,44,38,2,PPP Genernal Election 
+Rubio,Clinton,43,45,1,Iowa Genernal Election 
+Rubio,Sanders,45,38,2,Iowa Genernal Election 
+Cruz,Clinton,45,41,1,Fox General Election 
+Cruz,Clinton,44,41,1,PPP Genernal Election 
+Cruz,Sanders,44,39,2,PPP Genernal Election 
+Cruz,Clinton,46,44,1,Iowa Genernal Election 
+Cruz,Sanders,43,42,2,Iowa Genernal Election 
+Bush,Clinton,39,45,1,Fox General Election 
+Bush,Clinton,45,42,1,PPP Genernal Election 
+Bush,Sanders,42,39,2,PPP Genernal Election 
+Bush,Clinton,45,40,1,Iowa Genernal Election 
+Bush,Sanders,41,41,2,Iowa Genernal Election 
