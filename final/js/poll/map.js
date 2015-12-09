@@ -80,7 +80,8 @@
             }
             ul.css("text-align", "left");
             ul.css("position", "absolute");
-            ul.css("top", $("#mapDiv").height() * 0.5);
+            ul.css("top", $("#mapDiv").height() * 0.3)
+            ul.css("left","50px");
 
             var li = $(document.createElement("li"));
             li.text("Left is not swing state")
@@ -99,8 +100,8 @@
                 width: $("#mapDiv").width() * 0.7,
                 height: $("#mapDiv").height() * 0.7,
                 done: function () {
-                    $(".datamaps-subunits").attr("transform", "translate(" + $('#mapDiv').width() * 0.15 + "," + $('#mapDiv').height() * 0.15 + ")");
-                    $(".datamap").attr("height", $("#mapDiv").height());
+                    $(".datamaps-subunits").attr("transform", "translate(" + $('#mapDiv').width() * 0.15 + "," + $('#mapDiv').height() * 0.05 + ")");
+                    $(".datamap").attr("height", $("#mapDiv").height()-100);
                     $(".datamap").attr("width", $("#mapDiv").width());
                 },
                 scope: 'usa',

@@ -62,13 +62,13 @@ var getParty;
         if (error) throw error;
 
         var intro;
-        var des1="1",des2="2",des3="3";
+        var des1, des2, des3;
         data.forEach(function (d) {
             if (d.candidate == getCandidate()) {
                 intro = d.intro;
-                des1= d.des1;
-                des2= d.des2;
-                des3= d.des3;
+                des1 = d.des1;
+                des2 = d.des2;
+                des3 = d.des3;
             }
         });
         $("#intro").html(intro);

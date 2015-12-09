@@ -4,14 +4,32 @@ body {
 #container {
     margin: 0 auto;
 }
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1024px) {
     #container {
         width: 90%;
     }
+    #content {
+        margin: 20px 5% 0;
+    }
+    #svgContainer {
+        padding: 0 5%;
+    }
+    #mapDivContainer {
+        margin: 20px 5%;
+    }
 }
-@media screen and (max-width: 799px) {
+@media screen and (max-width: 1023px) {
     #container {
         width: 100%;
+    }
+    #content {
+        margin: 20px 0 0 0;
+    }
+    #svgContainer {
+        padding: 0;
+    }
+    #mapDivContainer {
+        margin: 20px 0;
     }
 }
 #title {
@@ -19,10 +37,9 @@ body {
     margin: 10px 0 0 0;
 }
 #content {
-    margin: 20px 5% 0;
     padding: 5px 5%;
     display: flex;
-    border:3px solid #666;
+    border: 3px solid #666;
 }
 #content::after {
     clear: both;
@@ -42,20 +59,26 @@ body {
 }
 #svgContainer {
     margin: 20px auto 0;
-    padding: 0 5%;
+
     text-align: center;
-    word-spacing: -4px;
+    display: flex;
 }
 .svgDiv {
-    word-spacing: normal;
+    border: 5px solid #666;
 }
 #pollDiv, #treeDiv {
     display: inline-block;
     box-sizing: border-box;
-    border: 1px solid #000;
-    width: 50%;
+
+    width: 49%;
     vertical-align: bottom;
     padding: 0 5px;
+}
+#pollDiv {
+    margin-right: 1%;
+}
+#treeDiv {
+    margin-left: 1%;
 }
 #poll, #tree {
     width: 100%;
@@ -63,20 +86,25 @@ body {
 }
 #mapDiv {
     box-sizing: border-box;
-    border: 1px solid #000;
     width: 100%;
-    height: 400px;
+    height: 500px;
     display: block;
     margin: 0 auto;
     position: relative;
 }
-/*#mapDivContainer {
-    margin: 25px 0 0 0;
-}*/
+#mapDivContainer {
+    position: relative;
+    /*padding: 0 5%;*/
+
+}
+#des3 {
+    position: absolute;
+    top: calc(100% - 50px);
+}
 .description {
     text-align: left;
     font-size: 16px;
-    height:100px;
+    /*height: 100px;*/
 }
 .source {
     vertical-align: middle;
