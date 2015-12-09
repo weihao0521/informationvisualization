@@ -1,7 +1,7 @@
 (function () {
     var barColor = {
-        dem: ["#98abc5", "#8a89a6", "#7b6888"],
-        rep: ["#a05d56", "#d0743c", "#ff8c00"]
+        dem: ["#DA5550", "#ffffbf", "#91cf60"],
+        rep: ["#f1a340", "#f7f7f7", "#998ec3"]
     };
 
     var margin = {top: 20, right: 20, bottom: 30, left: 50};
