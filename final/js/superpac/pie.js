@@ -93,16 +93,6 @@
                     return (d.data.value / total * 100).toFixed(1) + "%";
                 })
                 .attr("class", "slice");
-            $("#pie")
-                .on("mouseenter", ".slice", function (e) {
-                    console.log(e);
-                    $("#pieTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
-                    $("#pieTipState").text($(this).attr("state"));
-                    $("#pieTipPercentage").text($(this).attr("percentage"));
-                })
-                .on("mouseleave", ".slice", function (e) {
-                    $("#pieTip").css("display", "none");
-                });
 
             slice
                 .transition().duration(1000)
@@ -182,5 +172,20 @@
                 .remove();
         };
 
+        // bind pie events
+        $("#pie").on("mouseenter", ".slice", function (e) {
+                console.log(e);
+                $("#pieTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
+                $("#pieTipState").text($(this).attr("state"));
+                $("#pieTipPercentage").text($(this).attr("percentage"));
+            })
+            .on("mouseleave", ".slice", function (e) {
+                $("#pieTip").css("display", "none");
+            });
+        $("#pieTip").on("mouseenter", function () {
+            $(this).css("display", "block");
+        }).on("mouseleave", function () {
+            $(this).css("display", "none");
+        });
     })
 })();
