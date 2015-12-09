@@ -31,13 +31,12 @@
              .style("top", margin.top + "px")*/
             .style("background", function (d) {
                 if (d.children) {
-                    if (d.name == "Hillary Clinton") {
+                    if (d.name.indexOf(getCandidate()) >= 0) {
                         return "Yellow";
                     }
                     else {
                         return color(d.name);
                     }
-
                 }
                 else {
                     return null;
@@ -47,8 +46,10 @@
             .text(function (d) {
                 return d.children ? null : d.name;
             })
-            .style("font-size", "14px")
-            .style("text-align", "center");
+            .style("text-align", "center")
+            .attr("title", function (d) {
+                return d.children ? null : d.name;
+            });
 
         $(".treemap.source").on("change", function change() {
             var value = this.value === "3"
