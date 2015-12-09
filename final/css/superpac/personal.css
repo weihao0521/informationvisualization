@@ -151,7 +151,7 @@ path.slice {
     stroke-width: 2px;
     fill: none;
 }
-#candidateTip {
+#pieTip {
     display: none;
     border: 1px solid #000;
     position: fixed;
@@ -159,11 +159,11 @@ path.slice {
     opacity: 0.9;
     max-width: 500px;
 }
-#candidateTipDiv {
+#pieTipDiv {
     padding: 5px 10px;
     display: block;
 }
-#eventTip {
+/*#eventTip {
     display: none;
     border: 1px solid #000;
     position: fixed;
@@ -179,5 +179,5 @@ path.slice {
 #eventTipDescription {
     width: 350px;
     margin-left: 5px;
-}
+}*/
 /* end poll styles */

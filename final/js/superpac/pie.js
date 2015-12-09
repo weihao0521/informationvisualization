@@ -76,12 +76,33 @@
             var slice = svg.select(".slices").selectAll("path.slice")
                 .data(pie(data), key);
 
+            var total=0;
+            for(var index=0;index<data.length;index++){
+                total+=data[index].value;
+            }
+
             slice.enter()
                 .insert("path")
                 .style("fill", function (d) {
                     return color(d.data.label);
                 })
+                .attr("state",function(d){
+                    return d.data.label;
+                })
+                .attr("percentage",function(d){
+                    return (d.data.value/total*100).toFixed(1)+"%";
+                })
                 .attr("class", "slice");
+            $("#pie")
+                .on("mouseenter",".slice",function(e){
+                    console.log(e);
+                    $("#pieTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
+                    $("#pieTipState").text($(this).attr("state"));
+                    $("#pieTipPercentage").text($(this).attr("percentage"));
+                })
+                .on("mouseleave",".slice",function(e){
+                    $("#pieTip").css("display", "none");
+                });
 
             slice
                 .transition().duration(1000)

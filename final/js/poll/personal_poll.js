@@ -272,7 +272,6 @@
         bindEvent: function () {
             // path tip
             $("#poll").on("mouseenter", ".path", function (e) {
-                console.log("path");
                 // hide value and date
                 $("#candidateTipValue").css("display", "none");
                 $("#candidateTipDate").css("display", "none");
@@ -301,7 +300,6 @@
             // circle tip
             $("#poll").on("mouseenter", ".circle", function (e) {
                 e.stopPropagation();// do not trigger .path event
-                console.log("circle");
 
                 $("#candidateTip").css("display", "block").css("left", e.clientX + 2).css("top", e.clientY - 5);
                 $("#candidateTipName").text($(this).attr("candidate"));
